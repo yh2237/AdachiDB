@@ -1,0 +1,144 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #efefef;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.main-content {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 35px;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.main-content2 {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 35px;
+    max-width: 900px;
+    width: 100%;
+    text-align: left;
+    transition: transform 0.2s ease-in-out;
+}
+
+.title {
+    font-size: 2.2em;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 25px;
+    letter-spacing: -0.03em;
+}
+
+.tweet-embed-container {
+    margin-bottom: 25px;
+    padding: 18px;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    background-color: #fdfdfe;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05em;
+    color: #6c757d;
+    flex-direction: column;
+}
+
+.message {
+    font-size: 1.1em;
+    color: #6c757d;
+}
+
+.message.error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.refresh-button {
+    background-color: #6c757d;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.refresh-button:hover {
+    background-color: #5a6268;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.refresh-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-button {
+    background-color: #007bff;
+    color: #ffffff;
+    font-weight: 250;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.post-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    color: #f74008;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #f7a085;
+}
+
+.UpdateHistory {
+    text-align: left;
+    font-size: 0.9em;
+    color: #6c757d;
+    margin-top: 20px;
+    line-height: 1.5em;
+}
+
+@media (max-width: 600px) {
+    .main-content {
+        padding: 25px;
+    }
+
+    .title {
+        font-size: 1.8em;
+    }
+
+    .refresh-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}

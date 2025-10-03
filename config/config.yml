@@ -1,0 +1,37 @@
+server:
+  url: 'localhost'
+  port: 3000
+  frontend: true
+  openAPI: true
+  banner: true
+
+backup:
+  enable: true
+  interval: 30
+  keep: 16
+
+database:
+  dbName: 'adachiPosts.db'
+
+
+# DBにツイートを保存するためにEntac(@herrkf)さんのサイトを半ば勝手スクレイピングしてます
+# 足立レイのツイートをまとめてくださり本当にありがとうございます。
+scraping:
+  interval: 1000
+  summaryPage:
+    url: 'https://herrkf.com/adachi-words'
+    htmlTag: 'p a'
+    includeKeywords: []
+    excludeKeywords:
+    - 'x.com'
+    - 'nicovideo.jp'
+    - 'catchup'
+  
+  monthlyPage:
+    htmlTag: 'a'
+    includeKeywords:
+    - 'https://x.com/adachirei0/status/'
+    - 'https://twitter.com/adachirei0/status/'
+    excludeKeywords:
+    - 'quotes'
+    # - '?ref_src=twsrc%5Etfw' # これを入れると手動でのツイートが弾かれます
