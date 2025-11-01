@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/favicon.ico">
 
-    <meta property="og:site_name" content="ランダム足立語録" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://adachi.2237yh.net/" />
-    <meta property="og:image" content="https://adachi.2237yh.net/img/ogp.png" />
+    <meta property="og:site_name" content="ランダム足立語録">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://adachi.2237yh.net/">
+    <meta property="og:image" content="https://adachi.2237yh.net/img/ogp.png">
 </head>
 <body>
     <div class="main-content">
@@ -30,73 +30,11 @@
                 Xに投稿
             </button>
             <br><br>
-            <a href="10cont.html">10連ガチャ版</a> |
-            <a href="about.html">このサイトについて</a>
+            <a href="/10cont.html">10連ガチャ版</a> | <a href="https://adachi.2237yh.net/about.html">このサイトについて</a>
             <h2>足立レイの最近のツイート</h2>
             <a class="twitter-timeline" href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw">@adachirei0 の最近のツイート</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
-
     <script type="module" src="js/post-button.js"></script>
-    <script type="module">
-        import { initPostButton } from './js/post-button.js';
-
-        const tweetEmbedContainer = document.querySelector('.tweet-embed-container');
-        const loadingMessage = document.getElementById('loading-message');
-        const refreshButton = document.getElementById('refresh-button');
-
-        const fetchRandomPostAndEmbed = async () => {
-            loadingMessage.textContent = '読み込み中...';
-            loadingMessage.style.display = 'block';
-            loadingMessage.classList.remove('error');
-            tweetEmbedContainer.innerHTML = '';
-            initPostButton('post-button', '');
-
-            try {
-                const apiResponse = await fetch(`/api/posts/random`);
-                const data = await apiResponse.json();
-
-                if (!apiResponse.ok) {
-                    throw new Error(data.error || `APIエラー: ${apiResponse.status}`);
-                }
-
-                const post = data;
-
-                if (post && post.embed) {
-                    tweetEmbedContainer.innerHTML = post.embed;
-                    const postText = `${post.url}\n\n#ランダム足立語録\nhttps://adachi.2237yh.net`;
-                    initPostButton('post-button', postText);
-
-                    if (window.twttr && window.twttr.widgets) {
-                        window.twttr.widgets.load(tweetEmbedContainer);
-                    } else {
-                        const script = document.createElement('script');
-                        script.src = 'https://platform.twitter.com/widgets.js';
-                        script.async = true;
-                        script.charset = 'utf-8';
-                        script.onload = () => {
-                            if (window.twttr && window.twttr.widgets) {
-                                window.twttr.widgets.load(tweetEmbedContainer);
-                            }
-                        };
-                        document.body.appendChild(script);
-                    }
-                } else {
-                    tweetEmbedContainer.innerHTML = '<p class="message">投稿が見つかりませんでした(´・ω・｀)</p>';
-                }
-            } catch (err) {
-                console.error("投稿の取得または埋め込み中にエラーが発生しました:", err);
-                loadingMessage.textContent = `エラー: ${err.message}`;
-                loadingMessage.classList.add('error');
-                tweetEmbedContainer.innerHTML = '';
-            } finally {
-                if (loadingMessage.classList.contains('error') || tweetEmbedContainer.innerHTML !== '') {
-                    loadingMessage.style.display = 'none';
-                }
-            }
-        };
-
-        document.addEventListener('DOMContentLoaded', fetchRandomPostAndEmbed);
-        refreshButton.addEventListener('click', fetchRandomPostAndEmbed);
-    </script>
+    <script type="module" src="js/index.js"></script>
 </body>
 </html>
