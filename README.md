@@ -1,6 +1,6 @@
-# AdachiDB
+# AdachiDB (足立語録検索)
 
-足立レイのツイートを収集し、ランダムに表示するためのAPIサーバーおよびフロントエンドです。
+足立レイのツイートを収集し、検索・ランダム表示するためのAPIサーバーおよびフロントエンドです。
 
 フロントエンドは `https://adachi.2237yh.net` で使用しているものなので必要に応じて変更が必要です。
 
@@ -44,16 +44,15 @@
       # ... Webスクレイピングに関する設定 ...
     ```
 
-4.  ~~データベースの初期化、データのスクレイピング、oEmbedの取得を行います。~~
+4.  データベースの初期化、データのスクレイピング、oEmbedとツイート本文の取得を行います。
 
     ```bash
-    # 最初からすでに db/adachiPosts.db にツイートが保存されているのでこの手順は基本必要ありません
-    npm run init_db
-    npm run collect
+    npm run db:init
+    npm run db:collect
     npm run worker
     ```
 
-    処理するデータがありませんといわれるまで放置（かなりの時間がかかります）
+    `npm run worker` は、処理するデータがありませんといわれるまで放置してください（かなりの時間がかかります）。
 
 5. 以下のコマンドでAPIサーバーとWebフロントエンドを起動します。
 
@@ -74,19 +73,29 @@
 ## APIエンドポイント
 
 -   `GET /api/posts/random`
-    -   データベースからランダムな投稿を1件取得します。oEmbedが未取得の場合は同時に取得を試みます。
+    -   データベースからランダムな投稿を1件取得します。oEmbedとツイート本文が未取得の場合は同時に取得を試みます。
 -   `GET /api/posts/random10`
-    -   ランダムな投稿を10件取得します。oEmbedが未取得の場合は同時に取得を試みます。
+    -   ランダムな投稿を10件取得します。oEmbedとツイート本文が未取得の場合は同時に取得を試みます。
+-   `GET /api/posts/search?q={query}`
+    -   ツイート本文を検索し、一致する投稿を返します。
 -   `GET /api/pending-count`
     -   まだoEmbedが取得できていない投稿の数を返します。
+-   `GET /api/pending-text-count`
+    -   まだツイート本文が取得できていない投稿の数を返します。
 
 ## スクリプト
 
--   `npm run backup_db`
+-   `npm run db:backup`
     -   データベースのバックアップを手動で作成します。
--   `npm run clear_db`
-    -   データベース内のすべてのツイートとoEmbedを削除します。
--   `npm run collect`
+-   `npm run db:clear`
+    -   データベース内のすべてのツイートとoEmbed、ツイート本文を削除します。
+-   `npm run db:init`
+    -   データーベースを初期化します
+-   `npm run db:collect`
     -   ツイートURLを収集してきます。
 -   `npm run worker`
-    -   まだoEmbedが未取得のURLを探して取得します。
+    -   まだoEmbedとツイート本文が未取得のURLを探して取得します。
+-   `npm run db:add_url -- <url>`
+    -   指定したURLをデータベースに追加します。
+-   `npm run db:delete_url -- <url>`
+    -   指定したURLをデータベースから削除します。

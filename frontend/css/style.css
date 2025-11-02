@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -8,6 +8,7 @@ body {
     background-color: #efefef;
     padding: 20px;
     box-sizing: border-box;
+    padding-top: 70px;
 }
 
 .main-content {
@@ -146,4 +147,17 @@ a:hover {
         padding: 10px 20px;
         font-size: 0.9em;
     }
+}
+
+.search-results-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.search-results-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    word-wrap: break-word;
+    text-align: left;
 }

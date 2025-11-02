@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>足立データベース - 足立語録サーチ</title>
+        <meta name="description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/header.css">
+        <link rel="icon" href="img/favicon.ico">
+        <meta property="og:site_name" content="足立データベース - 足立語録サーチ">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://adachi.2237yh.net/search.html">
+        <meta property="og:image" content="https://adachi.2237yh.net/img/ogp.png">
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-inner">
+                <h4>足立データベース</h4>
+                <nav class="header-nav">
+                    <ul class="header-nav-list">
+                        <a href="/index.html">
+                            <li class="header-nav-item">ランダム足立語録</li>
+                        </a>
+                        <a href="/10cont.html">
+                            <li class="header-nav-item">ランダム足立語録10連版</li>
+                        </a>
+                        <a href="/search.html">
+                            <li class="header-nav-item select">足立語録サーチ</li>
+                        </a>
+                        <a href="/about.html">
+                            <li class="header-nav-item">このサイトについて</li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="main-content">
+            <h1 class="title">足立語録サーチ</h1>
+            <h5>足立レイのツイートをインクリメンタルサーチで検索できます</h5>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="キーワードを入力...">
+                <br>
+                取得件数：<input type="number" id="limit-input" value="100" min="1" max="1000" >
+            </div>
+            <br>
+            <div id="search-results"></div>
+            <br>
+            <br>
+            <a href="/">ランダム足立語録</a>
+            |
+            <a href="/10cont.html">10連ガチャ版</a>
+            |
+            <a href="/about.html">このサイトについて</a>
+        </div>
+        <script type="module" src="js/search.js"></script>
+    </body>
+</html>

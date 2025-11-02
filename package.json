@@ -4,11 +4,13 @@
   "main": "server.js",
   "scripts": {
     "server": "node server.js",
-    "init_db": "node utils/init_db.js",
-    "clear_db": "node utils/clear_db.js",
-    "backup_db": "node utils/backup_db.js",
-    "collect": "node utils/collectPosts.js",
-    "worker": "node utils/oEmbedWorker.js"
+    "worker": "node utils/oEmbedWorker.js",
+    "db:init": "node scripts/init_db.js",
+    "db:clear": "node scripts/clear_db.js",
+    "db:backup": "node scripts/backup_db.js",
+    "db:collect": "node scripts/collect_posts.js",
+    "db:add_url": "node scripts/add_url.js",
+    "db:delete_url": "node scripts/delete_url.js"
   },
   "dependencies": {
     "axios": "^1.7.2",

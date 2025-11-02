@@ -1,40 +1,68 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ランダム足立語録</title>
-    <meta name="description" content="足立レイの自動生成されたツイートをランダムに引くサイトです。">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/favicon.ico">
-
-    <meta property="og:site_name" content="ランダム足立語録">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://adachi.2237yh.net/">
-    <meta property="og:image" content="https://adachi.2237yh.net/img/ogp.png">
-</head>
-<body>
-    <div class="main-content">
-        <h1 class="title">ランダム足立語録</h1>
-        <div class="tweet-embed-container">
-            <p class="message" id="loading-message">読み込み中...</p>
-        </div>
-            <a href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @adachirei0</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            <br><br>
+    <head>
+        <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>足立データベース - ランダム足立語録</title>
+        <meta name="description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/header.css">
+        <link rel="icon" href="img/favicon.ico">
+        <meta property="og:site_name" content="足立データベース - ランダム足立語録">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://adachi.2237yh.net/">
+        <meta property="og:image" content="https://adachi.2237yh.net/img/ogp.png">
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-inner">
+                <h4>足立データベース</h4>
+                <nav class="header-nav">
+                    <ul class="header-nav-list">
+                        <a href="/index.html">
+                            <li class="header-nav-item select">ランダム足立語録</li>
+                        </a>
+                        <a href="/10cont.html">
+                            <li class="header-nav-item">ランダム足立語録10連版</li>
+                        </a>
+                        <a href="/search.html">
+                            <li class="header-nav-item">足立語録サーチ</li>
+                        </a>
+                        <a href="/about.html">
+                            <li class="header-nav-item">このサイトについて</li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="main-content">
+            <h1 class="title">ランダム足立語録</h1>
+            <div class="tweet-embed-container">
+                <p class="message" id="loading-message">読み込み中...</p>
+            </div>
+            <a href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @adachirei0</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <br>
+            <br>
             <button id="refresh-button" class="refresh-button">
                 再読み込み
             </button>
-            <br><br>
+            <br>
+            <br>
             <button id="post-button" class="post-button" style="display: none;">
                 Xに投稿
             </button>
-            <br><br>
-            <a href="/10cont.html">10連ガチャ版</a> | <a href="https://adachi.2237yh.net/about.html">このサイトについて</a>
+            <br>
+            <br>
+            <a href="/10cont.html">10連ガチャ版</a> |
+            <a href="/search.html">足立語録サーチ</a> |
+            <a href="/about.html">このサイトについて</a>
             <h2>足立レイの最近のツイート</h2>
-            <a class="twitter-timeline" href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw">@adachirei0 の最近のツイート</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-    <script type="module" src="js/post-button.js"></script>
-    <script type="module" src="js/index.js"></script>
-</body>
+            <a class="twitter-timeline" href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw">@adachirei0 の最近のツイート</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <script type="module" src="js/post-button.js"></script>
+        <script type="module" src="js/index.js"></script>
+    </body>
 </html>

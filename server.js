@@ -6,7 +6,7 @@ const chalk = require('chalk');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-const { backup_db } = require('./utils/backup_db');
+const { backup_db } = require('./scripts/backup_db');
 
 const configPath = path.join(__dirname, 'config', 'config.yml');
 const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
@@ -20,7 +20,7 @@ const port = config.server.port || 3000;
 const processingMap = new Map();
 
 function getRandomPost() {
-  return db.prepare('SELECT id, url, embed FROM posts ORDER BY RANDOM() LIMIT 1').get();
+  return db.prepare('SELECT id, url, embed, text FROM posts ORDER BY RANDOM() LIMIT 1').get();
 }
 
 async function fetchEmbed(post) {
@@ -30,12 +30,16 @@ async function fetchEmbed(post) {
   const promise = (async () => {
     try {
       const { data } = await axios.get('https://publish.twitter.com/oembed', {
-        params: { url: post.url },
+        params: { url: post.url, lang: 'ja' },
         timeout: 5000
       });
-      db.prepare('UPDATE posts SET embed = ? WHERE id = ?').run(data.html, post.id);
 
-      return { id: post.id, url: post.url, embed: data.html };
+      const textMatch = data.html.match(/<p lang="ja" dir="ltr">(.*?)<\/p>/s);
+      const text = textMatch ? textMatch[1].replace(/<br>/g, '\n') : '';
+
+      db.prepare('UPDATE posts SET embed = ?, text = ? WHERE id = ?').run(data.html, text, post.id);
+
+      return { id: post.id, url: post.url, embed: data.html, text };
     } catch (err) {
       console.error(`[ERROR] oEmbed failed for ${post.url}:`, err.message);
       throw new Error('Failed to fetch oEmbed');
@@ -68,7 +72,8 @@ if (config.server.openAPI) {
     origin: function (origin, callback) {
       if (!origin || origin === allowedOrigin) {
         callback(null, true);
-      } else {
+      }
+      else {
         callback(new Error("Not allowed by CORS: " + origin));
       }
     }
@@ -94,7 +99,7 @@ if (config.server.frontend) {
 
 app.get('/api/pending-count', (req, res) => {
   try {
-    const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE embed IS NULL').get();
+    const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE status = \'pending\'').get();
     res.json({ pending: row.count });
   } catch (err) {
     console.error('[ERROR] pending-count:', err.message);
@@ -108,7 +113,7 @@ app.get('/api/posts/random', async (req, res) => {
 
   try {
     if (post.embed) {
-      return res.json({ id: post.id, url: post.url, embed: post.embed });
+      return res.json({ id: post.id, url: post.url, embed: post.embed, text: post.text });
     }
 
     const result = await fetchEmbed(post);
@@ -122,7 +127,7 @@ app.get('/api/posts/random', async (req, res) => {
 app.get('/api/posts/random10', async (req, res) => {
   try {
     const rows = db.prepare(`
-      SELECT id, url, embed 
+      SELECT id, url, embed, text
       FROM posts 
       ORDER BY RANDOM() 
       LIMIT 10
@@ -156,6 +161,51 @@ app.get('/api/posts/random10', async (req, res) => {
   } catch (err) {
     console.error('[ERROR] random10:', err.message);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/posts/search', (req, res) => {
+  const query = req.query.q;
+  if (!query) {
+    return res.status(400).json({ error: 'Query parameter "q" is required' });
+  }
+
+  let limit = parseInt(req.query.limit, 10) || 100;
+  if (limit > 1000) {
+    limit = 1000;
+  }
+
+  try {
+    const rows = db.prepare(`SELECT id, url, embed, text FROM posts WHERE text LIKE ? ORDER BY id DESC LIMIT ?`).all(`%${query}%`, limit);
+    res.json(rows);
+  } catch (err) {
+    console.error('[ERROR] search:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/posts/all', (req, res) => {
+  let limit = parseInt(req.query.limit, 10) || 200;
+  if (limit > 20000) {
+    limit = 20000;
+  }
+
+  try {
+    const rows = db.prepare('SELECT id, url, embed, text, status FROM posts ORDER BY id DESC LIMIT ?').all(limit);
+    res.json(rows);
+  } catch (err) {
+    console.error('[ERROR] all:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/pending-text-count', (req, res) => {
+  try {
+    const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE status = \'pending\'').get();
+    res.json({ pending: row.count });
+  } catch (err) {
+    console.error('[ERROR] pending-text-count:', err.message);
+    res.status(500).json({ error: 'DB query failed' });
   }
 });
 

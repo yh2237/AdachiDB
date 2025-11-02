@@ -1,99 +1,56 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ランダム足立語録10連ガチャ</title>
-    <meta name="description" content="足立レイの自動生成されたツイートをランダムに引くサイトです。">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/favicon.ico">
-</head>
-<body>
-    <div class="main-content-wide">
-        <h1 class="title">ランダム足立語録10連ガチャ</h1>
-        <div id="tweets-container" class="tweets-container"></div>
-        <a href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @adachirei0</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        <br><br>
-        <button id="refresh-button" class="refresh-button">再読み込み</button>
-        <br><br>
-        <a href="index.html">1件ずつ見る</a> |
-        <a href="about.html">このサイトについて</a>
-    </div>
-
-    <script>
-        const tweetsContainer = document.getElementById('tweets-container');
-        const refreshButton = document.getElementById('refresh-button');
-
-        const fetchRandomPosts = async () => {
-            tweetsContainer.innerHTML = '<p class="message">読み込み中...</p>';
-
-            try {
-                const apiResponse = await fetch(`/api/posts/random10`);
-                const data = await apiResponse.json();
-
-                if (!apiResponse.ok) {
-                    throw new Error(data.error || `APIエラー: ${apiResponse.status}`);
-                }
-
-                if (data && data.length > 0) {
-                    tweetsContainer.innerHTML = '';
-                    data.forEach(post => {
-                        const postDiv = document.createElement('div');
-                        postDiv.className = 'tweet-item';
-                        if (post && post.embed) {
-                            postDiv.innerHTML = post.embed;
-                        } else {
-                            postDiv.innerHTML = `<p class="message error">oEmbed取得失敗<br><a href="${post.url}" target="_blank">${post.url}</a></p>`;
-                        }
-                        tweetsContainer.appendChild(postDiv);
-                    });
-
-                    if (window.twttr && window.twttr.widgets) {
-                        window.twttr.widgets.load(tweetsContainer);
-                    } else {
-                        const script = document.createElement('script');
-                        script.src = 'https://platform.twitter.com/widgets.js';
-                        script.async = true;
-                        script.charset = 'utf-8';
-                        script.onload = () => {
-                            if (window.twttr && window.twttr.widgets) {
-                                window.twttr.widgets.load(tweetsContainer);
-                            }
-                        };
-                        document.body.appendChild(script);
-                    }
-
-                } else {
-                    tweetsContainer.innerHTML = '<p class="message">投稿が見つかりませんでした(´・ω・｀)</p>';
-                }
-            } catch (err) {
-                console.error("投稿の取得または埋め込み中にエラーが発生しました:", err);
-                tweetsContainer.innerHTML = `<p class="message error">エラー: ${err.message}</p>`;
-            }
-        };
-
-        document.addEventListener('DOMContentLoaded', fetchRandomPosts);
-        refreshButton.addEventListener('click', fetchRandomPosts);
-    </script>
-    <style>
-        .main-content-wide {
-            width: 90%;
-            max-width: 1200px;
-            margin: 20px auto;
-            text-align: center;
-        }
-        .tweets-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .tweet-item {
-            flex-basis: 45%;
-            min-width: 300px;
-        }
-    </style>
-</body>
+    <head>
+        <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>足立データベース - ランダム足立語録10連版</title>
+        <meta name="description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/10cont.css">
+        <link rel="stylesheet" href="css/header.css">
+        <meta property="og:site_name" content="足立データベース - ランダム足立語録10連版">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="https://adachi.2237yh.net/10cont.html">
+        <meta property="og:image" content="https://adachi.2237yh.net/img/ogp.png">
+        <link rel="icon" href="img/favicon.ico">
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-inner">
+                <h4>足立データベース</h4>
+                <nav class="header-nav">
+                    <ul class="header-nav-list">
+                        <a href="/index.html">
+                            <li class="header-nav-item">ランダム足立語録</li>
+                        </a>
+                        <a href="/10cont.html">
+                            <li class="header-nav-item select">ランダム足立語録10連版</li>
+                        </a>
+                        <a href="/search.html">
+                            <li class="header-nav-item">足立語録サーチ</li>
+                        </a>
+                        <a href="/about.html">
+                            <li class="header-nav-item">このサイトについて</li>
+                        </a>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="main-content-wide">
+            <h1 class="title">ランダム足立語録10連版</h1>
+            <div id="tweets-container" class="tweets-container"></div>
+            <a href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @adachirei0</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <br>
+            <br>
+            <button id="refresh-button" class="refresh-button">再読み込み</button>
+            <br>
+            <br>
+            <a href="index.html">1件ずつ見る</a> |
+            <a href="search.html">足立語録サーチ</a> |
+            <a href="about.html">このサイトについて</a>
+        </div>
+        <script type="module" src="js/10cont.js"></script>
+    </body>
 </html>
