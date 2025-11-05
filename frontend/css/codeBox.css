@@ -1,0 +1,31 @@
+.code-block {
+    background: #111b2a;
+    color: #c9d1d9;
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: "Fira Code", monospace;
+}
+
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #28303b;
+    color: #c9d1d9;
+    font-size: 95%;
+    padding: 15px 15px;
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    color: #8b949e;
+    cursor: pointer;
+}
+
+.code-block pre {
+    margin: 0;
+    padding: 15px 15px;
+    font-size: 110%;
+    overflow-x: auto;
+}

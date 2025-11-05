@@ -171,8 +171,8 @@ app.get('/api/posts/search', (req, res) => {
   }
 
   let limit = parseInt(req.query.limit, 10) || 100;
-  if (limit > 1000) {
-    limit = 1000;
+  if (limit > 2000) {
+    limit = 2000;
   }
 
   try {
@@ -198,6 +198,18 @@ app.get('/api/posts/all', (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.get('/api/posts/id', (req, res) => {
+  const id = req.query.id;
+  const row = db.prepare('SELECT * FROM posts WHERE id = ?').get(id);
+if (row) {
+  res.json(row);
+} else {
+  console.error('[ERROR] id:', err.message);
+  res.status(500).json({ error: 'Internal Server Error' });
+}
+
+})
 
 app.get('/api/pending-text-count', (req, res) => {
   try {
