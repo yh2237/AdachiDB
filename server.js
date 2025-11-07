@@ -45,8 +45,32 @@ if (config.server.openAPI) {
 if (config.server.frontend) {
   app.use(express.static(path.join(__dirname, 'frontend')));
 
+  app.get('/index', (req, res) => {
+    res.redirect(301, '/');
+  });
+
   app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+  });
+
+  app.get('/10cont', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', '10cont.html'));
+  });
+
+  app.get('/search', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'search.html'));
+  });
+
+  app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'about.html'));
+  });
+
+  app.get('/docs', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'docs.html'));
+  });
+
+  app.get('/db', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'db.html'));
   });
 
   console.log("[INFO] フロントエンド配信: 有効");
