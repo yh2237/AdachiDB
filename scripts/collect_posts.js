@@ -22,7 +22,18 @@ console.log(`[INFO] [collectPosts] 404除外リスト ${blockedUrls.length} 件�
 function saveLinksToDB(links) {
   if (links.length === 0) return;
 
-  const filtered = links.filter(url => !blockedUrls.includes(url));
+  const processedLinks = links.map(url => {
+    try {
+      let modifiedUrl = url.replace('twitter.com', 'x.com');
+      const urlObject = new URL(modifiedUrl);
+      return `${urlObject.origin}${urlObject.pathname}`;
+    } catch (e) {
+      console.error(`[collectPosts] Invalid URL skipped: ${url}`);
+      return null;
+    }
+  }).filter(Boolean);
+
+  const filtered = processedLinks.filter(url => !blockedUrls.includes(url));
   if (filtered.length === 0) {
     console.log(`[INFO] [collectPosts] 今回はすべて404除外リストに該当したため保存なし`);
     return;

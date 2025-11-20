@@ -18,14 +18,17 @@ function addUrls(urls) {
 
   for (const url of urls) {
     try {
-      const info = insert.run(url);
+      let modifiedUrl = url.replace('twitter.com', 'x.com');
+      const urlObject = new URL(modifiedUrl);
+      modifiedUrl = `${urlObject.origin}${urlObject.pathname}`;
+      const info = insert.run(modifiedUrl);
       if (info.changes > 0) count++;
     } catch (err) {
       console.error('DB insert error:', err.message);
     }
   }
 
-  console.log(`✅ ${count} 件のURLを追加しました`);
+  console.log(`${count} 件のURLを追加しました`);
 }
 
 const urlToAdd = process.argv[2];
