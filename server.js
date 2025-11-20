@@ -88,7 +88,7 @@ app.use('/api', apiRoutes);
 
 app.use((req, res, next) => { 
     res.status(404);
-    return res.json({ error: `404 Not Found (´・ω・｀). Please see ${config.server.url}/docs.html for API specifications etc.` });
+    return res.json({ error: `404 Not Found (´・ω・｀). Please see ${config.server.url}/docs for API specifications etc.` });
 });
 
 app.use((err, req, res, next) => {
