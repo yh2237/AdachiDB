@@ -87,8 +87,8 @@ router.get('/posts/search', (req, res) => {
   }
 
   let limit = parseInt(req.query.limit, 10) || 100;
-  if (limit > 2000) {
-    limit = 2000;
+  if (limit > 35630) {
+    limit = 35630;
   }
 
   try {
@@ -102,8 +102,8 @@ router.get('/posts/search', (req, res) => {
 
 router.get('/posts/all', (req, res) => {
   let limit = parseInt(req.query.limit, 10) || 200;
-  if (limit > 20000) {
-    limit = 20000;
+  if (limit > 35630) {
+    limit = 35630;
   }
 
   try {
