@@ -48,9 +48,6 @@
                         <a href="/about">
                             <li class="header-nav-item select">このサイトについて</li>
                         </a>
-                        <a href="/docs">
-                            <li class="header-nav-item">APIドキュメント</li>
-                        </a>
                     </ul>
                 </nav>
             </div>
@@ -72,9 +69,6 @@
                 <a href="/about">
                     <li class="slide-menu-item select">このサイトについて</li>
                 </a>
-                <a href="/docs">
-                    <li class="slide-menu-item">APIドキュメント</li>
-                </a>
             </ul>
         </nav>
 
@@ -82,14 +76,12 @@
             <h1 class="title">- このサイトについて</h1>
             <hr>
                 <p>
-                    <a href="https://x.com/@adachirei0" target="_blank">足立レイのBot</a>のツイートをランダムに表示します。<br>
-                    ツイートは動的に取得されることなく既にツイートのURLを保存したDBからランダムに表示されます。
+                    <a href="https://x.com/@adachirei0" target="_blank">足立レイのBot</a>のツイートをランダムに表示したり、検索したりできます。<br>
+                    ツイートは動的に取得されることなく既にツイートのURLを保存したDBから引っ張ってきます。
                 </p>
                 <p>
-                    Xからの直接的なスクレイピングは行っていません。
-                </p>
-                <p>
-                    現時点で表示されるツイートはツイートは<a href="https://x.com/herrkf" target="_blank">@herrkf</a>さんによる<a href="https://herrkf.com/adachi-words" target="_blank">足立レイ語録をまとめてみた</a>に掲載されている2020年1月17日～2025年10月31日までのツイートです。
+                    現時点で表示されるツイートは<a href="https://x.com/herrkf" target="_blank">@herrkf</a>さんによる<a href="https://herrkf.com/adachi-words" target="_blank">足立レイ語録をまとめてみた</a>から提供されたURLと、私がXから集めたURLを合わせたものです。<br>
+                    一番最初のツイートから、2025/11/20日までの35630件のツイートが保存されています。
                 </p>
                 <p>
                     <b>もちろんですがこのサイトは非公式です。</b>
@@ -99,9 +91,6 @@
                 ソースコード（GitHub）：<a href="https://github.com/yh2237/AdachiDB/" target="_blank">yh2237/AdachiDB</a><br>
                 データーベースリスト（デバック用）：<a href="/db" target="_blank">足立データベースリスト</a>
             <br>
-            <p>
-                足立データベースは誰でも使用可能なAPIも公開しています。詳しくは<a href="/docs">APIドキュメント</a>をご覧ください。
-            </p>
             <br>
             <p>
                 開発：<a href="https://x.com/2237yh" target="_blank">@2237yh</a>
@@ -113,6 +102,8 @@
             <p class="UpdateHistory">
                 <b>- 更新履歴</b>
                 <ul class="UpdateHistoryLINE">
+                    <li>2025年11月21日0時頃：取得できるツイートを一番最初のツイートから2025/11/20日までの35630件と、大幅に増やした</li>
+                    <li>2025年11月21日0時頃：さすがに人様のツイートを取得できるAPIはまずいかなと思いAPIドキュメントへの移転ボタンを削除</li>
                     <li>2025年11月07日2時頃：APIドキュメントを追加し、ランダム足立語録を好きなところに埋め込めれるように追加</li>
                     <li>2025年11月02日23時頃：足立語録サーチを実装し、フロントエンドを一部修正</li>
                     <li>2025年11月01日14時頃：2025年10月分のツイートが表示されるように更新。それとフロントエンドも一部更新</li>
