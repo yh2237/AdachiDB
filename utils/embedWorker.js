@@ -10,11 +10,6 @@ const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 const dbPath = path.join(__dirname, '..', 'db', config.database.dbName);
 const db = new Database(dbPath);
 
-const updateEmbedTx = db.transaction((id, html, text, status) => {
-  db.prepare('UPDATE posts SET embed = ?, text = ?, status = ? WHERE id = ?')
-    .run(html, text, status, id);
-});
-
 async function processBatch() {
   const rows = db.prepare(
     "SELECT id, url FROM posts WHERE status = 'pending' LIMIT 10"
@@ -37,15 +32,17 @@ async function processBatch() {
             .replace(/<\/a>/g, '')
         : '';
 
-      updateEmbedTx(row.id, data.html, text, 'ok');
+      db.prepare(
+        'UPDATE posts SET embed = ?, text = ?, status = ? WHERE id = ?'
+      ).run(data.html, text, 'ok', row.id);
 
-      console.log(`[INFO] [oEmbedWorker] ${row.url} の埋め込みデータを保存しました`);
+      console.log(`[INFO] [EmbedWorker] ${row.url} の埋め込みデータを保存しました`);
     } catch (err) {
       if (err.response && err.response.status === 404) {
-        console.log(`[INFO] [oEmbedWorker] ${row.url} not found (404). Marking as not_found.`);
+        console.log(`[INFO] [EmbedWorker] ${row.url} not found (404). Marking as not_found.`);
         db.prepare('UPDATE posts SET status = ? WHERE id = ?').run('not_found', row.id);
       } else {
-        console.error(`[ERROR] [oEmbedWorker] ${row.url}:`, err.message);
+        console.error(`[ERROR] [EmbedWorker] ${row.url}:`, err.message);
       }
     }
   }));
@@ -54,16 +51,14 @@ async function processBatch() {
 }
 
 async function main() {
-  console.log('[INFO] [oEmbedWorker] oEmbedWorker 起動');
-
+  console.log('[INFO] [EmbedWorker] embedWorker 起動');
   while (true) {
     const processed = await processBatch();
-
     if (!processed) {
-      console.log('[INFO] [oEmbedWorker] 処理するデータがありません。');
-      await new Promise(res => setTimeout(res, 10 * 1000));
+      console.log('[INFO] [EmbedWorker] 処理するデータがありません。');
+      await new Promise(res => setTimeout(res, 10000));
     } else {
-      await new Promise(res => setTimeout(res, 1000));
+      await new Promise(res => setTimeout(res, 5000));
     }
   }
 }
