@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${post.embed ? 'Yes' : 'No'}</td>
                     <td><pre>${post.text || ''}</pre></td>
                     <td>${post.status}</td>
+                    <tbd>${post.createdAt || ''}</td>
                 `;
                 tableBody.appendChild(row);
             });
