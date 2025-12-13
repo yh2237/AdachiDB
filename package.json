@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "server": "node server.js",
-    "worker": "node utils/oEmbedWorker.js",
+    "worker": "node utils/worker.js",
     "db:init": "node scripts/init_db.js",
     "db:clear": "node scripts/clear_db.js",
     "db:backup": "node scripts/backup_db.js",
