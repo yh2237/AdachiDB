@@ -21,6 +21,7 @@
 
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/header.css">
+        <link rel="stylesheet" href="css/search.css">
         <link rel="icon" href="img/favicon.ico">
     </head>
     <body>
@@ -76,9 +77,11 @@
             <h1 class="title">足立語録サーチ</h1>
             <h5>足立レイのツイートをインクリメンタルサーチで検索できます</h5>
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="キーワードを入力...">
+                検索：<input type="text" id="search-input" placeholder="キーワードを入力...">
                 <br>
-                取得件数：<input type="number" id="limit-input" value="100" min="1" max="1000" >
+                日付範囲：<input type="date" id="from-input"> から <input type="date" id="to-input">
+                <br>
+                取得件数：<input type="number" id="limit-input" value="100" min="1" max="1000">
             </div>
             <br>
             <div id="search-results"></div>
