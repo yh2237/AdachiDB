@@ -14,8 +14,6 @@ database:
   dbName: 'adachiPosts.db'
 
 
-# DBにツイートを保存するためにEntac(@herrkf)さんのサイトを半ば勝手スクレイピングしてます
-# 足立レイのツイートをまとめてくださり本当にありがとうございます。
 scraping:
   interval: 1000
   summaryPage:
@@ -26,7 +24,7 @@ scraping:
     - 'x.com'
     - 'nicovideo.jp'
     - 'catchup'
-  
+
   monthlyPage:
     htmlTag: 'a'
     includeKeywords:
