@@ -21,7 +21,8 @@ db.prepare(`
     url TEXT UNIQUE,
     embed TEXT,
     text TEXT,
-    status TEXT DEFAULT 'pending'
+    status TEXT DEFAULT 'pending',
+    createdAt TEXT
   )
 `).run();
 
