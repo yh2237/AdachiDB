@@ -44,8 +44,8 @@ router.get('/posts/random10', async (req, res) => {
   try {
     const rows = db.prepare(`
       SELECT id, url, embed, text
-      FROM posts 
-      ORDER BY RANDOM() 
+      FROM posts
+      ORDER BY RANDOM()
       LIMIT 10
     `).all();
 
@@ -87,8 +87,8 @@ router.get('/posts/search', (req, res) => {
   }
 
   let limit = parseInt(req.query.limit, 10) || 100;
-  if (limit > 35630) {
-    limit = 35630;
+  if (limit > 40000) {
+    limit = 40000;
   }
 
   try {
@@ -102,12 +102,12 @@ router.get('/posts/search', (req, res) => {
 
 router.get('/posts/all', (req, res) => {
   let limit = parseInt(req.query.limit, 10) || 200;
-  if (limit > 35630) {
-    limit = 35630;
+  if (limit > 40000) {
+    limit = 40000;
   }
 
   try {
-    const rows = db.prepare('SELECT id, url, embed, text, status FROM posts ORDER BY id DESC LIMIT ?').all(limit);
+    const rows = db.prepare('SELECT id, url, embed, text, status, createdAt FROM posts ORDER BY id DESC LIMIT ?').all(limit);
     res.json(rows);
   } catch (err) {
     console.error('[ERROR] all:', err.message);
@@ -133,6 +133,16 @@ router.get('/pending-text-count', (req, res) => {
     res.json({ pending: row.count });
   } catch (err) {
     console.error('[ERROR] pending-text-count:', err.message);
+    res.status(500).json({ error: 'DB query failed' });
+  }
+});
+
+router.get('/uncreated-count', (req, res) => {
+  try {
+    const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE createdAt IS NULL').get();
+    res.json({ uncreated: row.count });
+  } catch (err) {
+    console.error('[ERROR] uncreated-count:', err.message);
     res.status(500).json({ error: 'DB query failed' });
   }
 });
