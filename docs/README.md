@@ -8,7 +8,7 @@
     -   データベースからランダムなツイートを1件取得します。oEmbedとツイート本文が未取得の場合は同時に取得を試みます。
 -   `GET /api/posts/random10`
     -   ランダムなツイートを10件取得します。oEmbedとツイート本文が未取得の場合は同時に取得を試みます。
--   `GET /api/posts/search?q={query}&limit={limit}`
+-   `GET /api/posts/search?q=a&from={YYYY-MM-DD}&to={YYYY-MM-DD}&limit={limit}`
     -   ツイート本文を検索し、一致するツイートを返します。
 -   `GET /api/posts/id?id={id}`
     -   特定のIDのツイートを返します
@@ -18,6 +18,8 @@
     -   まだoEmbedが取得できていないツイートの数を返します。
 -   `GET /api/pending-text-count`
     -   まだツイート本文が取得できていないツイートの数を返します。
+-   `GET /api/uncreated-count`
+    -   まだ日付が取得できていないツイートの数を返します。
 
 ## スクリプト
 
@@ -30,7 +32,7 @@
 -   `npm run db:collect`
     -   [足立レイ語録をまとめてみた](https://herrkf.com/adachi-words) からツイートURLを収集してきます。
 -   `npm run worker`
-    -   まだoEmbedとツイート本文が未取得のURLを探して取得します。
+    -   まだoEmbed、ツイート本文、日付が未取得のURLを探して取得します。
 -   `npm run db:add_url -- <url>`
     -   指定したURLをデータベースに追加します。
 -   `npm run db:delete_url -- <url>`
