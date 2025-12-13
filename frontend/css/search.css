@@ -1,0 +1,13 @@
+.post-date {
+    white-space: nowrap;
+    font-size: 0.8em;
+    color: #495360;
+}
+
+.search-results-table {
+    table-layout: fixed;
+}
+
+.search-results-table td a {
+    word-break: break-all;
+}
