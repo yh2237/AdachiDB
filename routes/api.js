@@ -91,14 +91,38 @@ router.get('/posts/search', (req, res) => {
     limit = 40000;
   }
 
+  const from = req.query.from;
+  const to = req.query.to;
+
   try {
-    const rows = db.prepare(`SELECT id, url, embed, text FROM posts WHERE text LIKE ? ORDER BY id DESC LIMIT ?`).all(`%${query}%`, limit);
+    let sql = `
+      SELECT id, url, embed, text, createdAt
+      FROM posts
+      WHERE text LIKE ?
+    `;
+    const params = [`%${query}%`];
+
+    if (from) {
+      sql += ` AND createdAt >= ?`;
+      params.push(from);
+    }
+
+    if (to) {
+      sql += ` AND createdAt <= ?`;
+      params.push(to);
+    }
+
+    sql += ` ORDER BY id DESC LIMIT ?`;
+    params.push(limit);
+
+    const rows = db.prepare(sql).all(...params);
     res.json(rows);
   } catch (err) {
     console.error('[ERROR] search:', err.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 router.get('/posts/all', (req, res) => {
   let limit = parseInt(req.query.limit, 10) || 200;
