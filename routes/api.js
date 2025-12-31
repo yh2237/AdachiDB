@@ -12,6 +12,7 @@ const dbPath = path.join(__dirname, '..', 'db', config.database.dbName);
 const db = new Database(dbPath);
 
 const { getRandomPost, fetchEmbed } = require('../utils/functions');
+const { getStats } = require('../utils/statsTracker');
 
 router.get('/pending-count', (req, res) => {
   try {
@@ -169,6 +170,11 @@ router.get('/uncreated-count', (req, res) => {
     console.error('[ERROR] uncreated-count:', err.message);
     res.status(500).json({ error: 'DB query failed' });
   }
+});
+
+router.get('/stats', (req, res) => {
+  const stats = getStats();
+  res.json(stats);
 });
 
 module.exports = router;
