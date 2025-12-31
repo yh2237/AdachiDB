@@ -5,7 +5,9 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const apiRoutes = require('./routes/api');
+const frontRoutes = require('./routes/front');
 const { backup_db } = require('./scripts/backup_db');
+const { trackAccess } = require('./utils/statsTracker');
 
 const configPath = path.join(__dirname, 'config', 'config.yml');
 const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
@@ -17,6 +19,16 @@ const port = config.server.port || 3000;
 // ============================================================
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log(`[DEBUG] Incoming Request: ${req.method} ${req.path}`);
+  if (req.path.startsWith('/api/')) {
+    trackAccess(req.path);
+  } else if (!path.extname(req.path)) {
+    trackAccess('site_access');
+  }
+  next();
+});
 
 const banner = fs.readFileSync(path.join(__dirname, 'config', 'banner'), 'utf8');
 
@@ -42,41 +54,7 @@ if (config.server.openAPI) {
   console.log(`[INFO] API公開: 無効（${allowedOrigin} のみ許可）`);
 }
 
-if (config.server.frontend) {
-  app.use(express.static(path.join(__dirname, 'frontend')));
-
-  app.get('/index', (req, res) => {
-    res.redirect(301, '/');
-  });
-
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
-  });
-
-  app.get('/10cont', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', '10cont.html'));
-  });
-
-  app.get('/search', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'search.html'));
-  });
-
-  app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'about.html'));
-  });
-
-  app.get('/docs', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'docs.html'));
-  });
-
-  app.get('/db', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'db.html'));
-  });
-
-  console.log("[INFO] フロントエンド配信: 有効");
-} else {
-  console.log("[INFO] フロントエンド配信: 無効");
-}
+app.use('/', frontRoutes);
 
 // ============================================================
 // ============================================================
