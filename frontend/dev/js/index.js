@@ -23,7 +23,7 @@ const fetchRandomPostAndEmbed = async () => {
 
         if (post && post.embed) {
             tweetEmbedContainer.innerHTML = post.embed;
-            const postText = `#ランダム足立語録\nhttps://adachi.2237yh.net\n\n${post.url}`;
+            const postText = `${post.url}`;
             initPostButton('post-button', postText);
 
             if (window.twttr && window.twttr.widgets) {
