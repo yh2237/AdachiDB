@@ -172,7 +172,7 @@ router.get('/uncreated-count', (req, res) => {
   }
 });
 
-router.get('/stats', (req, res) => {
+router.get('/status', (req, res) => {
   const stats = getStats();
   res.json(stats);
 });
