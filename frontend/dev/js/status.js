@@ -1,6 +1,6 @@
 async function loadRandomCount() {
     const el = document.getElementById("random-count");
-    el.textContent = "取得中...";
+    el.textContent = "";
 
     try {
         const res = await fetch("/proxy/3000/api/status");
@@ -18,4 +18,4 @@ async function loadRandomCount() {
 
 loadRandomCount();
 
-document.getElementById("loading-message").addEventListener("click", loadRandomCount);
+document.getElementById("refresh-button").addEventListener("click", loadRandomCount);
