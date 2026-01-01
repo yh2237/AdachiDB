@@ -7,10 +7,6 @@ const fs = require('fs');
 const configPath = path.join(__dirname, '..', 'config', 'config.yml');
 const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
-router.use((req, res, next) => {
-  console.log(`[DEBUG] frontRoutes reached. Original URL: ${req.originalUrl}, Path: ${req.path}`);
-  next();
-});
 
 if (config.server.frontend) {
   router.use(express.static(path.join(__dirname, '..', 'frontend')));
