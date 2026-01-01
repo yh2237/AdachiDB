@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const apiRoutes = require('./routes/api');
 const frontRoutes = require('./routes/front');
+const devRoutes = require('./routes/dev');
 const { backup_db } = require('./scripts/backup_db');
 const { trackAccess } = require('./utils/statsTracker');
 
@@ -55,6 +56,8 @@ if (config.server.openAPI) {
 }
 
 app.use('/', frontRoutes);
+
+app.use('/dev', devRoutes);
 
 // ============================================================
 // ============================================================
