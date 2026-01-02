@@ -19,9 +19,9 @@
         <meta name="twitter:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
         <meta name="twitter:image" content="https://adachi.2237yh.net/img/ogp2.png">
 
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/header.css">
-        <link rel="icon" href="img/favicon.ico">
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="icon" href="/img/favicon.ico">
     </head>
     <body>
         <header class="header">
@@ -77,8 +77,7 @@
             <div class="tweet-embed-container">
                 <p class="message" id="loading-message">読み込み中...</p>
             </div>
-            <a href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @adachirei0</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <dev>今までに <dev id="random-count"></dev> 回ツイートが再読み込みされました</dev>
             <br>
             <br>
             <button id="refresh-button" class="refresh-button">
@@ -87,8 +86,13 @@
             <br>
             <br>
             <button id="post-button" class="post-button" style="display: none;">
-                Xに投稿
+                リポスト
             </button>
+            <br>
+            <br>
+            <a href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @adachirei0</a>
+
+            <a href="https://x.com/share?url=https://adachi.2237yh.net/&amp;text=足立データベース - ランダム足立語録%0A足立レイのツイートがすべてまとめられた非公式のデーターベースサイト" rel="nofollow" target="_blank" class="share-btn"><img src="/img/logo-white.png" width="10px">         でシェア</a>
             <br>
             <br>
             <a href="/10cont">10連ガチャ版</a> |
@@ -96,10 +100,13 @@
             <a href="/about">このサイトについて</a>
             <h2>足立レイの最近のツイート</h2>
             <a class="twitter-timeline" href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw">@adachirei0 の最近のツイート</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
-        <script type="module" src="js/post-button.js"></script>
-        <script type="module" src="js/index.js"></script>
-        <script type="module" src="js/slide-menu.js"></script>
+
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <script type="module" src="/js/post-button.js"></script>
+        <script type="module" src="/js/index.js"></script>
+        <script type="module" src="/js/slide-menu.js"></script>
+        <script type="module" src="/js/status.js"></script>
     </body>
 </html>
