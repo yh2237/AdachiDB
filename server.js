@@ -22,7 +22,6 @@ const port = config.server.port || 3000;
 app.use(express.json());
 
 app.use((req, res, next) => {
-  console.log(`[DEBUG] Incoming Request: ${req.method} ${req.path}`);
   if (req.path.startsWith('/api/')) {
     trackAccess(req.path);
   } else if (!path.extname(req.path)) {
