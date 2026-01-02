@@ -56,18 +56,17 @@
 .slide-menu {
   position: fixed;
   top: 0;
-  right: -350px;
+  left: -350px;
   width: 200px;
   height: 100vh;
   background: #f8f9fa;
-  box-shadow: -5px 0 5px rgba(0,0,0,0.2);
+  box-shadow: 5px 0 5px rgba(0,0,0,0.2);
   padding: 10px 10px;
-  transition: right 0.3s ease;
-  z-index: 2000;
+  transition: left 0.3s ease;
 }
 
 .slide-menu.open {
-  right: 0;
+  left: 0;
 }
 
 .slide-menu ul {
