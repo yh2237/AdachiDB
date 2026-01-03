@@ -12,8 +12,7 @@
     "db:collect": "node scripts/collect_posts.js",
     "db:add_url": "node scripts/add_url.js",
     "db:delete_url": "node scripts/delete_url.js",
-    "db:import_url": "node scripts/import_url.js",
-    "db:edit": "node scripts/edit_db.js"
+    "db:import_url": "node scripts/import_url.js"
   },
   "dependencies": {
     "axios": "^1.7.2",
