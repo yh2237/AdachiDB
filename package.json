@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "server": "node server.js",
     "worker": "node utils/worker.js",
     "db:init": "node scripts/init_db.js",
@@ -11,7 +12,8 @@
     "db:collect": "node scripts/collect_posts.js",
     "db:add_url": "node scripts/add_url.js",
     "db:delete_url": "node scripts/delete_url.js",
-    "db:import_url": "node scripts/import_url.js"
+    "db:import_url": "node scripts/import_url.js",
+    "db:edit": "node scripts/edit_db.js"
   },
   "dependencies": {
     "axios": "^1.7.2",
@@ -21,6 +23,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "inquirer": "8.2.4",
     "js-yaml": "^4.1.0"
   }
 }
