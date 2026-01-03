@@ -8,8 +8,8 @@ server:
 
 backup:
   enable: true
-  interval: 30
-  keep: 16
+  interval: 60
+  keep: 3
 
 database:
   dbName: 'adachiPosts.db'
