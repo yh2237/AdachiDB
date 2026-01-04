@@ -12,7 +12,8 @@ backup:
   keep: 3
 
 database:
-  dbName: 'adachiPosts.db'
+  postsDB: 'adachiPosts.db'
+  countsDB: 'counts.db'
 
 
 scraping:
