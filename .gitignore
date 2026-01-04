@@ -5,5 +5,7 @@ package-lock.json
 backup/
 db/adachiPosts.db-shm
 db/adachiPosts.db-wal
+db/counts.db-shm
+db/counts.db-wal
 db/counts.db
 .DS_Store
