@@ -6,7 +6,7 @@ const yaml = require('js-yaml');
 const configPath = path.join(__dirname, '..', 'config', 'config.yml');
 const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
-const dbPath = path.join(__dirname, '..', 'db', config.database.dbName);
+const dbPath = path.join(__dirname, '..', 'db', config.database.postsDB);
 const db = new Database(dbPath);
 
 function addUrls(urls) {
