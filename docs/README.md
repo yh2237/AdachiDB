@@ -21,6 +21,7 @@
 -   `GET /api/uncreated-count`
     -   まだ日付が取得できていないツイートの数を返します。
 -   `GET /api/status`
+    -   ステータスを取得します。
 
 ## スクリプト
 
