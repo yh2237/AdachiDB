@@ -14,16 +14,6 @@ const db = new Database(dbPath);
 const { getRandomPost, fetchEmbed } = require('../utils/functions');
 const { getStats } = require('../utils/statsTracker');
 
-router.get('/pending-count', (req, res) => {
-  try {
-    const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE status = \'pending\'').get();
-    res.json({ pending: row.count });
-  } catch (err) {
-    console.error('[ERROR] pending-count:', err.message);
-    res.status(500).json({ error: 'DB query failed' });
-  }
-});
-
 router.get('/posts/random', async (req, res) => {
   const post = getRandomPost();
   if (!post) return res.status(404).json({ error: 'No posts available (´・ω・｀)' });
@@ -124,6 +114,17 @@ router.get('/posts/search', (req, res) => {
   }
 });
 
+router.get('/posts/id', (req, res) => {
+  const id = req.query.id;
+  const row = db.prepare('SELECT * FROM posts WHERE id = ?').get(id);
+if (row) {
+  res.json(row);
+} else {
+  console.error('[ERROR] id:', err.message);
+  res.status(500).json({ error: 'Internal Server Error' });
+}
+
+})
 
 router.get('/posts/all', (req, res) => {
   let limit = parseInt(req.query.limit, 10) || 200;
@@ -140,17 +141,15 @@ router.get('/posts/all', (req, res) => {
   }
 });
 
-router.get('/posts/id', (req, res) => {
-  const id = req.query.id;
-  const row = db.prepare('SELECT * FROM posts WHERE id = ?').get(id);
-if (row) {
-  res.json(row);
-} else {
-  console.error('[ERROR] id:', err.message);
-  res.status(500).json({ error: 'Internal Server Error' });
-}
-
-})
+router.get('/pending-count', (req, res) => {
+  try {
+    const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE status = \'pending\'').get();
+    res.json({ pending: row.count });
+  } catch (err) {
+    console.error('[ERROR] pending-count:', err.message);
+    res.status(500).json({ error: 'DB query failed' });
+  }
+});
 
 router.get('/pending-text-count', (req, res) => {
   try {
