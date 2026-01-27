@@ -20,15 +20,20 @@
     -   まだツイート本文が取得できていないツイートの数を返します。
 -   `GET /api/uncreated-count`
     -   まだ日付が取得できていないツイートの数を返します。
+-   `GET /api/status`
 
 ## スクリプト
 
--   `npm run db:backup`
-    -   データベースのバックアップを手動で作成します。
+-   `npm run start`
+    -   API、Webサーバーを起動します。
+-   `npm run worker`
+    -   Workerを起動します。
+-   `npm run db:init`
+    -   データーベースを初期化します。
 -   `npm run db:clear`
     -   データベース内のすべてのツイートとoEmbed、ツイート本文を削除します。
--   `npm run db:init`
-    -   データーベースを初期化します
+-   `npm run db:backup`
+    -   データベースのバックアップを手動で作成します。
 -   `npm run db:collect`
     -   [足立レイ語録をまとめてみた](https://herrkf.com/adachi-words) からツイートURLを収集してきます。
 -   `npm run worker`
@@ -37,3 +42,5 @@
     -   指定したURLをデータベースに追加します。
 -   `npm run db:delete_url -- <url>`
     -   指定したURLをデータベースから削除します。
+-   `npm run db:import_url`
+    -   JsonからURLをデータベースに追加します。
