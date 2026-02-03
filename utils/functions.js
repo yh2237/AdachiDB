@@ -1,14 +1,6 @@
-const Database = require('better-sqlite3');
-const yaml = require('js-yaml');
 const axios = require('axios');
-const path = require('path');
-const fs = require('fs');
-
-const configPath = path.join(__dirname, '..', 'config', 'config.yml');
-const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
-
-const dbPath = path.join(__dirname, '..', 'db', config.database.postsDB);
-const db = new Database(dbPath);
+const { postsDb: db } = require('./database');
+const { extractTextFromEmbed } = require('./textExtractor');
 
 const processingMap = new Map();
 
@@ -20,6 +12,7 @@ async function fetchEmbed(post) {
   if (processingMap.has(post.id)) {
     return processingMap.get(post.id);
   }
+
   const promise = (async () => {
     try {
       const { data } = await axios.get('https://publish.twitter.com/oembed', {
@@ -27,8 +20,7 @@ async function fetchEmbed(post) {
         timeout: 5000
       });
 
-      const textMatch = data.html.match(/<p lang="ja" dir="ltr">(.*?)<\/p>/s);
-      const text = textMatch ? textMatch[1].replace(/<br>/g, '\n') : '';
+      const text = extractTextFromEmbed(data.html);
 
       db.prepare('UPDATE posts SET embed = ?, text = ? WHERE id = ?').run(data.html, text, post.id);
 

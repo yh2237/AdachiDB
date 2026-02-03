@@ -1,8 +1,4 @@
-const Database = require('better-sqlite3');
-const path = require('path');
-
-const dbPath = path.join(__dirname, '..', 'db', 'counts.db');
-const db = new Database(dbPath);
+const { countsDb: db } = require('./database');
 
 const upsertStmt = db.prepare(
   `INSERT INTO access_counts (endpoint, count) VALUES (?, 1)
@@ -18,12 +14,12 @@ function trackAccess(endpoint) {
 }
 
 function getStats() {
-    try {
-        return db.prepare('SELECT * FROM access_counts ORDER BY count DESC').all();
-    } catch (err) {
-        console.error(`[ERROR] [statsTracker] Failed to get stats:`, err.message);
-        return [];
-    }
+  try {
+    return db.prepare('SELECT * FROM access_counts ORDER BY count DESC').all();
+  } catch (err) {
+    console.error(`[ERROR] [statsTracker] Failed to get stats:`, err.message);
+    return [];
+  }
 }
 
 module.exports = { trackAccess, getStats };
