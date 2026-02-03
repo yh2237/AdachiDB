@@ -1,22 +1,21 @@
-const Database = require('better-sqlite3');
 const express = require('express');
 const router = express.Router();
-const yaml = require('js-yaml');
-const path = require('path');
-const fs = require('fs');
-
-const configPath = path.join(__dirname, '..', 'config', 'config.yml');
-const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
-
-const dbPath = path.join(__dirname, '..', 'db', config.database.postsDB);
-const db = new Database(dbPath);
-
+const { postsDb: db } = require('../utils/database');
 const { getRandomPost, fetchEmbed } = require('../utils/functions');
 const { getStats } = require('../utils/statsTracker');
 
+const errorResponse = (res, status, message, logMessage = null) => {
+  if (logMessage) {
+    console.error(`[ERROR] ${logMessage}`);
+  }
+  return res.status(status).json({ error: message });
+};
+
 router.get('/posts/random', async (req, res) => {
   const post = getRandomPost();
-  if (!post) return res.status(404).json({ error: 'No posts available (´・ω・｀)' });
+  if (!post) {
+    return errorResponse(res, 404, 'No posts available');
+  }
 
   try {
     if (post.embed) {
@@ -25,9 +24,8 @@ router.get('/posts/random', async (req, res) => {
 
     const result = await fetchEmbed(post);
     return res.json(result);
-
   } catch (err) {
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return errorResponse(res, 500, 'Failed to fetch embed', `random: ${err.message}`);
   }
 });
 
@@ -41,7 +39,7 @@ router.get('/posts/random10', async (req, res) => {
     `).all();
 
     if (rows.length === 0) {
-      return res.status(404).json({ error: 'No posts available (´・ω・｀)' });
+      return errorResponse(res, 404, 'No posts available');
     }
 
     const results = [];
@@ -59,6 +57,7 @@ router.get('/posts/random10', async (req, res) => {
             id: row.id,
             url: row.url,
             embed: null,
+            text: null,
             error: 'oEmbed取得失敗'
           });
         }
@@ -66,15 +65,14 @@ router.get('/posts/random10', async (req, res) => {
     }
     res.json(results);
   } catch (err) {
-    console.error('[ERROR] random10:', err.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return errorResponse(res, 500, 'Internal Server Error', `random10: ${err.message}`);
   }
 });
 
 router.get('/posts/search', (req, res) => {
   const query = req.query.q;
   if (!query) {
-    return res.status(400).json({ error: 'Query parameter "q" is required' });
+    return errorResponse(res, 400, 'Query parameter "q" is required');
   }
 
   let limit = parseInt(req.query.limit, 10) || 100;
@@ -109,22 +107,27 @@ router.get('/posts/search', (req, res) => {
     const rows = db.prepare(sql).all(...params);
     res.json(rows);
   } catch (err) {
-    console.error('[ERROR] search:', err.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return errorResponse(res, 500, 'Internal Server Error', `search: ${err.message}`);
   }
 });
 
 router.get('/posts/id', (req, res) => {
   const id = req.query.id;
-  const row = db.prepare('SELECT * FROM posts WHERE id = ?').get(id);
-if (row) {
-  res.json(row);
-} else {
-  console.error('[ERROR] id:', err.message);
-  res.status(500).json({ error: 'Internal Server Error' });
-}
+  if (!id) {
+    return errorResponse(res, 400, 'Query parameter "id" is required');
+  }
 
-})
+  try {
+    const row = db.prepare('SELECT * FROM posts WHERE id = ?').get(id);
+    if (row) {
+      res.json(row);
+    } else {
+      return errorResponse(res, 404, 'Post not found');
+    }
+  } catch (err) {
+    return errorResponse(res, 500, 'Internal Server Error', `id: ${err.message}`);
+  }
+});
 
 router.get('/posts/all', (req, res) => {
   let limit = parseInt(req.query.limit, 10) || 200;
@@ -136,28 +139,25 @@ router.get('/posts/all', (req, res) => {
     const rows = db.prepare('SELECT id, url, embed, text, status, createdAt FROM posts ORDER BY id DESC LIMIT ?').all(limit);
     res.json(rows);
   } catch (err) {
-    console.error('[ERROR] all:', err.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return errorResponse(res, 500, 'Internal Server Error', `all: ${err.message}`);
   }
 });
 
 router.get('/pending-count', (req, res) => {
   try {
-    const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE status = \'pending\'').get();
+    const row = db.prepare("SELECT COUNT(*) AS count FROM posts WHERE status = 'pending'").get();
     res.json({ pending: row.count });
   } catch (err) {
-    console.error('[ERROR] pending-count:', err.message);
-    res.status(500).json({ error: 'DB query failed' });
+    return errorResponse(res, 500, 'DB query failed', `pending-count: ${err.message}`);
   }
 });
 
 router.get('/pending-text-count', (req, res) => {
   try {
-    const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE status = \'pending\'').get();
-    res.json({ pending: row.count });
+    const row = db.prepare("SELECT COUNT(*) AS count FROM posts WHERE text IS NULL OR text = ''").get();
+    res.json({ pendingText: row.count });
   } catch (err) {
-    console.error('[ERROR] pending-text-count:', err.message);
-    res.status(500).json({ error: 'DB query failed' });
+    return errorResponse(res, 500, 'DB query failed', `pending-text-count: ${err.message}`);
   }
 });
 
@@ -166,14 +166,17 @@ router.get('/uncreated-count', (req, res) => {
     const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE createdAt IS NULL').get();
     res.json({ uncreated: row.count });
   } catch (err) {
-    console.error('[ERROR] uncreated-count:', err.message);
-    res.status(500).json({ error: 'DB query failed' });
+    return errorResponse(res, 500, 'DB query failed', `uncreated-count: ${err.message}`);
   }
 });
 
 router.get('/status', (req, res) => {
-  const stats = getStats();
-  res.json(stats);
+  try {
+    const stats = getStats();
+    res.json(stats);
+  } catch (err) {
+    return errorResponse(res, 500, 'Failed to get stats', `status: ${err.message}`);
+  }
 });
 
 module.exports = router;
