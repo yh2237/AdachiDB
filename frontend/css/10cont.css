@@ -1,19 +1,27 @@
 .main-content-wide {
-    width: 90%;
-    max-width: 1200px;
-    margin: 20px auto;
-    text-align: center;
+  width: 90%;
+  max-width: var(--content-wide-max-width);
+  margin: var(--spacing-lg) auto;
+  text-align: center;
 }
 
 .tweets-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  margin-bottom: 30px;
 }
 
 .tweet-item {
-    flex-basis: 45%;
-    min-width: 300px;
+  flex-basis: 45%;
+  min-width: 300px;
+  max-width: 550px;
+}
+
+@media (max-width: 768px) {
+  .tweet-item {
+    flex-basis: 100%;
+    min-width: auto;
+  }
 }
