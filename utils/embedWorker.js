@@ -44,7 +44,7 @@ async function main() {
       console.log('[INFO] [EmbedWorker] 処理するデータがありません。');
       await new Promise(res => setTimeout(res, 10000));
     } else {
-      await new Promise(res => setTimeout(res, 5000));
+      await new Promise(res => setTimeout(res, 3000));
     }
   }
 }
