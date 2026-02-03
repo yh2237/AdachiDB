@@ -1,33 +1,23 @@
-fetch("/data/response1.json")
-    .then((res) => res.text())
-    .then((text) => {
-        document.getElementById("response1").textContent = text;
-    })
-    .catch((err) => {
-        document.getElementById("response1").textContent = "読み込み失敗: " + err;
-    });
+const responses = [
+  { id: 'response1', file: '/data/response1.json' },
+  { id: 'response2', file: '/data/response2.json' },
+  { id: 'response3', file: '/data/response3.json' },
+  { id: 'response4', file: '/data/response4.json' },
+];
 
-fetch("/data/response2.json")
-    .then((res) => res.text())
+responses.forEach(({ id, file }) => {
+  const element = document.getElementById(id);
+  if (!element) return;
+
+  fetch(file)
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.text();
+    })
     .then((text) => {
-        document.getElementById("response2").textContent = text;
+      element.textContent = text;
     })
     .catch((err) => {
-        document.getElementById("response2").textContent = "読み込み失敗: " + err;
+      element.textContent = `読み込み失敗: ${err.message}`;
     });
-fetch("/data/response3.json")
-    .then((res) => res.text())
-    .then((text) => {
-        document.getElementById("response3").textContent = text;
-    })
-    .catch((err) => {
-        document.getElementById("response3").textContent = "読み込み失敗: " + err;
-    });
-fetch("/data/response4.json")
-    .then((res) => res.text())
-    .then((text) => {
-        document.getElementById("response4").textContent = text;
-    })
-    .catch((err) => {
-        document.getElementById("response4").textContent = "読み込み失敗: " + err;
-    });
+});
