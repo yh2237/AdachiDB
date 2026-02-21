@@ -12,11 +12,16 @@
 .header-inner {
   display: flex;
   align-items: center;
-  max-width: 1024px;
+  max-width: 1100px;
   height: 100%;
   padding: 0 0.8em;
   margin: 0 auto;
   font-size: 1.2em;
+}
+
+.header-banner {
+  margin: 10px 20px;
+  width: 120px;
 }
 
 .header-nav {
