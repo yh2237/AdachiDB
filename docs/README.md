@@ -2,6 +2,8 @@
 
 足立レイのツイートをランダム表示、検索するためのAPIサーバーおよびフロントエンド
 
+![](../frontend/img/banner.png)
+
 ## APIエンドポイント
 
 -   `GET /api/posts/random`
