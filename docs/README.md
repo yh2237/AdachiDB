@@ -47,3 +47,5 @@
     -   指定したURLをデータベースから削除します。
 -   `npm run db:import_url`
     -   JsonからURLをデータベースに追加します。
+-   `npm run db:db_to_json`
+    -   DBファイルからJsonを作成します。
