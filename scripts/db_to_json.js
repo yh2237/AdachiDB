@@ -20,7 +20,7 @@ try {
     const rows = stmt.all();
     const jsonData = JSON.stringify(rows, null, 2);
 
-    fs.writeFileSync('./data/output_urls.json', jsonData, 'utf-8');
+    fs.writeFileSync('./data/output_posts.json', jsonData, 'utf-8');
     console.log('JSONファイルを書き出しました。');
 
     db.close();
