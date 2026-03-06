@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.js & node utils/worker.js",
+    "server": "node server.js",
     "worker": "node utils/worker.js",
     "db:init": "node scripts/init_db.js",
     "db:clear": "node scripts/clear_db.js",
@@ -12,17 +13,19 @@
     "db:add_url": "node scripts/add_url.js",
     "db:delete_url": "node scripts/delete_url.js",
     "db:import_url": "node scripts/import_url.js",
-    "db:db_to_json": "node scripts/db_to_json.js"
+    "db:db_to_json": "node scripts/db_to_json.js",
+    "db:migrate": "node scripts/migrate_sqlite_to_pg.js"
   },
   "dependencies": {
     "axios": "^1.7.2",
-    "better-sqlite3": "^11.10.0",
+    "better-sqlite3": "^12.6.2",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "inquirer": "8.2.4",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "pg": "^8.20.0"
   }
 }

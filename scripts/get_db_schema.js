@@ -1,15 +1,27 @@
-const Database = require('better-sqlite3');
-const path = require('path');
-const fs = require('fs');
-const yaml = require('js-yaml');
+require('dotenv').config();
+const { Pool } = require('pg');
 
-const configPath = path.join(__dirname, '..', 'config', 'config.yml');
-const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
+const pool = new Pool();
 
-const dbPath = path.join(__dirname, '..', 'db', config.database.postsDB);
-const db = new Database(dbPath);
+async function main() {
+    const { rows } = await pool.query(`
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'posts'
+        ORDER BY ordinal_position
+    `);
 
-const schema = db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='posts';").get();
-console.log(schema.sql);
+    console.log('=== posts テーブル スキーマ ===');
+    rows.forEach(row => {
+        const nullable = row.is_nullable === 'YES' ? 'NULL' : 'NOT NULL';
+        const def = row.column_default ? ` DEFAULT ${row.column_default}` : '';
+        console.log(`  ${row.column_name.padEnd(12)} ${row.data_type.padEnd(20)} ${nullable}${def}`);
+    });
+}
 
-db.close();
+main()
+    .catch(err => {
+        console.error('[ERROR] [get_db_schema]', err.message);
+        process.exit(1);
+    })
+    .finally(() => pool.end());

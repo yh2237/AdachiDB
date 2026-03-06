@@ -1,29 +1,24 @@
-const Database = require('better-sqlite3');
-const path = require('path');
+require('dotenv').config();
+const { Pool } = require('pg');
 const fs = require('fs');
-const yaml = require('js-yaml');
+const path = require('path');
 
-const configPath = path.join(__dirname, '..', 'config', 'config.yml');
-const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
+const pool = new Pool();
 
-const dbPath = path.join(__dirname, '..', 'db', config.database.postsDB);
+async function main() {
+    const { rows } = await pool.query(
+        `SELECT url, text, "createdAt" FROM posts ORDER BY id ASC`
+    );
 
-try {
-    const db = new Database(dbPath, { readonly: true });
-
-    const tableName = 'posts';
-    const columns = ['url', 'text', 'createdAt',];
-
-    const query = `SELECT ${columns.join(', ')} FROM ${tableName}`;
-
-    const stmt = db.prepare(query);
-    const rows = stmt.all();
     const jsonData = JSON.stringify(rows, null, 2);
-
-    fs.writeFileSync('./data/output_posts.json', jsonData, 'utf-8');
-    console.log('JSONファイルを書き出しました。');
-
-    db.close();
-} catch (err) {
-    console.error('エラー:', err.message);
+    const outputPath = path.join(__dirname, '..', 'data', 'output_posts.json');
+    fs.writeFileSync(outputPath, jsonData, 'utf-8');
+    console.log(`[INFO] [db_to_json] JSONファイルを書き出しました: ${outputPath} (${rows.length}件)`);
 }
+
+main()
+    .catch(err => {
+        console.error('[ERROR] [db_to_json]', err.message);
+        process.exit(1);
+    })
+    .finally(() => pool.end());

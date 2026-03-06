@@ -1,21 +1,36 @@
-const Database = require('better-sqlite3');
-const yaml = require('js-yaml');
-const path = require('path');
-const fs = require('fs');
+require('dotenv').config();
+const { Pool } = require('pg');
+const inquirer = require('inquirer');
 
-const configPath = path.join(__dirname, '..', 'config', 'config.yml');
-const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
+const pool = new Pool();
 
-const dataDir = path.join(__dirname, '..', 'db');
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
+async function main() {
+    const { rows } = await pool.query('SELECT COUNT(*) AS count FROM posts');
+    const count = parseInt(rows[0].count, 10);
+
+    console.log(`[WARN] postsテーブルの全レコード (${count}件) を削除しようとしています。`);
+
+    const { confirmed } = await inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'confirmed',
+            message: '本当に全件削除しますか？この操作は取り消せません。',
+            default: false,
+        },
+    ]);
+
+    if (!confirmed) {
+        console.log('[INFO] [clear_db] キャンセルしました。');
+        return;
+    }
+
+    const result = await pool.query('DELETE FROM posts');
+    console.log(`[INFO] [clear_db] リンクデータをクリアしました。削除件数: ${result.rowCount}`);
 }
 
-const dbPath = path.join(__dirname, '..', 'db', config.database.postsDB);
-
-const db = new Database(dbPath);
-
-const result = db.prepare('DELETE FROM posts').run();
-
-console.log(`[INFO] [clear_db] リンクデータをクリアしました。削除件数: ${result.changes}`);
-db.close();
+main()
+    .catch(err => {
+        console.error('[ERROR] [clear_db]', err.message);
+        process.exit(1);
+    })
+    .finally(() => pool.end());

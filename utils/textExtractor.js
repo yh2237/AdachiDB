@@ -14,6 +14,22 @@ function decodeHtmlEntities(text) {
     '&apos;': "'",
     '&#x27;': "'",
     '&nbsp;': ' ',
+    '&mdash;': '—',
+    '&ndash;': '–',
+    '&hellip;': '…',
+    '&laquo;': '«',
+    '&raquo;': '»',
+    '&lsquo;': '\u2018',
+    '&rsquo;': '\u2019',
+    '&ldquo;': '\u201C',
+    '&rdquo;': '\u201D',
+    '&bull;': '•',
+    '&middot;': '·',
+    '&times;': '×',
+    '&divide;': '÷',
+    '&copy;': '©',
+    '&reg;': '®',
+    '&trade;': '™',
   };
 
   let decoded = text;

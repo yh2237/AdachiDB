@@ -1,5 +1,5 @@
 server:
-  url: 'adachi.2237yh.net'
+  url: 'https://adachi.2237yh.net'
   port: 3000
   frontend: true
   dev_frontend: true
@@ -12,7 +12,6 @@ backup:
   keep: 3
 
 database:
-  postsDB: 'adachiPosts.db'
   countsDB: 'counts.db'
 
 
