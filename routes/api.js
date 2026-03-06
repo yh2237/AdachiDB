@@ -80,7 +80,7 @@ router.get('/posts/search', async (req, res) => {
     }
 
     let limit = parseInt(req.query.limit, 10) || 100;
-    if (limit > 40000) limit = 40000;
+    if (limit > 50000) limit = 50000;
 
     const from = req.query.from;
     const to = req.query.to;
@@ -135,7 +135,7 @@ router.get('/posts/id', async (req, res) => {
 
 router.get('/posts/all', async (req, res) => {
     let limit = parseInt(req.query.limit, 10) || 200;
-    if (limit > 40000) limit = 40000;
+    if (limit > 50000) limit = 50000;
 
     try {
         const { rows } = await pool.query(
