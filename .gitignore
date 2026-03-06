@@ -11,3 +11,4 @@ db/counts.db-wal
 db/counts.db
 .DS_Store
 docs/plan.md
+db/adachiPosts.db
