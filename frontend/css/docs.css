@@ -134,6 +134,35 @@
   margin-bottom: var(--spacing-sm);
 }
 
+.status-code {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.status-code.status-400 {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.status-code.status-404 {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.status-code.status-409 {
+  background-color: #f3e8ff;
+  color: #7c3aed;
+}
+
+.status-code.status-502 {
+  background-color: #fce7f3;
+  color: #be185d;
+}
+
 .docs-nav {
   margin-top: var(--spacing-xl);
   padding-top: var(--spacing-lg);
