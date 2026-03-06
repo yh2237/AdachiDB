@@ -198,8 +198,8 @@ router.post('/posts/add', async (req, res) => {
 
         const { rows: inserted } = await pool.query(
             `INSERT INTO posts (url, embed, text, status, "createdAt")
-      VALUES ($1, $2, $3, 'ok', $4)
-      RETURNING id, url, embed, text, status, "createdAt"`,
+            VALUES ($1, $2, $3, 'ok', $4)
+            RETURNING id, url, embed, text, status, "createdAt"`,
             [normalizedUrl, embedHtml, text ?? null, createdAt ?? null]
         );
 
@@ -207,6 +207,26 @@ router.post('/posts/add', async (req, res) => {
         return res.status(201).json(inserted[0]);
     } catch (err) {
         return errorResponse(res, 500, 'Internal Server Error', `posts/add: ${err.message}`);
+    }
+});
+
+router.get('/posts/count', async (req, res) => {
+    try {
+        const { rows } = await pool.query('SELECT COUNT(*) AS count FROM posts');
+        res.json({ count: parseInt(rows[0].count, 10) });
+    } catch (err) {
+        return errorResponse(res, 500, 'DB query failed', `posts/count: ${err.message}`);
+    }
+});
+
+router.get('/posts/date-range', async (req, res) => {
+    try {
+        const { rows } = await pool.query(
+            `SELECT MIN("createdAt") AS oldest, MAX("createdAt") AS newest FROM posts WHERE "createdAt" IS NOT NULL`
+        );
+        res.json({ oldest: rows[0].oldest ?? null, newest: rows[0].newest ?? null });
+    } catch (err) {
+        return errorResponse(res, 500, 'DB query failed', `posts/date-range: ${err.message}`);
     }
 });
 
