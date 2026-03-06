@@ -58,7 +58,7 @@ const renderSearchResults = (results) => {
         tweetLink.href = post.url;
         tweetLink.target = '_blank';
         tweetLink.rel = 'noopener noreferrer';
-        tweetLink.textContent = post.text
+        tweetLink.textContent = (post.text ?? '')
             .replace(/<a.*?>/g, '')
             .replace(/<\/a>/g, '');
 

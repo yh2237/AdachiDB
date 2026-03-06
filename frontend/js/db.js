@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${post.embed ? 'Yes' : 'No'}</td>
                     <td><pre>${post.text || ''}</pre></td>
                     <td>${post.status}</td>
-                    <tbd>${post.createdAt || ''}</td>
+                    <td>${post.createdAt || ''}</td>
                 `;
                 tableBody.appendChild(row);
             });
         } catch (error) {
             console.error('Error fetching data:', error);
-            tableBody.innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="6">Error loading data.</td></tr>';
         }
     }
 

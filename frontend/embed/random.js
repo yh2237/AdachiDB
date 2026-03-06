@@ -17,7 +17,7 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    #AdachiDB-refresh:hover {
+    #AdachiDB-button:hover {
       background: #e9e9e9;
     }
   `;
@@ -25,9 +25,16 @@
 
     function loadTweet() {
         fetch("https://adachi.2237yh.net/api/posts/random")
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
             .then(data => {
                 if (!target) return;
+                if (!data.embed) {
+                    target.innerHTML = '<p>ツイートを読み込めませんでした。</p>';
+                    return;
+                }
                 target.innerHTML = data.embed;
 
                 const scripts = target.querySelectorAll("script");

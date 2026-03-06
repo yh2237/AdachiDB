@@ -49,7 +49,7 @@ const fetchRandomPostAndEmbed = async () => {
         loadingMessage.classList.add('error');
         tweetEmbedContainer.innerHTML = '';
     } finally {
-        if (loadingMessage.classList.contains('error') || tweetEmbedContainer.innerHTML !== '') {
+        if (!loadingMessage.classList.contains('error')) {
             loadingMessage.style.display = 'none';
         }
     }
