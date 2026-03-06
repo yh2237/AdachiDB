@@ -21,6 +21,10 @@
     - リクエストボディ: `{ "url": "https://x.com/..." }`
     - レスポンス: 追加したツイートのデータ（201）
     - エラー: 不正なURL（400）、ツイートが存在しない（404）、重複（409）
+- `GET /api/posts/count`
+    - データベースに保存されているツイートの総数を返します。
+- `GET /api/posts/date-range`
+    - 保存されているツイートの最古・最新の日付を返します。
 - `GET /api/pending-count`
     - まだoEmbedが取得できていないツイートの数を返します。
 - `GET /api/pending-text-count`
