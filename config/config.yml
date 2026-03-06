@@ -2,7 +2,7 @@ server:
   url: 'https://adachi.2237yh.net'
   port: 3000
   frontend: true
-  dev_frontend: true
+  dev_frontend: false
   openAPI: true
   banner: true
 
