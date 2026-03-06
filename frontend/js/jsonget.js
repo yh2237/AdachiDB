@@ -3,6 +3,7 @@ const responses = [
   { id: 'response2', file: '/data/response2.json' },
   { id: 'response3', file: '/data/response3.json' },
   { id: 'response4', file: '/data/response4.json' },
+  { id: 'response5', file: '/data/response5.json' },
 ];
 
 responses.forEach(({ id, file }) => {
