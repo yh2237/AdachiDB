@@ -24,7 +24,7 @@
     document.head.appendChild(style);
 
     function loadTweet() {
-        fetch("https://adachi.2237yh.net/api/posts/random")
+        fetch("https://adachidb.net/api/posts/random")
             .then(res => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
