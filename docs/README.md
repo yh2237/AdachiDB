@@ -16,6 +16,14 @@
     - 特定のIDのツイートを返します。
 - `GET /api/posts/all?limit={limit}`
     - limitの数だけツイートをIDが上の順から返します。
+- `GET /api/posts/export?format={json|csv|yml|yaml}&type={full|text|url|embed|meta}&fields={id,url,text,...}&from={YYYY-MM-DD}&to={YYYY-MM-DD}&limit={limit}&all={true|1|yes|on}`
+    - ツイートデータをファイルとしてダウンロードします（`Content-Disposition: attachment`）。
+    - `format` は出力形式（省略時: `json`）。
+    - `type` は取得項目セット（省略時: `full`）。
+    - `fields` を指定すると取得項目を個別指定でき、`type` より優先されます。
+    - `from` / `to` で `createdAt` の期間を絞り込みできます。
+    - `limit` は取得件数（省略時: 50000、最大: 50000）。
+    - `all=true`（`1` / `yes` / `on` も可）で `limit` を無視して全件取得します。
 - `POST /api/posts/add`
     - ツイートURLをデータベースに追加します。
     - リクエストボディ: `{ "url": "https://x.com/..." }`
