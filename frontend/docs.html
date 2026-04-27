@@ -257,6 +257,82 @@
 
         <section class="docs-section">
             <div class="endpoint-header">
+                <span class="endpoint-method get">GET</span>
+                <span class="endpoint-path">/api/posts/export</span>
+            </div>
+            <p class="section-description">
+                ツイートデータを条件付きで抽出し、JSON / CSV / YML ファイルとしてダウンロードします。
+            </p>
+
+            <div class="subsection-label">パラメータ</div>
+            <table class="params-table">
+                <thead>
+                    <tr>
+                        <th>パラメータ</th>
+                        <th>必須</th>
+                        <th>説明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="param-name">format</span></td>
+                        <td><span class="param-required optional">任意</span></td>
+                        <td>出力形式（json / csv / yml / yaml、デフォルト: json）</td>
+                    </tr>
+                    <tr>
+                        <td><span class="param-name">type</span></td>
+                        <td><span class="param-required optional">任意</span></td>
+                        <td>取得項目セット（full / text / url / embed / meta、デフォルト: full）</td>
+                    </tr>
+                    <tr>
+                        <td><span class="param-name">fields</span></td>
+                        <td><span class="param-required optional">任意</span></td>
+                        <td>取得項目を個別指定（例: id,text,createdAt）。指定時は type より優先</td>
+                    </tr>
+                    <tr>
+                        <td><span class="param-name">from</span></td>
+                        <td><span class="param-required optional">任意</span></td>
+                        <td>取得開始日（createdAt の下限、例: 2024-01-01）</td>
+                    </tr>
+                    <tr>
+                        <td><span class="param-name">to</span></td>
+                        <td><span class="param-required optional">任意</span></td>
+                        <td>取得終了日（createdAt の上限、例: 2024-12-31）</td>
+                    </tr>
+                    <tr>
+                        <td><span class="param-name">limit</span></td>
+                        <td><span class="param-required optional">任意</span></td>
+                        <td>取得件数（デフォルト: 50000、最大: 50000）</td>
+                    </tr>
+                    <tr>
+                        <td><span class="param-name">all</span></td>
+                        <td><span class="param-required optional">任意</span></td>
+                        <td>true / 1 / yes / on のいずれかで、limitを無視して全件取得</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="subsection-label">リクエスト例（CSV）</div>
+            <div class="code-block">
+                <div class="code-header"><span>bash</span></div>
+                <pre><code>curl -L -o posts.csv "https://adachidb.net/api/posts/export?format=csv&type=text&from=2024-01-01&to=2024-12-31&limit=1000"</code></pre>
+            </div>
+
+            <div class="subsection-label">リクエスト例（YML, fields 指定）</div>
+            <div class="code-block">
+                <div class="code-header"><span>bash</span></div>
+                <pre><code>curl -L -o posts.yml "https://adachidb.net/api/posts/export?format=yml&fields=id,url,createdAt&limit=500"</code></pre>
+            </div>
+
+            <div class="subsection-label">リクエスト例（全件ダウンロード）</div>
+            <div class="code-block">
+                <div class="code-header"><span>bash</span></div>
+                <pre><code>curl -L -o posts-all.json "https://adachidb.net/api/posts/export?format=json&all=true"</code></pre>
+            </div>
+        </section>
+
+        <section class="docs-section">
+            <div class="endpoint-header">
                 <span class="endpoint-method post">POST</span>
                 <span class="endpoint-path">/api/posts/add</span>
             </div>

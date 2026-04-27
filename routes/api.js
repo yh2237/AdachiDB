@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const yaml = require('js-yaml');
 const router = express.Router();
 const { postsDb: pool } = require('../utils/database');
 const { getRandomPost, fetchEmbed } = require('../utils/functions');
@@ -21,6 +22,94 @@ const errorResponse = (res, status, message, logMessage = null) => {
     }
     return res.status(status).json({ error: message });
 };
+
+const EXPORT_FORMATS = new Set(['json', 'csv', 'yml', 'yaml']);
+const EXPORT_FIELD_MAP = {
+    id: 'id',
+    url: 'url',
+    embed: 'embed',
+    text: 'text',
+    status: 'status',
+    createdAt: '"createdAt"'
+};
+const EXPORT_TYPE_FIELDS = {
+    full: ['id', 'url', 'embed', 'text', 'status', 'createdAt'],
+    text: ['id', 'text', 'createdAt'],
+    url: ['id', 'url', 'createdAt'],
+    embed: ['id', 'url', 'embed', 'createdAt'],
+    meta: ['id', 'status', 'createdAt']
+};
+
+function parseExportFields(type, fields) {
+    if (fields) {
+        const parsedFields = fields
+            .split(',')
+            .map((field) => field.trim())
+            .filter(Boolean);
+
+        if (parsedFields.length === 0) {
+            throw new Error('Query parameter "fields" must include at least one field');
+        }
+
+        const invalidFields = parsedFields.filter((field) => !EXPORT_FIELD_MAP[field]);
+        if (invalidFields.length > 0) {
+            throw new Error(`Unknown field(s): ${invalidFields.join(', ')}`);
+        }
+
+        return Array.from(new Set(parsedFields));
+    }
+
+    const selectedType = type || 'full';
+    const fieldsByType = EXPORT_TYPE_FIELDS[selectedType];
+    if (!fieldsByType) {
+        throw new Error(`Unknown type: ${selectedType}`);
+    }
+
+    return fieldsByType;
+}
+
+function normalizeExportRows(rows, selectedFields) {
+    return rows.map((row) => {
+        const normalized = {};
+
+        for (const field of selectedFields) {
+            let value = row[field];
+            if (value instanceof Date) {
+                value = value.toISOString();
+            }
+            normalized[field] = value;
+        }
+
+        return normalized;
+    });
+}
+
+function csvEscape(value) {
+    if (value === null || value === undefined) {
+        return '';
+    }
+
+    const stringValue = String(value);
+    if (/[",\n\r]/.test(stringValue)) {
+        return `"${stringValue.replace(/"/g, '""')}"`;
+    }
+
+    return stringValue;
+}
+
+function toCsv(rows, selectedFields) {
+    const header = selectedFields.join(',');
+    const body = rows.map((row) => selectedFields.map((field) => csvEscape(row[field])).join(',')).join('\n');
+    return body ? `${header}\n${body}` : `${header}\n`;
+}
+
+function isTruthyQuery(value) {
+    if (typeof value !== 'string') {
+        return false;
+    }
+
+    return ['1', 'true', 'yes', 'on'].includes(value.trim().toLowerCase());
+}
 
 router.get('/posts/random', async (req, res) => {
     try {
@@ -145,6 +234,85 @@ router.get('/posts/all', async (req, res) => {
         res.json(rows);
     } catch (err) {
         return errorResponse(res, 500, 'Internal Server Error', `all: ${err.message}`);
+    }
+});
+
+router.get('/posts/export', async (req, res) => {
+    const format = String(req.query.format || 'json').toLowerCase();
+    if (!EXPORT_FORMATS.has(format)) {
+        return errorResponse(res, 400, 'Query parameter "format" must be one of: json, csv, yml, yaml');
+    }
+
+    const from = req.query.from;
+    const to = req.query.to;
+    const downloadAll = isTruthyQuery(req.query.all);
+
+    let limit = parseInt(req.query.limit, 10);
+    if (isNaN(limit) || limit <= 0) {
+        limit = 50000;
+    }
+    if (limit > 50000) {
+        limit = 50000;
+    }
+
+    let selectedFields;
+    try {
+        selectedFields = parseExportFields(req.query.type, req.query.fields);
+    } catch (err) {
+        return errorResponse(res, 400, err.message);
+    }
+
+    try {
+        const sqlFields = selectedFields.map((field) => EXPORT_FIELD_MAP[field]).join(', ');
+        const params = [];
+        let sql = `SELECT ${sqlFields} FROM posts`;
+
+        if (from) {
+            params.push(from);
+            sql += ` WHERE "createdAt" >= $${params.length}`;
+        }
+        if (to) {
+            params.push(to);
+            sql += from
+                ? ` AND "createdAt" <= $${params.length}`
+                : ` WHERE "createdAt" <= $${params.length}`;
+        }
+
+        sql += ' ORDER BY id DESC';
+        if (!downloadAll) {
+            params.push(limit);
+            sql += ` LIMIT $${params.length}`;
+        }
+
+        const { rows } = await pool.query(sql, params);
+        const normalizedRows = normalizeExportRows(rows, selectedFields);
+
+        let payload;
+        let ext;
+        let contentType;
+
+        if (format === 'json') {
+            payload = JSON.stringify(normalizedRows, null, 2);
+            ext = 'json';
+            contentType = 'application/json';
+        } else if (format === 'csv') {
+            payload = toCsv(normalizedRows, selectedFields);
+            ext = 'csv';
+            contentType = 'text/csv';
+        } else {
+            payload = yaml.dump(normalizedRows, { noRefs: true, lineWidth: -1 });
+            ext = 'yml';
+            contentType = 'application/x-yaml';
+        }
+
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const filename = `posts-export-${timestamp}.${ext}`;
+
+        res.setHeader('Content-Type', `${contentType}; charset=utf-8`);
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(payload);
+    } catch (err) {
+        return errorResponse(res, 500, 'Internal Server Error', `posts/export: ${err.message}`);
     }
 });
 
