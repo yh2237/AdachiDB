@@ -6,6 +6,23 @@ server:
   openAPI: true
   banner: true
 
+rateLimit:
+  windowSeconds: 60
+  limits:
+    api:
+      status: 120
+      pending-count: 60
+      pending-text-count: 60
+      uncreated-count: 60
+      posts:
+        random: 3000
+        random10: 2000
+        search: 1000
+        all: 30
+        export: 10
+        exportAll: 2
+        add: 200
+
 backup:
   enable: true
   interval: 60

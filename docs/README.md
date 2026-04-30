@@ -44,6 +44,33 @@
 
 ---
 
+## レート制限設定
+
+`config/config.yml` の `rateLimit` で各APIのレート制限を設定できます。
+
+```yml
+rateLimit:
+  windowSeconds: 60
+  limits:
+    api:
+      status: 120
+      pending-count: 60
+      pending-text-count: 60
+      uncreated-count: 60
+      posts:
+        random: 3000
+        random10: 2000
+        search: 1000
+        all: 30
+        export: 10
+        exportAll: 2
+        add: 200
+```
+
+`limits` 配下の各値に `0` もしくは負の値を指定すると、そのエンドポイントのレート制限は無効になります。
+
+---
+
 ## スクリプト
 
 - `npm start`

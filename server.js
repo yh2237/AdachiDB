@@ -3,6 +3,7 @@ const express = require('express');
 const yaml = require('js-yaml');
 const chalk = require('chalk');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs');
 const apiRoutes = require('./routes/api');
@@ -21,6 +22,89 @@ const port = config.server.port || 3000;
 // ============================================================
 
 app.use(express.json());
+
+const rateLimitConfig = config.rateLimit || {};
+const windowSeconds = typeof rateLimitConfig.windowSeconds === 'number' ? rateLimitConfig.windowSeconds : 60;
+const windowMs = windowSeconds * 1000;
+const defaultLimits = {
+    api: {
+        status: 120,
+        'pending-count': 60,
+        'pending-text-count': 60,
+        'uncreated-count': 60,
+        posts: {
+            random: 3000,
+            random10: 200,
+            search: 60,
+            all: 30,
+            export: 10,
+            exportAll: 2,
+            add: 200
+        }
+    }
+};
+const limits = {
+    ...defaultLimits,
+    ...(rateLimitConfig.limits || {})
+};
+
+function buildLimiter(max) {
+    if (!Number.isFinite(max) || max <= 0) {
+        return null;
+    }
+
+    return rateLimit({
+        windowMs,
+        max,
+        standardHeaders: true,
+        legacyHeaders: false
+    });
+}
+
+const apiLimits = limits.api || {};
+const postLimits = apiLimits.posts || {};
+
+const limiterRandom = buildLimiter(postLimits.random);
+const limiterRandom10 = buildLimiter(postLimits.random10);
+const limiterSearch = buildLimiter(postLimits.search);
+const limiterAll = buildLimiter(postLimits.all);
+const limiterExport = buildLimiter(postLimits.export);
+const limiterExportAll = buildLimiter(postLimits.exportAll);
+const limiterAdd = buildLimiter(postLimits.add);
+
+if (limiterRandom) app.use('/api/posts/random', limiterRandom);
+if (limiterRandom10) app.use('/api/posts/random10', limiterRandom10);
+if (limiterSearch) app.use('/api/posts/search', limiterSearch);
+if (limiterAll) app.use('/api/posts/all', limiterAll);
+if (limiterAdd) app.use('/api/posts/add', limiterAdd);
+app.use('/api/posts/export', (req, res, next) => {
+    const allValue = typeof req.query.all === 'string' ? req.query.all.trim().toLowerCase() : '';
+    const limiter = ['1', 'true', 'yes', 'on'].includes(allValue) ? limiterExportAll : limiterExport;
+    if (!limiter) {
+        return next();
+    }
+    return limiter(req, res, next);
+});
+
+const apiEndpointMap = {
+    status: '/api/status',
+    'pending-count': '/api/pending-count',
+    'pending-text-count': '/api/pending-text-count',
+    'uncreated-count': '/api/uncreated-count'
+};
+
+Object.entries(apiEndpointMap).forEach(([key, route]) => {
+    if (key === 'posts') {
+        return;
+    }
+
+    const limiter = buildLimiter(apiLimits[key]);
+    if (!limiter) {
+        return;
+    }
+
+    app.use(route, limiter);
+});
 
 app.use((req, res, next) => {
     if (req.path.startsWith('/api/')) {
