@@ -1,12 +1,9 @@
 const express = require('express');
-const axios = require('axios');
 const yaml = require('js-yaml');
 const router = express.Router();
 const { postsDb: pool } = require('../utils/database');
-const { getRandomPost, fetchEmbed } = require('../utils/functions');
+const { getPostBounds, getRandomPost, getPostByIdOrNext, fetchEmbed } = require('../utils/functions');
 const { getStats } = require('../utils/statsTracker');
-const { extractTextFromEmbed } = require('../utils/textExtractor');
-const { snowflakeToDate } = require('../utils/snowflakeToDate');
 
 const TWEET_URL_RE = /^https:\/\/(x\.com|twitter\.com)\/[^/]+\/status\/\d+$/;
 
@@ -22,6 +19,41 @@ const errorResponse = (res, status, message, logMessage = null) => {
     }
     return res.status(status).json({ error: message });
 };
+
+const MAX_LIMIT = 50000;
+const DEFAULT_LIMIT_SEARCH = 100;
+const DEFAULT_LIMIT_ALL = 200;
+const DEFAULT_LIMIT_EXPORT = 50000;
+const MAX_QUERY_LENGTH = 200;
+
+function parseDateParam(value, label) {
+    if (!value) {
+        return null;
+    }
+
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) {
+        throw new Error(`Query parameter "${label}" must be a valid date`);
+    }
+
+    return value;
+}
+
+function parseLimitParam(value, fallback) {
+    if (value === undefined) {
+        return fallback;
+    }
+
+    const parsed = parseInt(value, 10);
+    if (!Number.isFinite(parsed)) {
+        throw new Error('Query parameter "limit" must be a valid integer');
+    }
+    if (parsed <= 0) {
+        throw new Error('Query parameter "limit" must be greater than 0');
+    }
+
+    return Math.min(parsed, MAX_LIMIT);
+}
 
 const EXPORT_FORMATS = new Set(['json', 'csv', 'yml', 'yaml']);
 const EXPORT_FIELD_MAP = {
@@ -131,19 +163,38 @@ router.get('/posts/random', async (req, res) => {
 
 router.get('/posts/random10', async (req, res) => {
     try {
-        const { rows } = await pool.query(`
-            SELECT id, url, embed, text
-            FROM posts
-            ORDER BY RANDOM()
-            LIMIT 10
-            `);
+        const { count, minId, maxId } = await getPostBounds();
+        if (!count || !minId || !maxId) {
+            return errorResponse(res, 404, 'No posts available');
+        }
 
-        if (rows.length === 0) {
+        const sampledIds = new Set();
+        const targetSize = Math.min(10, count);
+        const attempts = Math.min(count, 100);
+        while (sampledIds.size < targetSize && sampledIds.size < attempts) {
+            const randomId = Math.floor(Math.random() * (maxId - minId + 1)) + minId;
+            sampledIds.add(randomId);
+        }
+
+        const sampledRows = [];
+        const sampledRowIds = new Set();
+        for (const randomId of sampledIds) {
+            const row = await getPostByIdOrNext(randomId);
+            if (row && !sampledRowIds.has(row.id)) {
+                sampledRowIds.add(row.id);
+                sampledRows.push(row);
+            }
+            if (sampledRows.length >= 10) {
+                break;
+            }
+        }
+
+        if (sampledRows.length === 0) {
             return errorResponse(res, 404, 'No posts available');
         }
 
         const results = [];
-        for (const row of rows) {
+        for (const row of sampledRows) {
             if (row.embed) {
                 results.push(row);
             } else {
@@ -167,12 +218,20 @@ router.get('/posts/search', async (req, res) => {
     if (!query) {
         return errorResponse(res, 400, 'Query parameter "q" is required');
     }
+    if (query.length > MAX_QUERY_LENGTH) {
+        return errorResponse(res, 400, `Query parameter "q" must be ${MAX_QUERY_LENGTH} characters or less`);
+    }
 
-    let limit = parseInt(req.query.limit, 10) || 100;
-    if (limit > 50000) limit = 50000;
-
-    const from = req.query.from;
-    const to = req.query.to;
+    let limit;
+    let from;
+    let to;
+    try {
+        limit = parseLimitParam(req.query.limit, DEFAULT_LIMIT_SEARCH);
+        from = parseDateParam(req.query.from, 'from');
+        to = parseDateParam(req.query.to, 'to');
+    } catch (err) {
+        return errorResponse(res, 400, err.message);
+    }
 
     try {
         const params = [`%${query}%`];
@@ -223,8 +282,12 @@ router.get('/posts/id', async (req, res) => {
 });
 
 router.get('/posts/all', async (req, res) => {
-    let limit = parseInt(req.query.limit, 10) || 200;
-    if (limit > 50000) limit = 50000;
+    let limit;
+    try {
+        limit = parseLimitParam(req.query.limit, DEFAULT_LIMIT_ALL);
+    } catch (err) {
+        return errorResponse(res, 400, err.message);
+    }
 
     try {
         const { rows } = await pool.query(
@@ -243,16 +306,21 @@ router.get('/posts/export', async (req, res) => {
         return errorResponse(res, 400, 'Query parameter "format" must be one of: json, csv, yml, yaml');
     }
 
-    const from = req.query.from;
-    const to = req.query.to;
+    let from;
+    let to;
+    try {
+        from = parseDateParam(req.query.from, 'from');
+        to = parseDateParam(req.query.to, 'to');
+    } catch (err) {
+        return errorResponse(res, 400, err.message);
+    }
     const downloadAll = isTruthyQuery(req.query.all);
 
-    let limit = parseInt(req.query.limit, 10);
-    if (isNaN(limit) || limit <= 0) {
-        limit = 50000;
-    }
-    if (limit > 50000) {
-        limit = 50000;
+    let limit;
+    try {
+        limit = parseLimitParam(req.query.limit, DEFAULT_LIMIT_EXPORT);
+    } catch (err) {
+        return errorResponse(res, 400, err.message);
     }
 
     let selectedFields;
@@ -341,34 +409,11 @@ router.post('/posts/add', async (req, res) => {
         if (existing.length > 0) {
             return errorResponse(res, 409, 'URL already exists in database');
         }
-
-        let embedHtml, text, createdAt;
-        try {
-            const { data } = await axios.get('https://publish.twitter.com/oembed', {
-                params: { url: normalizedUrl, lang: 'ja' },
-                timeout: 5000
-            });
-            embedHtml = data.html;
-            text = extractTextFromEmbed(data.html);
-        } catch (err) {
-            if (err.response && err.response.status === 404) {
-                return errorResponse(res, 404, 'Tweet not found or has been deleted');
-            }
-            return errorResponse(res, 502, 'Failed to verify tweet via oEmbed', `posts/add oEmbed: ${err.message}`);
-        }
-
-        const match = normalizedUrl.match(/status\/(\d+)/);
-        if (match) {
-            const createdAtUTC = snowflakeToDate(match[1]);
-            const createdAtJST = new Date(createdAtUTC.getTime() + 9 * 60 * 60 * 1000);
-            createdAt = createdAtJST.toISOString().slice(0, 19).replace('T', ' ');
-        }
-
         const { rows: inserted } = await pool.query(
             `INSERT INTO posts (url, embed, text, status, "createdAt")
-            VALUES ($1, $2, $3, 'ok', $4)
+            VALUES ($1, NULL, NULL, 'pending', NULL)
             RETURNING id, url, embed, text, status, "createdAt"`,
-            [normalizedUrl, embedHtml, text ?? null, createdAt ?? null]
+            [normalizedUrl]
         );
 
         console.log(`[INFO] [posts/add] 追加: ${normalizedUrl}`);
