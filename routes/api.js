@@ -2,7 +2,7 @@ const express = require('express');
 const yaml = require('js-yaml');
 const router = express.Router();
 const { postsDb: pool } = require('../utils/database');
-const { getPostBounds, getRandomPost, getPostByIdOrNext, fetchEmbed } = require('../utils/functions');
+const { getRandomPost, getRandomPosts, fetchEmbed } = require('../utils/functions');
 const { getStats } = require('../utils/statsTracker');
 
 const TWEET_URL_RE = /^https:\/\/(x\.com|twitter\.com)\/[^/]+\/status\/\d+$/;
@@ -163,32 +163,7 @@ router.get('/posts/random', async (req, res) => {
 
 router.get('/posts/random10', async (req, res) => {
     try {
-        const { count, minId, maxId } = await getPostBounds();
-        if (!count || !minId || !maxId) {
-            return errorResponse(res, 404, 'No posts available');
-        }
-
-        const sampledIds = new Set();
-        const targetSize = Math.min(10, count);
-        const attempts = Math.min(count, 100);
-        while (sampledIds.size < targetSize && sampledIds.size < attempts) {
-            const randomId = Math.floor(Math.random() * (maxId - minId + 1)) + minId;
-            sampledIds.add(randomId);
-        }
-
-        const sampledRows = [];
-        const sampledRowIds = new Set();
-        for (const randomId of sampledIds) {
-            const row = await getPostByIdOrNext(randomId);
-            if (row && !sampledRowIds.has(row.id)) {
-                sampledRowIds.add(row.id);
-                sampledRows.push(row);
-            }
-            if (sampledRows.length >= 10) {
-                break;
-            }
-        }
-
+        const sampledRows = await getRandomPosts(10);
         if (sampledRows.length === 0) {
             return errorResponse(res, 404, 'No posts available');
         }

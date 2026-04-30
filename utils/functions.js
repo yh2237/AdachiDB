@@ -15,54 +15,19 @@ async function getPostBounds() {
     return { count, minId, maxId };
 }
 
-async function getRandomPostByBounds(minId, maxId) {
-    if (!Number.isFinite(minId) || !Number.isFinite(maxId) || minId > maxId) {
-        return null;
-    }
-
-    const randomId = Math.floor(Math.random() * (maxId - minId + 1)) + minId;
-    const { rows } = await pool.query(
-        'SELECT id, url, embed, text FROM posts WHERE id >= $1 ORDER BY id LIMIT 1',
-        [randomId]
-    );
-
-    if (rows[0]) {
-        return rows[0];
-    }
-
-    const { rows: fallback } = await pool.query(
-        'SELECT id, url, embed, text FROM posts ORDER BY id LIMIT 1'
-    );
-    return fallback[0] ?? null;
-}
-
-async function getPostByIdOrNext(startId) {
-    if (!Number.isFinite(startId)) {
-        return null;
-    }
-
-    const { rows } = await pool.query(
-        'SELECT id, url, embed, text FROM posts WHERE id >= $1 ORDER BY id LIMIT 1',
-        [startId]
-    );
-
-    if (rows[0]) {
-        return rows[0];
-    }
-
-    const { rows: fallback } = await pool.query(
-        'SELECT id, url, embed, text FROM posts ORDER BY id LIMIT 1'
-    );
-    return fallback[0] ?? null;
-}
-
 async function getRandomPost() {
-    const { count, minId, maxId } = await getPostBounds();
-    if (count === 0) {
-        return null;
-    }
+    const { rows } = await pool.query(
+        'SELECT id, url, embed, text FROM posts ORDER BY RANDOM() LIMIT 1'
+    );
+    return rows[0] ?? null;
+}
 
-    return getRandomPostByBounds(minId, maxId);
+async function getRandomPosts(limit = 10) {
+    const { rows } = await pool.query(
+        'SELECT id, url, embed, text FROM posts ORDER BY RANDOM() LIMIT $1',
+        [limit]
+    );
+    return rows;
 }
 
 async function fetchEmbed(post) {
@@ -97,4 +62,4 @@ async function fetchEmbed(post) {
     return promise;
 }
 
-module.exports = { getPostBounds, getRandomPostByBounds, getPostByIdOrNext, getRandomPost, fetchEmbed };
+module.exports = { getPostBounds, getRandomPost, getRandomPosts, fetchEmbed };
