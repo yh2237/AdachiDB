@@ -89,11 +89,11 @@ rateLimit:
     - PostgreSQLデータベースのバックアップを `backup/posts_db/` に作成します。
 - `npm run db:collect`
     - [足立レイ語録をまとめてみた](https://herrkf.com/adachi-words) からツイートURLを収集してデータベースに保存します。
-- `npm run db:add_url -- <url>`
+- `npm run db:add_url [url]`
     - 指定したURLをデータベースに追加します。
-- `npm run db:delete_url -- <url>`
+- `npm run db:delete_url [url]`
     - 指定したURLをデータベースから削除します。
-- `npm run db:import_url`
-    - `data/saved_urls.json` からURLをデータベースに一括インポートします。
+- `npm run db:import_url [json_path]`
+    - jsonからURLをデータベースに一括インポートします。指定しない場合 `data/saved_urls.json` を使用。
 - `npm run db:db_to_json`
     - データベースの内容をJSONファイルに書き出します。
