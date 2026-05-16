@@ -3,44 +3,44 @@
  * @returns {string}
  */
 function decodeHtmlEntities(text) {
-  if (!text) return '';
+    if (!text) return '';
 
-  const entities = {
-    '&amp;': '&',
-    '&lt;': '<',
-    '&gt;': '>',
-    '&quot;': '"',
-    '&#39;': "'",
-    '&apos;': "'",
-    '&#x27;': "'",
-    '&nbsp;': ' ',
-    '&mdash;': '—',
-    '&ndash;': '–',
-    '&hellip;': '…',
-    '&laquo;': '«',
-    '&raquo;': '»',
-    '&lsquo;': '\u2018',
-    '&rsquo;': '\u2019',
-    '&ldquo;': '\u201C',
-    '&rdquo;': '\u201D',
-    '&bull;': '•',
-    '&middot;': '·',
-    '&times;': '×',
-    '&divide;': '÷',
-    '&copy;': '©',
-    '&reg;': '®',
-    '&trade;': '™',
-  };
+    const entities = {
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#39;': "'",
+        '&apos;': "'",
+        '&#x27;': "'",
+        '&nbsp;': ' ',
+        '&mdash;': '—',
+        '&ndash;': '–',
+        '&hellip;': '…',
+        '&laquo;': '«',
+        '&raquo;': '»',
+        '&lsquo;': '\u2018',
+        '&rsquo;': '\u2019',
+        '&ldquo;': '\u201C',
+        '&rdquo;': '\u201D',
+        '&bull;': '•',
+        '&middot;': '·',
+        '&times;': '×',
+        '&divide;': '÷',
+        '&copy;': '©',
+        '&reg;': '®',
+        '&trade;': '™',
+    };
 
-  let decoded = text;
-  for (const [entity, char] of Object.entries(entities)) {
-    decoded = decoded.split(entity).join(char);
-  }
+    let decoded = text;
+    for (const [entity, char] of Object.entries(entities)) {
+        decoded = decoded.split(entity).join(char);
+    }
 
-  decoded = decoded.replace(/&#(\d+);/g, (match, code) => String.fromCharCode(parseInt(code, 10)));
-  decoded = decoded.replace(/&#x([0-9A-Fa-f]+);/g, (match, code) => String.fromCharCode(parseInt(code, 16)));
+    decoded = decoded.replace(/&#(\d+);/g, (match, code) => String.fromCharCode(parseInt(code, 10)));
+    decoded = decoded.replace(/&#x([0-9A-Fa-f]+);/g, (match, code) => String.fromCharCode(parseInt(code, 16)));
 
-  return decoded;
+    return decoded;
 }
 
 /**
@@ -48,39 +48,39 @@ function decodeHtmlEntities(text) {
  * @returns {string}
  */
 function extractTextFromEmbed(html) {
-  if (!html) return '';
-  const patterns = [
-    /<p\s+lang="[^"]*"\s+dir="ltr">([\s\S]*?)<\/p>/i,
-    /<p\s+dir="ltr">([\s\S]*?)<\/p>/i,
-    /<blockquote[^>]*>[\s\S]*?<p>([\s\S]*?)<\/p>/i,
-  ];
+    if (!html) return '';
+    const patterns = [
+        /<p\s+lang="[^"]*"\s+dir="ltr">([\s\S]*?)<\/p>/i,
+        /<p\s+dir="ltr">([\s\S]*?)<\/p>/i,
+        /<blockquote[^>]*>[\s\S]*?<p>([\s\S]*?)<\/p>/i,
+    ];
 
-  let rawText = '';
+    let rawText = '';
 
-  for (const pattern of patterns) {
-    const match = html.match(pattern);
-    if (match && match[1]) {
-      rawText = match[1];
-      break;
+    for (const pattern of patterns) {
+        const match = html.match(pattern);
+        if (match && match[1]) {
+            rawText = match[1];
+            break;
+        }
     }
-  }
 
-  if (!rawText) return '';
+    if (!rawText) return '';
 
-  let text = rawText
-    .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<a[^>]*>([\s\S]*?)<\/a>/gi, '$1')
-    .replace(/<[^>]+>/g, '')
-    .trim();
+    let text = rawText
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<a[^>]*>([\s\S]*?)<\/a>/gi, '$1')
+        .replace(/<[^>]+>/g, '')
+        .trim();
 
-  text = decodeHtmlEntities(text);
-  text = text.replace(/[ \t]+/g, ' ');
-  text = text.replace(/\n{3,}/g, '\n\n');
+    text = decodeHtmlEntities(text);
+    text = text.replace(/[ \t]+/g, ' ');
+    text = text.replace(/\n{3,}/g, '\n\n');
 
-  return text.trim();
+    return text.trim();
 }
 
 module.exports = {
-  extractTextFromEmbed,
-  decodeHtmlEntities
+    extractTextFromEmbed,
+    decodeHtmlEntities
 };

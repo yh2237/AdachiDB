@@ -9,39 +9,39 @@ const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
 
 if (config.server.frontend) {
-  router.use(express.static(path.join(__dirname, '..', 'frontend')));
+    router.use(express.static(path.join(__dirname, '..', 'frontend')));
 
-  router.get('/index', (req, res) => {
-    res.redirect(301, '/');
-  });
+    router.get('/index', (req, res) => {
+        res.redirect(301, '/');
+    });
 
-  router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
-  });
+    router.get('/', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+    });
 
-  router.get('/10cont', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', '10cont.html'));
-  });
+    router.get('/10cont', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'frontend', '10cont.html'));
+    });
 
-  router.get('/search', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'search.html'));
-  });
+    router.get('/search', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'search.html'));
+    });
 
-  router.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'about.html'));
-  });
+    router.get('/about', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'about.html'));
+    });
 
-  router.get('/docs', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'docs.html'));
-  });
+    router.get('/docs', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'docs.html'));
+    });
 
-  router.get('/db', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'db.html'));
-  });
+    router.get('/db', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'db.html'));
+    });
 
-  console.log("[INFO] フロントエンド配信: 有効");
+    console.log("[INFO] フロントエンド配信: 有効");
 } else {
-  console.log("[INFO] フロントエンド配信: 無効");
+    console.log("[INFO] フロントエンド配信: 無効");
 }
 
 module.exports = router;
