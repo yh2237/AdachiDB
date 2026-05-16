@@ -7,7 +7,7 @@ const pool = new Pool();
 
 const TWEET_URL_RE = /^https:\/\/(x\.com|twitter\.com)\/[^/]+\/status\/\d+$/;
 
-const jsonPath = path.join(__dirname, '..', 'data', 'saved_urls.json');
+const jsonPath = path.join(process.argv[2] || __dirname, '..', 'data', 'saved_urls.json');
 let data;
 try {
     data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
