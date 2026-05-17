@@ -1,86 +1,105 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>足立データベース - 足立語録サーチ</title>
-        <meta name="description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
 
-        <meta property="og:title" content="足立データベース - 足立語録サーチ">
-        <meta property="og:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
-        <meta property="og:site_name" content="足立データベース - 足立語録サーチ">
-        <meta property="og:type" content="article">
-        <meta property="og:url" content="https://adachidb.net/search">
-        <meta property="og:image" content="https://adachidb.net/img/ogp2.png">
+<head>
+    <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>足立データベース - 足立語録サーチ</title>
+    <meta name="description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
 
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:title" content="足立データベース - 足立語録サーチ">
-        <meta name="twitter:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
-        <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
+    <meta property="og:title" content="足立データベース - 足立語録サーチ">
+    <meta property="og:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta property="og:site_name" content="足立データベース - 足立語録サーチ">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://adachidb.net/search">
+    <meta property="og:image" content="https://adachidb.net/img/ogp2.png">
 
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/header.css">
-        <link rel="stylesheet" href="css/search.css">
-        <link rel="icon" href="img/favicon.ico">
-    </head>
-    <body>
-        <header class="header">
-            <div class="header-inner">
-                <h4>足立データベース</h4>
-                <a href="/"><img src="/img/banner.png" alt="足立データベース" class="header-banner"></a>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="足立データベース - 足立語録サーチ">
+    <meta name="twitter:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
 
-                <nav class="header-nav">
-                    <ul class="header-nav-list">
-                        <a href="/"><li class="header-nav-item">ランダム足立語録</li></a>
-                        <a href="/10cont"><li class="header-nav-item">ランダム足立語録10連版</li></a>
-                        <a href="/search"><li class="header-nav-item select">足立語録サーチ</li></a>
-                        <a href="/about"><li class="header-nav-item">このサイトについて</li></a>
-                    </ul>
-                </nav>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="icon" href="img/favicon.ico">
+</head>
 
-                <div class="header-ham" id="ham">
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
-                </div>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <h4>足立データベース</h4>
+            <a href="/"><img src="/img/banner.png" alt="足立データベース" class="header-banner"></a>
 
+            <nav class="header-nav">
+                <ul class="header-nav-list">
+                    <a href="/">
+                        <li class="header-nav-item">ランダム足立語録</li>
+                    </a>
+                    <a href="/10cont">
+                        <li class="header-nav-item">ランダム足立語録10連版</li>
+                    </a>
+                    <a href="/search">
+                        <li class="header-nav-item select">足立語録サーチ</li>
+                    </a>
+                    <a href="/about">
+                        <li class="header-nav-item">このサイトについて</li>
+                    </a>
+                </ul>
+            </nav>
+
+            <div class="header-ham" id="ham">
+                <div class="menu-line"></div>
+                <div class="menu-line"></div>
+                <div class="menu-line"></div>
             </div>
-        </header>
 
-        <div class="overlay" id="overlay"></div>
-
-        <nav class="slide-menu" id="slide-menu">
-            <ul>
-                <a href="/"><li class="slide-menu-item">ランダム足立語録</li></a>
-                <a href="/10cont"><li class="slide-menu-item">ランダム足立語録10連版</li></a>
-                <a href="/search"><li class="slide-menu-item select">足立語録サーチ</li></a>
-                <a href="/about"><li class="slide-menu-item">このサイトについて</li></a>
-            </ul>
-        </nav>
-
-        <div class="main-content">
-            <h1 class="title">足立語録サーチ</h1>
-            <h5>足立レイのツイートをインクリメンタルサーチで検索できます</h5>
-            <div class="search-container">
-                検索：<input type="text" id="search-input" placeholder="キーワードを入力...">
-                <br>
-                日付範囲：<input type="date" id="from-input"> から <input type="date" id="to-input">
-                <br>
-                取得件数：<input type="number" id="limit-input" value="100" min="1" max="50000">
-            </div>
-            <br>
-            <div id="search-results"></div>
-            <br>
-            <br>
-            <a href="/">ランダム足立語録</a>
-            |
-            <a href="/10cont">10連ガチャ版</a>
-            |
-            <a href="/about">このサイトについて</a>
         </div>
-        <script type="module" src="js/search.js"></script>
-        <script type="module" src="js/slide-menu.js"></script>
-    </body>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <nav class="slide-menu" id="slide-menu">
+        <ul>
+            <a href="/">
+                <li class="slide-menu-item">ランダム足立語録</li>
+            </a>
+            <a href="/10cont">
+                <li class="slide-menu-item">ランダム足立語録10連版</li>
+            </a>
+            <a href="/search">
+                <li class="slide-menu-item select">足立語録サーチ</li>
+            </a>
+            <a href="/about">
+                <li class="slide-menu-item">このサイトについて</li>
+            </a>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="title">足立語録サーチ</h1>
+        <h5>足立レイのツイートをインクリメンタルサーチで検索できます</h5>
+        <div class="search-container">
+            検索：<input type="text" id="search-input" placeholder="キーワードを入力...">
+            <br>
+            日付範囲：<input type="date" id="from-input"> から <input type="date" id="to-input">
+            <br>
+            取得件数：<input type="number" id="limit-input" value="100" min="1" max="50000">
+        </div>
+        <br>
+        <div id="search-results"></div>
+        <br>
+        <br>
+        <a href="/">ランダム足立語録</a>
+        |
+        <a href="/10cont">10連ガチャ版</a>
+        |
+        <a href="/about">このサイトについて</a>
+    </div>
+    <script type="module" src="js/search.js"></script>
+    <script type="module" src="js/slide-menu.js"></script>
+</body>
+
 </html>

@@ -1,106 +1,134 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>足立データベース - このサイトについて</title>
-        <meta name="description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
 
-        <meta property="og:title" content="足立データベース - このサイトについて">
-        <meta property="og:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
-        <meta property="og:site_name" content="足立データベース - このサイトについて">
-        <meta property="og:type" content="article">
-        <meta property="og:url" content="https://adachidb.net/about">
-        <meta property="og:image" content="https://adachidb.net/img/ogp2.png">
+<head>
+    <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>足立データベース - このサイトについて</title>
+    <meta name="description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
 
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:title" content="足立データベース - このサイトについて">
-        <meta name="twitter:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
-        <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
+    <meta property="og:title" content="足立データベース - このサイトについて">
+    <meta property="og:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta property="og:site_name" content="足立データベース - このサイトについて">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://adachidb.net/about">
+    <meta property="og:image" content="https://adachidb.net/img/ogp2.png">
 
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/header.css">
-        <link rel="icon" href="img/favicon.ico">
-    </head>
-    <body>
-        <header class="header">
-            <div class="header-inner">
-                <h4>足立データベース</h4>
-                <a href="/"><img src="/img/banner.png" alt="足立データベース" class="header-banner"></a>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="足立データベース - このサイトについて">
+    <meta name="twitter:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
 
-                <nav class="header-nav">
-                    <ul class="header-nav-list">
-                        <a href="/"><li class="header-nav-item">ランダム足立語録</li></a>
-                        <a href="/10cont"><li class="header-nav-item">ランダム足立語録10連版</li></a>
-                        <a href="/search"><li class="header-nav-item">足立語録サーチ</li></a>
-                        <a href="/about"><li class="header-nav-item select">このサイトについて</li></a>
-                    </ul>
-                </nav>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="icon" href="img/favicon.ico">
+</head>
 
-                <div class="header-ham" id="ham">
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
-                </div>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <h4>足立データベース</h4>
+            <a href="/"><img src="/img/banner.png" alt="足立データベース" class="header-banner"></a>
 
+            <nav class="header-nav">
+                <ul class="header-nav-list">
+                    <a href="/">
+                        <li class="header-nav-item">ランダム足立語録</li>
+                    </a>
+                    <a href="/10cont">
+                        <li class="header-nav-item">ランダム足立語録10連版</li>
+                    </a>
+                    <a href="/search">
+                        <li class="header-nav-item">足立語録サーチ</li>
+                    </a>
+                    <a href="/about">
+                        <li class="header-nav-item select">このサイトについて</li>
+                    </a>
+                </ul>
+            </nav>
+
+            <div class="header-ham" id="ham">
+                <div class="menu-line"></div>
+                <div class="menu-line"></div>
+                <div class="menu-line"></div>
             </div>
-        </header>
 
-        <div class="overlay" id="overlay"></div>
-
-        <nav class="slide-menu" id="slide-menu">
-            <ul>
-                <a href="/"><li class="slide-menu-item">ランダム足立語録</li></a>
-                <a href="/10cont"><li class="slide-menu-item">ランダム足立語録10連版</li></a>
-                <a href="/search"><li class="slide-menu-item">足立語録サーチ</li></a>
-                <a href="/about"><li class="slide-menu-item select">このサイトについて</li></a>
-            </ul>
-        </nav>
-
-        <div class="main-content2">
-            <h1 class="title">このサイトについて</h1>
-            <hr>
-                <p>
-                    <a href="https://x.com/@adachirei0" target="_blank">足立レイのBot</a>のツイートをランダムに表示したり、検索したりできます。<br>
-                    ツイートは動的に取得されることなく既にツイートのURLを保存したDBから引っ張ってきます。
-                </p>
-                <p id="db-stats">
-                    ツイートデータを読み込み中...
-                </p>
-                <p>
-                    <b>もちろんですがこのサイトは非公式です。</b>
-                </p>
-            <br>
-            <p>
-                ソースコード（GitHub）：<a href="https://github.com/yh2237/AdachiDB/" target="_blank">yh2237/AdachiDB</a><br>
-                データーベースリスト（デバック用）：<a href="/db" target="_blank">/db</a><br>
-                APIドキュメント：<a href="/docs" target="_blank">/docs</a>
-            </p>
-            <br>
-            <p>
-                開発：<a href="https://x.com/2237yh" target="_blank">@2237yh</a> - <a href="https://0yh.dev" target="_blank">0yh.dev</a>
-                <br>
-                一部協力：<a href="https://x.com/herrkf" target="_blank">@herrkf</a> - <a href="https://herrkf.com/" target="_blank">herrkf.com</a>
-            </p>
-            <p>何かあれば <a href="https://x.com/2237yh" target="_blank">@2237yh</a> または <a href="https://0yh.dev/contact.html" target="_blank">0yh.dev/contact</a> までお願いします。</p>
-            <a href="/">Topへ戻る</a><br>
-            <hr>
-            <p class="UpdateHistory">
-                <b>更新履歴</b>
-                <ul class="UpdateHistoryLINE" id="list"></ul>
-            </p>
-            <hr>
-            <p><a href="https://mechanicalgirl.jp/" target="_blank">メカニカルガール 公式サイト</a></p>
-            <p><a href="https://herrkf.com/adachi-words" target="_blank">足立レイ語録をまとめてみた</a></p>
-            <p><a href="https://x.com/adachirei0" target="_blank">@adachirei0</a> - 
-            <a href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @adachirei0</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-            <p><a href="https://x.com/herrkf" target="_blank">@herrkf</a> -
-            <a href="https://twitter.com/herrkf?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @herrkf</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
         </div>
-        <script type="module" src="js/slide-menu.js"></script>
-        <script type="module" src="js/history-get.js"></script>
-        <script type="module" src="js/about.js"></script>
-    </body>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <nav class="slide-menu" id="slide-menu">
+        <ul>
+            <a href="/">
+                <li class="slide-menu-item">ランダム足立語録</li>
+            </a>
+            <a href="/10cont">
+                <li class="slide-menu-item">ランダム足立語録10連版</li>
+            </a>
+            <a href="/search">
+                <li class="slide-menu-item">足立語録サーチ</li>
+            </a>
+            <a href="/about">
+                <li class="slide-menu-item select">このサイトについて</li>
+            </a>
+        </ul>
+    </nav>
+
+    <div class="main-content2">
+        <h1 class="title">このサイトについて</h1>
+        <hr>
+        <p>
+            <a href="https://x.com/@adachirei0" target="_blank">足立レイのBot</a>のツイートをランダムに表示したり、検索したりできます。<br>
+            ツイートは動的に取得されることなく既にツイートのURLを保存したDBから引っ張ってきます。
+        </p>
+        <p id="db-stats">
+            ツイートデータを読み込み中...
+        </p>
+        <p>
+            <b>もちろんですがこのサイトは非公式です。</b>
+        </p>
+        <br>
+        <p>
+            ソースコード（GitHub）：<a href="https://github.com/yh2237/AdachiDB/" target="_blank">yh2237/AdachiDB</a><br>
+            データーベースリスト（デバック用）：<a href="/db" target="_blank">/db</a><br>
+            APIドキュメント：<a href="/docs" target="_blank">/docs</a>
+        </p>
+        <br>
+        <p>
+            開発：<a href="https://x.com/2237yh" target="_blank">@2237yh</a> - <a href="https://0yh.dev"
+                target="_blank">0yh.dev</a>
+            <br>
+            一部協力：<a href="https://x.com/herrkf" target="_blank">@herrkf</a> - <a href="https://herrkf.com/"
+                target="_blank">herrkf.com</a>
+        </p>
+        <p>何かあれば <a href="https://x.com/2237yh" target="_blank">@2237yh</a> または <a href="https://0yh.dev/contact.html"
+                target="_blank">0yh.dev/contact</a> までお願いします。</p>
+        <a href="/">Topへ戻る</a><br>
+        <hr>
+        <p class="UpdateHistory">
+            <b>更新履歴</b>
+        <ul class="UpdateHistoryLINE" id="list"></ul>
+        </p>
+        <hr>
+        <p><a href="https://mechanicalgirl.jp/" target="_blank">メカニカルガール 公式サイト</a></p>
+        <p><a href="https://herrkf.com/adachi-words" target="_blank">足立レイ語録をまとめてみた</a></p>
+        <p><a href="https://x.com/adachirei0" target="_blank">@adachirei0</a> -
+            <a href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw" class="twitter-follow-button"
+                data-show-count="false">Follow @adachirei0</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+        <p><a href="https://x.com/herrkf" target="_blank">@herrkf</a> -
+            <a href="https://twitter.com/herrkf?ref_src=twsrc%5Etfw" class="twitter-follow-button"
+                data-show-count="false">Follow @herrkf</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </p>
+    </div>
+    <script type="module" src="js/slide-menu.js"></script>
+    <script type="module" src="js/history-get.js"></script>
+    <script type="module" src="js/about.js"></script>
+</body>
+
 </html>
