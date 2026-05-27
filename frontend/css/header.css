@@ -1,137 +1,125 @@
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--header-height);
-  background-color: var(--color-header-bg);
-  box-shadow: 0 2px 4px var(--color-header-shadow);
-  z-index: var(--z-header);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background-color: var(--color-header-bg);
+    z-index: var(--z-header);
 }
 
 .header-inner {
-  display: flex;
-  align-items: center;
-  max-width: 1100px;
-  height: 100%;
-  padding: 0 0.8em;
-  margin: 0 auto;
-  font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    max-width: 1100px;
+    height: 100%;
+    padding: 0 0.8em;
+    margin: 0 auto;
+    font-size: 1.2em;
 }
 
 .header-banner {
-  margin: 10px 20px;
-  width: 120px;
+    margin: 10px 20px;
+    width: 120px;
 }
 
 .header-nav {
-  margin-left: auto;
+    margin-left: auto;
 }
 
 .header-nav-list {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .header-nav-item {
-  padding: var(--spacing-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-muted);
-  text-align: center;
-  list-style: none;
-  transition: background-color var(--transition-fast);
-}
-
-.header-nav-item:hover {
-  background-color: var(--color-header-hover);
+    padding: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-muted);
+    text-align: center;
+    list-style: none;
 }
 
 .header-nav-item.select {
-  color: #444;
+    color: #444;
 }
 
 .header-ham {
-  display: none;
-  cursor: pointer;
-  margin-left: auto;
-  padding: var(--spacing-sm);
+    display: none;
+    cursor: pointer;
+    margin-left: auto;
+    padding: var(--spacing-sm);
 }
 
 .menu-line {
-  width: 20px;
-  height: 3px;
-  margin: 4px 0;
-  background-color: #333;
-  transition: transform var(--transition-base);
+    width: 20px;
+    height: 3px;
+    margin: 4px 0;
+    background-color: #333;
 }
 
 .slide-menu {
-  position: fixed;
-  top: 0;
-  left: -350px;
-  width: var(--sidebar-width);
-  height: 100vh;
-  background-color: var(--color-header-bg);
-  box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
-  padding: var(--spacing-lg);
-  transition: left var(--transition-base);
-  z-index: var(--z-sidebar);
+    position: fixed;
+    top: 0;
+    left: -350px;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--color-header-bg);
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
+    padding: var(--spacing-lg);
+    transition: left 0.2s ease;
+    z-index: var(--z-sidebar);
 }
 
 .slide-menu.open {
-  left: 0;
+    left: 0;
 }
 
 .slide-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .slide-menu-item {
-  display: block;
-  padding: var(--spacing-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-muted);
-  text-align: left;
-}
-
-.slide-menu-item:hover {
-  background-color: var(--color-header-hover);
+    display: block;
+    padding: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-muted);
+    text-align: left;
 }
 
 .slide-menu-item.select {
-  color: #444;
+    color: #444;
 }
 
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity var(--transition-base);
-  z-index: var(--z-overlay);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    z-index: var(--z-overlay);
 }
 
 .overlay.show {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 @media screen and (max-width: 800px) {
-  .header-nav-list {
-    display: none !important;
-  }
+    .header-nav-list {
+        display: none !important;
+    }
 
-  .header-ham {
-    display: block;
-  }
+    .header-ham {
+        display: block;
+    }
 }
