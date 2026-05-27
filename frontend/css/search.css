@@ -3,3 +3,23 @@
   font-size: 0.8em;
   color: var(--color-text-primary);
 }
+
+#search-results {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  .post-date {
+    white-space: normal;
+  }
+
+  .search-results-table {
+    table-layout: auto;
+  }
+
+  .search-results-table th,
+  .search-results-table td {
+    word-break: break-word;
+  }
+}
