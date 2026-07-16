@@ -1,7 +1,7 @@
 :root {
     --color-primary: #f74008;
     --color-secondary: #6c757d;
-    --color-background: #efefef;
+    --color-background: #ffffff;
     --color-surface: #ffffff;
     --color-surface-alt: #fdfdfe;
     --color-border: #e9ecef;
@@ -22,8 +22,8 @@
     --color-code-text: #c9d1d9;
     --color-code-muted: #8b949e;
 
-    --font-family-base: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    --font-family-mono: "Fira Code", monospace;
+    --font-family-base: "Segoe UI", sans-serif;
+    --font-family-mono: "Segoe UI";
 
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
