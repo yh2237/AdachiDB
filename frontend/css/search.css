@@ -1,25 +1,109 @@
-.post-date {
-  white-space: nowrap;
-  font-size: 0.8em;
-  color: var(--color-text-primary);
+.search-form {
+    margin: var(--spacing-lg) 0;
+    text-align: center;
 }
 
-#search-results {
-  overflow-x: auto;
-  max-width: 100%;
+.search-line {
+    margin: var(--spacing-sm) 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+}
+
+.search-input {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    outline: none;
+    width: 250px;
+    max-width: 100%;
+}
+
+.search-input:focus {
+    border-color: var(--color-primary);
+}
+
+.search-input-narrow {
+    width: 100px;
+}
+
+.search-date {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    outline: none;
+}
+
+.search-date:focus {
+    border-color: var(--color-primary);
+}
+
+.search-select {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    outline: none;
+    background: var(--color-surface);
+}
+
+.search-select:focus {
+    border-color: var(--color-primary);
+}
+
+.search-summary {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.search-results-list {
+    text-align: left;
+}
+
+.search-result-item {
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: baseline;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-date {
+    white-space: nowrap;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    min-width: 120px;
+}
+
+.search-result-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    word-break: break-all;
+    line-height: 1.6;
+}
+
+.search-result-link:hover {
+    text-decoration: underline;
 }
 
 @media (max-width: 600px) {
-  .post-date {
-    white-space: normal;
-  }
+    .search-input {
+        width: 180px;
+    }
 
-  .search-results-table {
-    table-layout: auto;
-  }
+    .search-result-item {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
 
-  .search-results-table th,
-  .search-results-table td {
-    word-break: break-word;
-  }
+    .search-result-date {
+        min-width: auto;
+    }
 }

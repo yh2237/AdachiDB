@@ -151,7 +151,7 @@ router.get('/posts/random', async (req, res) => {
         }
 
         if (post.embed) {
-            return res.json({ id: post.id, url: post.url, embed: post.embed, text: post.text });
+            return res.json({ id: post.id, url: post.url, embed: post.embed, text: post.text, status: post.status, createdAt: post.createdAt });
         }
 
         const result = await fetchEmbed(post);
@@ -178,7 +178,7 @@ router.get('/posts/random10', async (req, res) => {
                     results.push(result);
                 } catch (err) {
                     console.error(`[ERROR] fetchEmbed failed for ${row.url}:`, err.message);
-                    results.push({ id: row.id, url: row.url, embed: null, text: null, error: 'oEmbed取得失敗' });
+                    results.push({ id: row.id, url: row.url, embed: null, text: null, status: row.status, createdAt: row.createdAt, error: 'oEmbed取得失敗' });
                 }
             }
         }
@@ -211,7 +211,7 @@ router.get('/posts/search', async (req, res) => {
     try {
         const params = [`%${query}%`];
         let sql = `
-        SELECT id, url, embed, text, "createdAt"
+        SELECT id, url, embed, text, status, "createdAt"
         FROM posts
         WHERE text ILIKE $1
         `;
@@ -418,36 +418,48 @@ router.get('/posts/date-range', async (req, res) => {
     }
 });
 
-router.get('/pending-count', async (req, res) => {
+router.get('/posts/status-counts', async (req, res) => {
     try {
-        const { rows } = await pool.query("SELECT COUNT(*) AS count FROM posts WHERE status = 'pending'");
-        res.json({ pending: parseInt(rows[0].count, 10) });
+        const { rows } = await pool.query(`
+            SELECT
+                COUNT(*) FILTER (WHERE status = 'pending') AS "pending",
+                COUNT(*) FILTER (WHERE text IS NULL OR text = '') AS "pendingText",
+                COUNT(*) FILTER (WHERE "createdAt" IS NULL) AS "uncreated"
+            FROM posts
+        `);
+        const row = rows[0];
+        res.json({
+            pending: parseInt(row.pending, 10),
+            pendingText: parseInt(row.pendingText, 10),
+            uncreated: parseInt(row.uncreated, 10)
+        });
     } catch (err) {
-        return errorResponse(res, 500, 'DB query failed', `pending-count: ${err.message}`);
+        return errorResponse(res, 500, 'DB query failed', `posts/status-counts: ${err.message}`);
     }
 });
 
-router.get('/pending-text-count', async (req, res) => {
+router.get('/posts/recent', async (req, res) => {
+    let limit;
     try {
-        const { rows } = await pool.query("SELECT COUNT(*) AS count FROM posts WHERE text IS NULL OR text = ''");
-        res.json({ pendingText: parseInt(rows[0].count, 10) });
+        limit = parseLimitParam(req.query.limit, 1);
     } catch (err) {
-        return errorResponse(res, 500, 'DB query failed', `pending-text-count: ${err.message}`);
+        return errorResponse(res, 400, err.message);
     }
-});
 
-router.get('/uncreated-count', async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT COUNT(*) AS count FROM posts WHERE "createdAt" IS NULL');
-        res.json({ uncreated: parseInt(rows[0].count, 10) });
+        const { rows } = await pool.query(
+            'SELECT id, url, embed, text, status, "createdAt" FROM posts ORDER BY id DESC LIMIT $1',
+            [limit]
+        );
+        res.json(rows);
     } catch (err) {
-        return errorResponse(res, 500, 'DB query failed', `uncreated-count: ${err.message}`);
+        return errorResponse(res, 500, 'Internal Server Error', `posts/recent: ${err.message}`);
     }
 });
 
 router.get('/status', async (req, res) => {
     try {
-        const stats = getStats();
+        const stats = await getStats();
         res.json(stats);
     } catch (err) {
         return errorResponse(res, 500, 'Failed to get stats', `status: ${err.message}`);

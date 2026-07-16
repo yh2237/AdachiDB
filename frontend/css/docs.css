@@ -133,19 +133,9 @@
     color: #b45309;
 }
 
-.status-code.status-404 {
-    background-color: #fee2e2;
-    color: #dc2626;
-}
-
 .status-code.status-409 {
     background-color: #f3e8ff;
     color: #7c3aed;
-}
-
-.status-code.status-502 {
-    background-color: #fce7f3;
-    color: #be185d;
 }
 
 .docs-nav {

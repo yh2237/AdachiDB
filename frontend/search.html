@@ -85,24 +85,38 @@
     </nav>
 
     <div class="main-content">
-        <h5>足立レイのツイートをインクリメンタルサーチで検索できます</h5>
-        <div class="search-container">
-            検索：<input type="text" id="search-input" placeholder="キーワードを入力...">
-            <br>
-            日付範囲：<input type="date" id="from-input"> から <input type="date" id="to-input">
-            <br>
-            取得件数：<input type="number" id="limit-input" value="100" min="1" max="50000">
+
+        <div class="search-form">
+            <div class="search-line">
+                検索：
+                <input type="text" id="search-input" placeholder="キーワードを入力..." class="search-input">
+            </div>
+            <div class="search-line">
+                日付範囲：
+                <input type="date" id="from-input" class="search-date">
+                〜
+                <input type="date" id="to-input" class="search-date">
+            </div>
+            <div class="search-line">
+                表示件数：
+                <input type="number" id="limit-input" class="search-input search-input-narrow" value="100" min="1" max="50000">
+            </div>
         </div>
-        <br>
-        <div id="search-results"></div>
-        <br>
-        <br>
-        <a href="/">ランダム足立語録</a>
-        |
-        <a href="/10cont">10連ガチャ版</a>
-        |
-        <a href="/about">このサイトについて</a>
+
+        <div id="search-summary" class="search-summary"></div>
+
+        <div id="search-results" class="search-results-list"></div>
+
+        <section class="contents">
+            <a href="/">ランダム足立語録</a>
+            |
+            <a href="/10cont">10連ガチャ版</a>
+            |
+            <a href="/about">このサイトについて</a>
+        </section>
+
     </div>
+
     <script type="module" src="js/search.js"></script>
     <script type="module" src="js/slide-menu.js"></script>
 </body>
