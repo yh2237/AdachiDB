@@ -4,6 +4,13 @@ const yaml = require('js-yaml');
 const { execSync } = require('child_process');
 
 function backup_pg(backupDir, maxBackups) {
+    try {
+        execSync('which pg_dump', { stdio: 'ignore' });
+    } catch {
+        console.log('[INFO] [backup_db] pg_dump が見つからないためスキップ');
+        return;
+    }
+
     if (!fs.existsSync(backupDir)) {
         fs.mkdirSync(backupDir, { recursive: true });
     }
