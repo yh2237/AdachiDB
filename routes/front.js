@@ -8,12 +8,11 @@ const configPath = path.join(__dirname, '..', 'config', 'config.yml');
 const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
 
+const frontendDir = path.join(__dirname, '..', 'frontend');
+const rootDir = path.join(frontendDir, 'root');
+
 if (config.server.frontend) {
-    const rootDir = path.join(__dirname, '..', 'frontend', 'root');
-    if (fs.existsSync(rootDir)) {
-        router.use(express.static(rootDir));
-    }
-    router.use(express.static(path.join(__dirname, '..', 'frontend')));
+    router.use(express.static(frontendDir));
 
     router.get('/index', (req, res) => {
         res.redirect(301, '/');
@@ -43,8 +42,13 @@ if (config.server.frontend) {
         res.sendFile(path.join(__dirname, '..', 'frontend', 'db.html'));
     });
 
-    router.get('/ads.txt', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'frontend', 'ads.txt'));
+    router.get('*', (req, res, next) => {
+        if (!fs.existsSync(rootDir)) return next();
+        const filePath = path.join(rootDir, req.path);
+        if (filePath.startsWith(rootDir) && fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+            return res.sendFile(filePath);
+        }
+        next();
     });
 
     console.log("[INFO] フロントエンド配信: 有効");

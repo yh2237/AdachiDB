@@ -1,0 +1,1 @@
+google.com, pub-123456789, DIRECT, f123456
