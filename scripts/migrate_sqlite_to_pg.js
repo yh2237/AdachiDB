@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const sqlitePath = process.argv[2]
     ? path.resolve(process.argv[2])
-    : path.join(__dirname, '..', 'db', 'adachiPosts.db');
+    : path.resolve('adachiPosts.db');
 
 if (!fs.existsSync(sqlitePath)) {
     console.error(`[ERROR] SQLite ファイルが見つかりません: ${sqlitePath}`);
