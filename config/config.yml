@@ -11,9 +11,6 @@ rateLimit:
   limits:
     api:
       status: 120
-      pending-count: 60
-      pending-text-count: 60
-      uncreated-count: 60
       posts:
         random: 3000
         random10: 2000
@@ -27,9 +24,6 @@ backup:
   enable: true
   interval: 60
   keep: 3
-
-database:
-  countsDB: 'counts.db'
 
 
 scraping:

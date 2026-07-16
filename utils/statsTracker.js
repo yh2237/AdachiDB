@@ -1,21 +1,21 @@
-const { countsDb: db } = require('./database');
+const { postsDb: pool } = require('./database');
 
-const upsertStmt = db.prepare(
-    `INSERT INTO access_counts (endpoint, count) VALUES (?, 1)
-    ON CONFLICT(endpoint) DO UPDATE SET count = count + 1`
-);
-
-function trackAccess(endpoint) {
+async function trackAccess(endpoint) {
     try {
-        upsertStmt.run(endpoint);
+        await pool.query(
+            `INSERT INTO access_counts (endpoint, count) VALUES ($1, 1)
+            ON CONFLICT (endpoint) DO UPDATE SET count = access_counts.count + 1`,
+            [endpoint]
+        );
     } catch (err) {
         console.error(`[ERROR] [statsTracker] Failed to track access for ${endpoint}:`, err.message);
     }
 }
 
-function getStats() {
+async function getStats() {
     try {
-        return db.prepare('SELECT * FROM access_counts ORDER BY count DESC').all();
+        const { rows } = await pool.query('SELECT * FROM access_counts ORDER BY count DESC');
+        return rows;
     } catch (err) {
         console.error(`[ERROR] [statsTracker] Failed to get stats:`, err.message);
         return [];

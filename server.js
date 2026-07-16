@@ -87,10 +87,7 @@ app.use('/api/posts/export', (req, res, next) => {
 });
 
 const apiEndpointMap = {
-    status: '/api/status',
-    'pending-count': '/api/pending-count',
-    'pending-text-count': '/api/pending-text-count',
-    'uncreated-count': '/api/uncreated-count'
+    status: '/api/status'
 };
 
 Object.entries(apiEndpointMap).forEach(([key, route]) => {
@@ -106,10 +103,18 @@ Object.entries(apiEndpointMap).forEach(([key, route]) => {
     app.use(route, limiter);
 });
 
+const trackedApiPaths = new Set([
+    '/api/status',
+    '/api/posts/random', '/api/posts/random10', '/api/posts/search',
+    '/api/posts/id', '/api/posts/all', '/api/posts/export', '/api/posts/add',
+    '/api/posts/count', '/api/posts/date-range',
+    '/api/posts/status-counts', '/api/posts/recent'
+]);
+
 app.use((req, res, next) => {
-    if (req.path.startsWith('/api/')) {
+    if (trackedApiPaths.has(req.path)) {
         trackAccess(req.path);
-    } else if (!path.extname(req.path)) {
+    } else if (!req.path.startsWith('/api/') && !path.extname(req.path)) {
         trackAccess('site_access');
     }
     next();

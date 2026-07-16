@@ -16,6 +16,13 @@ async function main() {
             "createdAt" TEXT)
         `);
         console.log('[INFO] [init_db] postsテーブルを初期化しました');
+
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS access_counts (
+            endpoint  TEXT PRIMARY KEY,
+            count     INTEGER NOT NULL DEFAULT 0)
+        `);
+        console.log('[INFO] [init_db] access_countsテーブルを初期化しました');
     } finally {
         client.release();
         await pool.end();

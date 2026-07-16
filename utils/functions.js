@@ -17,14 +17,14 @@ async function getPostBounds() {
 
 async function getRandomPost() {
     const { rows } = await pool.query(
-        'SELECT id, url, embed, text FROM posts ORDER BY RANDOM() LIMIT 1'
+        'SELECT id, url, embed, text, status, "createdAt" FROM posts ORDER BY RANDOM() LIMIT 1'
     );
     return rows[0] ?? null;
 }
 
 async function getRandomPosts(limit = 10) {
     const { rows } = await pool.query(
-        'SELECT id, url, embed, text FROM posts ORDER BY RANDOM() LIMIT $1',
+        'SELECT id, url, embed, text, status, "createdAt" FROM posts ORDER BY RANDOM() LIMIT $1',
         [limit]
     );
     return rows;
@@ -49,7 +49,7 @@ async function fetchEmbed(post) {
                 [data.html, text, post.id]
             );
 
-            return { id: post.id, url: post.url, embed: data.html, text };
+            return { id: post.id, url: post.url, embed: data.html, text, status: 'ok', createdAt: post.createdAt };
         } catch (err) {
             console.error(`[ERROR] oEmbed failed for ${post.url}:`, err.message);
             throw new Error('Failed to fetch oEmbed');
