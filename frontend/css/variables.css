@@ -7,7 +7,7 @@
     --color-border: #e9ecef;
     --color-border-light: #ddd;
 
-    --color-text-primary: #495057;
+    --color-text-primary: #000000;
     --color-text-secondary: #6c757d;
     --color-text-muted: #c2c2c2;
     --color-text-inverse: #ffffff;
@@ -23,7 +23,7 @@
     --color-code-muted: #8b949e;
 
     --font-family-base: "Segoe UI", sans-serif;
-    --font-family-mono: "Segoe UI";
+    --font-family-mono: "Segoe UI", monospace;
 
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
