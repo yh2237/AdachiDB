@@ -20,7 +20,7 @@
     margin-top: 36px;
     margin-bottom: 12px;
     padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .static-page-container p {
@@ -42,7 +42,7 @@
 
 .static-page-container hr {
     border: none;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-border);
     margin: 24px 0;
 }
 
@@ -56,7 +56,7 @@
 }
 
 #content-loading {
-    color: var(--color-text-tertiary);
+    color: var(--color-text-muted);
     text-align: center;
     padding: 40px;
 }
