@@ -78,7 +78,7 @@
 .search-result-date {
     white-space: nowrap;
     font-size: var(--font-size-xs);
-    color: var(--color-text-muted);
+    color: var(--color-text-primary);
     min-width: 120px;
 }
 
