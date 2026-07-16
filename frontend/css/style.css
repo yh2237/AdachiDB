@@ -93,17 +93,6 @@ a {
     background-color: var(--color-info);
 }
 
-.share-btn {
-    display: inline-block;
-    text-decoration: none;
-    color: var(--color-text-inverse);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-    padding: 2px 12px;
-    border-radius: var(--radius-sm);
-    background-color: #000000;
-}
-
 .UpdateHistory {
     text-align: left;
     font-size: 0.9em;
