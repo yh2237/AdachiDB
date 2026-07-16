@@ -9,6 +9,10 @@ const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
 
 if (config.server.frontend) {
+    const rootDir = path.join(__dirname, '..', 'frontend', 'root');
+    if (fs.existsSync(rootDir)) {
+        router.use(express.static(rootDir));
+    }
     router.use(express.static(path.join(__dirname, '..', 'frontend')));
 
     router.get('/index', (req, res) => {
