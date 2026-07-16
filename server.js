@@ -156,15 +156,28 @@ app.use('/api', apiRoutes);
 // ============================================================
 // ============================================================
 
+function isApiRequest(req) {
+    return req.path.startsWith('/api/');
+}
+
 app.use((req, res, next) => {
-    res.status(404);
-    return res.json({ error: `404 Not Found (´・ω・｀). Please see ${config.server.url}/docs for API specifications etc.` });
+    if (isApiRequest(req)) {
+        res.status(404);
+        return res.json({ error: `404 Not Found (´・ω・｀). Please see ${config.server.url}/docs for API specifications etc.` });
+    }
+    res.status(404).sendFile(path.join(__dirname, 'frontend', '404.html'));
 });
 
 app.use((err, req, res, next) => {
+    if (isApiRequest(req)) {
+        const status = err.status || err.statusCode || 500;
+        res.status(status);
+        return res.json({ error: status === 403 ? 'Forbidden (´・ω・｀)' : 'Internal Server Error (´・ω・｀)' });
+    }
     console.error(err.stack);
-    res.status(500);
-    return res.json({ error: 'Internal Server Error (´・ω・｀)' });
+    const status = err.status || err.statusCode || 500;
+    const page = status === 403 ? '403.html' : '500.html';
+    res.status(status).sendFile(path.join(__dirname, 'frontend', page));
 });
 
 app.listen(port, () => {
