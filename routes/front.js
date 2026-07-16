@@ -39,6 +39,10 @@ if (config.server.frontend) {
         res.sendFile(path.join(__dirname, '..', 'frontend', 'db.html'));
     });
 
+    router.get('/ads.txt', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'ads.txt'));
+    });
+
     console.log("[INFO] フロントエンド配信: 有効");
 } else {
     console.log("[INFO] フロントエンド配信: 無効");
