@@ -85,8 +85,6 @@ rateLimit:
     - データベース内のすべてのツイートデータを削除します。
 - `npm run db:backup`
     - PostgreSQLデータベースのバックアップを `backup/posts_db/` に作成します。
-- `npm run db:collect`
-    - [足立レイ語録をまとめてみた](https://herrkf.com/adachi-words) からツイートURLを収集してデータベースに保存します。
 - `npm run db:add_url [url]`
     - 指定したURLをデータベースに追加します。
 - `npm run db:delete_url [url]`
