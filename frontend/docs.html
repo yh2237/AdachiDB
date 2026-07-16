@@ -158,12 +158,12 @@
                     <tr>
                         <td><span class="param-name">q</span></td>
                         <td><span class="param-required required">必須</span></td>
-                        <td>検索キーワード</td>
+                        <td>検索キーワード（200文字以内）</td>
                     </tr>
                     <tr>
                         <td><span class="param-name">limit</span></td>
                         <td><span class="param-required optional">任意</span></td>
-                        <td>取得件数（デフォルト: 100、最大: 40000）</td>
+                        <td>取得件数（デフォルト: 100、最大: 50000）</td>
                     </tr>
                     <tr>
                         <td><span class="param-name">from</span></td>
@@ -234,6 +234,40 @@
         <section class="docs-section">
             <div class="endpoint-header">
                 <span class="endpoint-method get">GET</span>
+                <span class="endpoint-path">/api/posts/recent</span>
+            </div>
+            <p class="section-description">
+                新しい順にツイートを取得します。
+            </p>
+
+            <div class="subsection-label">パラメータ</div>
+            <table class="params-table">
+                <thead>
+                    <tr>
+                        <th>パラメータ</th>
+                        <th>必須</th>
+                        <th>説明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="param-name">limit</span></td>
+                        <td><span class="param-required optional">任意</span></td>
+                        <td>取得件数（デフォルト: 1、最大: 50000）</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="subsection-label">リクエスト例</div>
+            <div class="code-block">
+                <div class="code-header"><span>bash</span></div>
+                <pre><code>curl "https://adachidb.net/api/posts/recent?limit=3"</code></pre>
+            </div>
+        </section>
+
+        <section class="docs-section">
+            <div class="endpoint-header">
+                <span class="endpoint-method get">GET</span>
                 <span class="endpoint-path">/api/posts/all</span>
             </div>
             <p class="section-description">
@@ -253,7 +287,7 @@
                     <tr>
                         <td><span class="param-name">limit</span></td>
                         <td><span class="param-required optional">任意</span></td>
-                        <td>取得件数（デフォルト: 200、最大: 40000）</td>
+                        <td>取得件数（デフォルト: 200、最大: 50000）</td>
                     </tr>
                 </tbody>
             </table>
@@ -262,6 +296,81 @@
             <div class="code-block">
                 <div class="code-header"><span>bash</span></div>
                 <pre><code>curl "https://adachidb.net/api/posts/all?limit=50"</code></pre>
+            </div>
+        </section>
+
+        <section class="docs-section">
+            <div class="endpoint-header">
+                <span class="endpoint-method get">GET</span>
+                <span class="endpoint-path">/api/posts/count</span>
+            </div>
+            <p class="section-description">
+                データベースに保存されているツイートの総数を返します。
+            </p>
+
+            <div class="subsection-label">リクエスト例</div>
+            <div class="code-block">
+                <div class="code-header"><span>bash</span></div>
+                <pre><code>curl "https://adachidb.net/api/posts/count"</code></pre>
+            </div>
+
+            <div class="subsection-label">レスポンス例</div>
+            <div class="code-block">
+                <div class="code-header"><span>JSON</span></div>
+                <pre><code>{
+    "count": 15354
+}</code></pre>
+            </div>
+        </section>
+
+        <section class="docs-section">
+            <div class="endpoint-header">
+                <span class="endpoint-method get">GET</span>
+                <span class="endpoint-path">/api/posts/date-range</span>
+            </div>
+            <p class="section-description">
+                保存されているツイートの最古・最新の日付を返します。
+            </p>
+
+            <div class="subsection-label">リクエスト例</div>
+            <div class="code-block">
+                <div class="code-header"><span>bash</span></div>
+                <pre><code>curl "https://adachidb.net/api/posts/date-range"</code></pre>
+            </div>
+
+            <div class="subsection-label">レスポンス例</div>
+            <div class="code-block">
+                <div class="code-header"><span>JSON</span></div>
+                <pre><code>{
+    "oldest": "2020-04-15",
+    "newest": "2024-02-03"
+}</code></pre>
+            </div>
+        </section>
+
+        <section class="docs-section">
+            <div class="endpoint-header">
+                <span class="endpoint-method get">GET</span>
+                <span class="endpoint-path">/api/posts/status-counts</span>
+            </div>
+            <p class="section-description">
+                oEmbed未取得・本文未取得・日付未取得のツイート数を一度に返します。
+            </p>
+
+            <div class="subsection-label">リクエスト例</div>
+            <div class="code-block">
+                <div class="code-header"><span>bash</span></div>
+                <pre><code>curl "https://adachidb.net/api/posts/status-counts"</code></pre>
+            </div>
+
+            <div class="subsection-label">レスポンス例</div>
+            <div class="code-block">
+                <div class="code-header"><span>JSON</span></div>
+                <pre><code>{
+    "pending": 12,
+    "pendingText": 5,
+    "uncreated": 3
+}</code></pre>
             </div>
         </section>
 
@@ -317,7 +426,7 @@
                     <tr>
                         <td><span class="param-name">all</span></td>
                         <td><span class="param-required optional">任意</span></td>
-                        <td>true / 1 / yes / on のいずれかで、limitを無視して全件取得</td>
+                        <td>true / 1 / yes / on のいずれかで limit を無視して全件取得</td>
                     </tr>
                 </tbody>
             </table>
@@ -325,19 +434,19 @@
             <div class="subsection-label">リクエスト例（CSV）</div>
             <div class="code-block">
                 <div class="code-header"><span>bash</span></div>
-                <pre><code>curl -L -o posts.csv "https://adachidb.net/api/posts/export?format=csv&type=text&from=2024-01-01&to=2024-12-31&limit=1000"</code></pre>
+                <pre><code>curl -o posts.csv "https://adachidb.net/api/posts/export?format=csv&type=text&from=2024-01-01&to=2024-12-31&limit=1000"</code></pre>
             </div>
 
             <div class="subsection-label">リクエスト例（YML, fields 指定）</div>
             <div class="code-block">
                 <div class="code-header"><span>bash</span></div>
-                <pre><code>curl -L -o posts.yml "https://adachidb.net/api/posts/export?format=yml&fields=id,url,createdAt&limit=500"</code></pre>
+                <pre><code>curl -o posts.yml "https://adachidb.net/api/posts/export?format=yml&fields=id,url,createdAt&limit=500"</code></pre>
             </div>
 
             <div class="subsection-label">リクエスト例（全件ダウンロード）</div>
             <div class="code-block">
                 <div class="code-header"><span>bash</span></div>
-                <pre><code>curl -L -o posts-all.json "https://adachidb.net/api/posts/export?format=json&all=true"</code></pre>
+                <pre><code>curl -o posts-all.json "https://adachidb.net/api/posts/export?format=json&all=true"</code></pre>
             </div>
         </section>
 
@@ -347,7 +456,7 @@
                 <span class="endpoint-path">/api/posts/add</span>
             </div>
             <p class="section-description">
-                ツイートURLをデータベースに追加します。URLの検証・重複チェック・oEmbedによるツイート存在確認を行い、embed・text・createdAt を取得して保存します。
+                ツイートURLをデータベースに追加します。登録後、embed・text・createdAt は非同期で取得されます。
             </p>
 
             <div class="subsection-label">リクエストボディ</div>
@@ -396,19 +505,36 @@
                         <td>URLが不正、またはツイートURLの形式でない</td>
                     </tr>
                     <tr>
-                        <td><span class="status-code status-404">404</span></td>
-                        <td>ツイートが存在しない、または削除済み</td>
-                    </tr>
-                    <tr>
                         <td><span class="status-code status-409">409</span></td>
                         <td>URLがすでにデータベースに存在する</td>
                     </tr>
-                    <tr>
-                        <td><span class="status-code status-502">502</span></td>
-                        <td>oEmbed による検証に失敗</td>
-                    </tr>
                 </tbody>
             </table>
+        </section>
+
+        <section class="docs-section">
+            <div class="endpoint-header">
+                <span class="endpoint-method get">GET</span>
+                <span class="endpoint-path">/api/status</span>
+            </div>
+            <p class="section-description">
+                APIおよびサイトへのアクセス数を返します。
+            </p>
+
+            <div class="subsection-label">リクエスト例</div>
+            <div class="code-block">
+                <div class="code-header"><span>bash</span></div>
+                <pre><code>curl "https://adachidb.net/api/status"</code></pre>
+            </div>
+
+            <div class="subsection-label">レスポンス例</div>
+            <div class="code-block">
+                <div class="code-header"><span>JSON</span></div>
+                <pre><code>[
+    { "endpoint": "/api/posts/random", "count": 94551 },
+    { "endpoint": "site_access", "count": 27079 }
+]</code></pre>
+            </div>
         </section>
 
         <br>

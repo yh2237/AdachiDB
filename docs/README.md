@@ -33,12 +33,10 @@
     - データベースに保存されているツイートの総数を返します。
 - `GET /api/posts/date-range`
     - 保存されているツイートの最古・最新の日付を返します。
-- `GET /api/pending-count`
-    - まだoEmbedが取得できていないツイートの数を返します。
-- `GET /api/pending-text-count`
-    - まだツイート本文が取得できていないツイートの数を返します。
-- `GET /api/uncreated-count`
-    - まだ日付が取得できていないツイートの数を返します。
+- `GET /api/posts/status-counts`
+    - oEmbed未取得・本文未取得・日付未取得のツイート数を一度に返します。
+- `GET /api/posts/recent?limit={limit}`
+    - 新しい順にツイートを返します（デフォルト: 1件）。
 - `GET /api/status`
     - APIおよびサイトへのアクセス数を返します。
 
