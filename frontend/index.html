@@ -6,10 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>足立データベース - ランダム足立語録</title>
-    <meta name="description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta name="description" content="足立レイの過去ツイートをデータベースからランダムに1件表示します。語句・日付検索や公開APIも利用できる非公式アーカイブです。">
+    <link rel="canonical" href="https://adachidb.net/">
 
     <meta property="og:title" content="足立データベース - ランダム足立語録">
-    <meta property="og:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta property="og:description" content="足立レイの過去ツイートをデータベースからランダムに1件表示します。">
     <meta property="og:site_name" content="足立データベース - ランダム足立語録">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://adachidb.net/">
@@ -17,7 +18,7 @@
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="足立データベース - ランダム足立語録">
-    <meta name="twitter:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta name="twitter:description" content="足立レイの過去ツイートをデータベースからランダムに1件表示します。">
     <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
 
     <link rel="stylesheet" href="/css/variables.css">
@@ -52,7 +53,7 @@
                 </ul>
             </nav>
 
-            <div class="header-ham" id="ham">
+            <div class="header-ham" id="ham" role="button" tabindex="0" aria-label="メニューを開く">
                 <div class="menu-line"></div>
                 <div class="menu-line"></div>
                 <div class="menu-line"></div>
@@ -85,15 +86,22 @@
 
     <div class="main-content">
 
-        <div class="tweet-embed-container">
-            <p class="message" id="loading-message">読み込み中...</p>
+        <div id="tweet-embed-shell" class="tweet-embed-shell" aria-busy="true">
+            <div id="tweet-slot-a" class="tweet-embed-container tweet-embed-slot is-active">
+                <p class="message">読み込み中…</p>
+            </div>
+            <div id="tweet-slot-b" class="tweet-embed-container tweet-embed-slot is-staging" aria-hidden="true"></div>
         </div>
-        <div>今までに <span id="random-count"></span> 回ツイートが再読み込みされました</div>
 
         <section class="contents">
-            <button id="refresh-button" class="refresh-button">
+            <div>今までに <span id="random-count"></span> 回ツイートが再読み込みされました</div>
+        </section>
+
+        <section class="tweet-controls">
+            <button id="refresh-button" class="refresh-button" type="button">
                 再読み込み
             </button>
+            <p id="refresh-status" class="tweet-refresh-status" role="status" aria-live="polite"></p>
         </section>
 
         <section class="contents">
@@ -101,10 +109,16 @@
                 data-show-count="false">Follow @adachirei0</a>
         </section>
 
-        <section class="contents">
-            <a href="/10cont">10連ガチャ版</a> |
-            <a href="/search">足立語録サーチ</a> |
+        <section class="site-footer">
+            <a href="/10cont">10連ガチャ版</a>
+            <span aria-hidden="true">|</span>
+            <a href="/search">足立語録サーチ</a>
+            <span aria-hidden="true">|</span>
             <a href="/about">このサイトについて</a>
+            <span aria-hidden="true">|</span>
+            <a href="/privacy">プライバシーポリシー</a>
+            <span aria-hidden="true">|</span>
+            <a href="/terms">利用規約</a>
         </section>
 
         <section class="contents">
@@ -112,14 +126,17 @@
             <a class="twitter-timeline" href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw">@adachirei0の最近のツイート</a>
         </section>
 
+        <footer class="site-footer">
+            <p>© 2025 yh</p>
+        </footer>
+
     </div>
 
-    <script type="module" src="/js/post-button.js"></script>
     <script type="module" src="/js/index.js"></script>
     <script type="module" src="/js/slide-menu.js"></script>
     <script type="module" src="/js/status.js"></script>
 
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script id="twitter-wjs" async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 </body>
 

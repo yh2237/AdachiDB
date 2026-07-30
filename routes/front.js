@@ -12,11 +12,42 @@ const frontendDir = path.join(__dirname, '..', 'frontend');
 const rootDir = path.join(frontendDir, 'root');
 
 if (config.server.frontend) {
-    router.use(express.static(frontendDir));
+    const noindexPaths = ['/db', '/db.html'];
+    const noindexPrefixes = ['/md/', '/data/'];
 
-    router.get('/index', (req, res) => {
-        res.redirect(301, '/');
+    router.use((req, res, next) => {
+        if (
+            noindexPaths.includes(req.path) ||
+            noindexPrefixes.some((prefix) => req.path.startsWith(prefix))
+        ) {
+            res.set('X-Robots-Tag', 'noindex, nofollow');
+        }
+        next();
     });
+
+    router.use('/root', (req, res) => {
+        res.sendStatus(404);
+    });
+
+    const canonicalRedirects = {
+        '/index': '/',
+        '/index.html': '/',
+        '/10cont.html': '/10cont',
+        '/search.html': '/search',
+        '/about.html': '/about',
+        '/docs.html': '/docs',
+        '/privacy.html': '/privacy',
+        '/terms.html': '/terms',
+        '/db.html': '/db'
+    };
+
+    Object.entries(canonicalRedirects).forEach(([source, destination]) => {
+        router.get(source, (req, res) => {
+            res.redirect(301, destination);
+        });
+    });
+
+    router.use(express.static(frontendDir, { index: false }));
 
     router.get('/', (req, res) => {
         res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
@@ -36,6 +67,14 @@ if (config.server.frontend) {
 
     router.get('/docs', (req, res) => {
         res.sendFile(path.join(__dirname, '..', 'frontend', 'docs.html'));
+    });
+
+    router.get('/privacy', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'privacy.html'));
+    });
+
+    router.get('/terms', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'terms.html'));
     });
 
     router.get('/db', (req, res) => {

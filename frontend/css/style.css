@@ -49,6 +49,32 @@ a {
     margin: var(--spacing-xl) 0;
 }
 
+.tweet-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.tweet-refresh-status {
+    min-height: 1.5em;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.tweet-refresh-status.error {
+    color: var(--color-error);
+    font-weight: var(--font-weight-bold);
+}
+
+.tweet-embed-shell {
+    position: relative;
+    width: 100%;
+    min-height: 240px;
+}
+
 .tweet-embed-container {
     margin-bottom: var(--spacing-xl);
     padding: var(--spacing-md);
@@ -59,6 +85,26 @@ a {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.tweet-embed-slot {
+    width: 100%;
+    min-width: 0;
+}
+
+.tweet-embed-slot.is-active {
+    position: relative;
+}
+
+.tweet-embed-slot.is-staging {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.tweet-embed-slot iframe {
+    max-width: 100% !important;
 }
 
 .message {
@@ -87,6 +133,20 @@ a {
 
 .refresh-button {
     background-color: var(--color-secondary);
+}
+
+.refresh-button:hover:not(:disabled) {
+    filter: brightness(0.92);
+}
+
+.refresh-button:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+.refresh-button:disabled {
+    cursor: wait;
+    opacity: 0.65;
 }
 
 .post-button {
@@ -129,6 +189,26 @@ a {
     word-break: break-all;
 }
 
+.site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-2xl);
+    padding-top: var(--spacing-lg);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.site-footer a[aria-current="page"] {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+}
+
+footer.site-footer {
+    border-top: 1px solid var(--color-border);
+}
+
 @media (max-width: 600px) {
     body {
         padding: var(--spacing-md);
@@ -147,5 +227,9 @@ a {
     .post-button {
         padding: var(--spacing-sm) var(--spacing-lg);
         font-size: 0.9em;
+    }
+
+    .tweet-embed-shell {
+        min-height: 200px;
     }
 }

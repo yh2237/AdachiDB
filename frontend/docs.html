@@ -6,10 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>足立データベース - APIドキュメント</title>
-    <meta name="description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta name="description" content="足立レイの投稿データをランダム取得、検索、エクスポートできる足立データベースAPIの仕様と実行例です。">
+    <link rel="canonical" href="https://adachidb.net/docs">
 
     <meta property="og:title" content="足立データベース - APIドキュメント">
-    <meta property="og:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta property="og:description" content="足立データベースAPIの仕様、パラメータ、実行例を掲載しています。">
     <meta property="og:site_name" content="足立データベース">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://adachidb.net/docs">
@@ -17,7 +18,7 @@
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="足立データベース - APIドキュメント">
-    <meta name="twitter:description" content="足立レイのツイートがすべてまとめられた非公式のデーターベースサイトです。">
+    <meta name="twitter:description" content="足立データベースAPIの仕様、パラメータ、実行例を掲載しています。">
     <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
 
     <link rel="stylesheet" href="css/variables.css">
@@ -537,13 +538,22 @@
             </div>
         </section>
 
-        <br>
-
-        <nav class="docs-nav">
-            <a href="/">ランダム足立語録</a> |
-            <a href="/search">足立語録サーチ</a> |
+        <section class="site-footer">
+            <a href="/">ランダム足立語録</a>
+            <span aria-hidden="true">|</span>
+            <a href="/search">足立語録サーチ</a>
+            <span aria-hidden="true">|</span>
             <a href="/about">このサイトについて</a>
-        </nav>
+            <span aria-hidden="true">|</span>
+            <a href="/privacy">プライバシーポリシー</a>
+            <span aria-hidden="true">|</span>
+            <a href="/terms">利用規約</a>
+        </section>
+
+        <footer class="site-footer">
+            <p>© 2025 yh</p>
+        </footer>
+
     </main>
 
     <script type="module" src="js/jsonget.js"></script>

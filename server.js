@@ -23,6 +23,16 @@ const port = config.server.port || 3000;
 
 app.use(express.json());
 
+app.use('/api', (req, res, next) => {
+    res.set('X-Robots-Tag', 'noindex, nofollow');
+    next();
+});
+
+app.use('/dev', (req, res, next) => {
+    res.set('X-Robots-Tag', 'noindex, nofollow');
+    next();
+});
+
 const rateLimitConfig = config.rateLimit || {};
 const windowSeconds = typeof rateLimitConfig.windowSeconds === 'number' ? rateLimitConfig.windowSeconds : 60;
 const windowMs = windowSeconds * 1000;
