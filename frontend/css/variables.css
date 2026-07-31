@@ -51,11 +51,8 @@
     --radius-xl: 12px;
 
     --header-height: 60px;
+    --mobile-nav-height: 46px;
     --content-max-width: 800px;
     --content-wide-max-width: 1200px;
-    --sidebar-width: 300px;
-
     --z-header: 1000;
-    --z-overlay: 1500;
-    --z-sidebar: 2000;
 }

@@ -48,21 +48,14 @@
                     <a href="https://bot.adachidb.net/" target="_blank" rel="noopener noreferrer">
                         <li class="header-nav-item">足立レイ読み上げBot</li>
                     </a>
-                    <a href="/about">
+                    <a href="/articles/about">
                         <li class="header-nav-item">このサイトについて</li>
                     </a>
                 </ul>
             </nav>
 
-            <div class="header-ham" id="ham" role="button" tabindex="0" aria-label="メニューを開く">
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
-            </div>
         </div>
     </header>
-
-    <div class="overlay" id="overlay"></div>
 
     <nav class="slide-menu" id="slide-menu" aria-label="モバイルナビゲーション">
         <ul>
@@ -78,7 +71,7 @@
             <a href="https://bot.adachidb.net/" target="_blank" rel="noopener noreferrer">
                 <li class="slide-menu-item">足立レイ読み上げBot</li>
             </a>
-            <a href="/about">
+            <a href="/articles/about">
                 <li class="slide-menu-item">このサイトについて</li>
             </a>
         </ul>
@@ -96,7 +89,6 @@
             <ul>
                 <li>IPアドレス、ブラウザや端末の種類、参照元URL、アクセス日時、リクエスト先、レスポンス状況など、サーバーや配信事業者が通常記録するアクセスログ</li>
                 <li>APIやページのエンドポイント別アクセス回数</li>
-                <li>お問い合わせの際に利用者が送信したハンドルネーム、連絡先、問い合わせ内容など</li>
             </ul>
             <p>
                 本サイト独自のアクセス数集計では、エンドポイント名と累計回数を記録しており、利用者個人を識別するための情報は記録していません。
@@ -170,17 +162,15 @@
 
         <p class="legal-updated">制定日：2026年7月30日</p>
 
-        <section class="site-footer">
-            <a href="/">ランダム足立語録</a>
+        <nav class="site-footer-nav" aria-label="サイト情報">
+            <a href="/articles/about">このサイトについて</a>
             <span aria-hidden="true">|</span>
-            <a href="/search">足立語録サーチ</a>
+            <a href="/articles">ドキュメント</a>
             <span aria-hidden="true">|</span>
-            <a href="/about">このサイトについて</a>
-            <span aria-hidden="true">|</span>
-            <a href="/privacy" aria-current="page">プライバシーポリシー</a>
+            <a href="/privacy" aria-current="page">プライバシー</a>
             <span aria-hidden="true">|</span>
             <a href="/terms">利用規約</a>
-        </section>
+        </nav>
 
         <footer class="site-footer">
             <p>© 2025 yh</p>
@@ -188,7 +178,6 @@
 
     </main>
 
-    <script type="module" src="/js/slide-menu.js"></script>
 </body>
 
 </html>

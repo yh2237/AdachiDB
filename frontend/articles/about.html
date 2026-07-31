@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>足立データベース - このサイトについて</title>
     <meta name="description" content="足立データベースの収録内容、データの取得方法、公開API、運営者、更新履歴について説明します。">
-    <link rel="canonical" href="https://adachidb.net/about">
+    <link rel="canonical" href="https://adachidb.net/articles/about">
 
     <meta property="og:title" content="足立データベース - このサイトについて">
     <meta property="og:description" content="足立データベースの仕組み、公開API、運営者、更新履歴について説明します。">
     <meta property="og:site_name" content="足立データベース - このサイトについて">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://adachidb.net/about">
+    <meta property="og:url" content="https://adachidb.net/articles/about">
     <meta property="og:image" content="https://adachidb.net/img/ogp2.png">
 
     <meta name="twitter:card" content="summary">
@@ -21,10 +21,10 @@
     <meta name="twitter:description" content="足立データベースの仕組み、公開API、運営者、更新履歴について説明します。">
     <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
 
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="icon" href="/img/favicon.ico">
 </head>
 
 <body>
@@ -47,22 +47,14 @@
                     <a href="https://bot.adachidb.net/" target="_blank" rel="noopener noreferrer">
                         <li class="header-nav-item">足立レイ読み上げBot</li>
                     </a>
-                    <a href="/about">
+                    <a href="/articles/about">
                         <li class="header-nav-item select">このサイトについて</li>
                     </a>
                 </ul>
             </nav>
 
-            <div class="header-ham" id="ham">
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
-            </div>
-
         </div>
     </header>
-
-    <div class="overlay" id="overlay"></div>
 
     <nav class="slide-menu" id="slide-menu">
         <ul>
@@ -78,7 +70,7 @@
             <a href="https://bot.adachidb.net/" target="_blank" rel="noopener noreferrer">
                 <li class="slide-menu-item">足立レイ読み上げBot</li>
             </a>
-            <a href="/about">
+            <a href="/articles/about">
                 <li class="slide-menu-item select">このサイトについて</li>
             </a>
         </ul>
@@ -101,7 +93,7 @@
             <p>
                 ソースコード（GitHub）：<a href="https://github.com/yh2237/AdachiDB/" target="_blank">yh2237/AdachiDB</a><br>
                 データーベースリスト（デバック用）：<a href="/db" target="_blank">/db</a><br>
-                APIドキュメント：<a href="/docs" target="_blank">/docs</a>
+                APIドキュメント：<a href="/articles/api">/articles/api</a>
             </p>
         </section>
 
@@ -129,17 +121,15 @@
         <p><a href="https://mechanicalgirl.jp/" target="_blank">メカニカルガール 公式サイト</a></p>
         <p><a href="https://x.com/adachirei0" target="_blank">@adachirei0</a> - <a href="https://twitter.com/adachirei0?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @adachirei0</a></p>
 
-        <section class="site-footer">
-            <a href="/">ランダム足立語録</a>
+        <nav class="site-footer-nav" aria-label="サイト情報">
+            <a href="/articles/about" aria-current="page">このサイトについて</a>
             <span aria-hidden="true">|</span>
-            <a href="/search">足立語録サーチ</a>
-            <span aria-hidden="true" >|</span>
-            <a href="/about" aria-current="page">このサイトについて</a>
+            <a href="/articles">ドキュメント</a>
             <span aria-hidden="true">|</span>
-            <a href="/privacy">プライバシーポリシー</a>
+            <a href="/privacy">プライバシー</a>
             <span aria-hidden="true">|</span>
             <a href="/terms">利用規約</a>
-        </section>
+        </nav>
 
         <footer class="site-footer">
             <p>© 2025 yh</p>
@@ -147,9 +137,8 @@
 
     </div>
 
-    <script type="module" src="js/slide-menu.js"></script>
-    <script type="module" src="js/history-get.js"></script>
-    <script type="module" src="js/about.js"></script>
+    <script type="module" src="/js/history-get.js"></script>
+    <script type="module" src="/js/about.js"></script>
 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 

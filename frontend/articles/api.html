@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>足立データベース - APIドキュメント</title>
     <meta name="description" content="足立レイの投稿データをランダム取得、検索、エクスポートできる足立データベースAPIの仕様と実行例です。">
-    <link rel="canonical" href="https://adachidb.net/docs">
+    <link rel="canonical" href="https://adachidb.net/articles/api">
 
     <meta property="og:title" content="足立データベース - APIドキュメント">
     <meta property="og:description" content="足立データベースAPIの仕様、パラメータ、実行例を掲載しています。">
     <meta property="og:site_name" content="足立データベース">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://adachidb.net/docs">
+    <meta property="og:url" content="https://adachidb.net/articles/api">
     <meta property="og:image" content="https://adachidb.net/img/ogp2.png">
 
     <meta name="twitter:card" content="summary">
@@ -21,12 +21,12 @@
     <meta name="twitter:description" content="足立データベースAPIの仕様、パラメータ、実行例を掲載しています。">
     <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
 
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/codeBox.css">
-    <link rel="stylesheet" href="css/docs.css">
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/codeBox.css">
+    <link rel="stylesheet" href="/css/docs.css">
+    <link rel="icon" href="/img/favicon.ico">
 </head>
 
 <body>
@@ -49,25 +49,15 @@
                     <a href="https://bot.adachidb.net/" target="_blank" rel="noopener noreferrer">
                         <li class="header-nav-item">足立レイ読み上げBot</li>
                     </a>
-                    <a href="/about">
+                    <a href="/articles/about">
                         <li class="header-nav-item">このサイトについて</li>
-                    </a>
-                    <a href="/docs">
-                        <li class="header-nav-item select">APIドキュメント</li>
                     </a>
                 </ul>
             </nav>
 
-            <div class="header-ham" id="ham">
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
-            </div>
-
         </div>
     </header>
 
-    <div class="overlay" id="overlay"></div>
     <nav class="slide-menu" id="slide-menu">
         <ul>
             <a href="/">
@@ -82,11 +72,8 @@
             <a href="https://bot.adachidb.net/" target="_blank" rel="noopener noreferrer">
                 <li class="slide-menu-item">足立レイ読み上げBot</li>
             </a>
-            <a href="/about">
+            <a href="/articles/about">
                 <li class="slide-menu-item">このサイトについて</li>
-            </a>
-            <a href="/docs">
-                <li class="slide-menu-item select">APIドキュメント</li>
             </a>
         </ul>
     </nav>
@@ -451,13 +438,13 @@
             </div>
         </section>
 
-        <section class="docs-section">
+        <section class="docs-section" id="post-add">
             <div class="endpoint-header">
                 <span class="endpoint-method post">POST</span>
                 <span class="endpoint-path">/api/posts/add</span>
             </div>
             <p class="section-description">
-                ツイートURLをデータベースに追加します。登録後、embed・text・createdAt は非同期で取得されます。
+                足立レイ（@adachirei0）の投稿URLをデータベースに追加します。登録後、embed・text・createdAt は非同期で取得されます。
             </p>
 
             <div class="subsection-label">リクエストボディ</div>
@@ -473,7 +460,7 @@
                     <tr>
                         <td><span class="param-name">url</span></td>
                         <td><span class="param-required required">必須</span></td>
-                        <td>追加するツイートの URL（x.com または twitter.com）</td>
+                        <td>追加する @adachirei0 の投稿URL（x.com または twitter.com）</td>
                     </tr>
                 </tbody>
             </table>
@@ -503,7 +490,7 @@
                 <tbody>
                     <tr>
                         <td><span class="status-code status-400">400</span></td>
-                        <td>URLが不正、またはツイートURLの形式でない</td>
+                        <td>URLが不正、または @adachirei0 の投稿URLではない</td>
                     </tr>
                     <tr>
                         <td><span class="status-code status-409">409</span></td>
@@ -538,17 +525,15 @@
             </div>
         </section>
 
-        <section class="site-footer">
-            <a href="/">ランダム足立語録</a>
+        <nav class="site-footer-nav" aria-label="サイト情報">
+            <a href="/articles/about">このサイトについて</a>
             <span aria-hidden="true">|</span>
-            <a href="/search">足立語録サーチ</a>
+            <a href="/articles">ドキュメント</a>
             <span aria-hidden="true">|</span>
-            <a href="/about">このサイトについて</a>
-            <span aria-hidden="true">|</span>
-            <a href="/privacy">プライバシーポリシー</a>
+            <a href="/privacy">プライバシー</a>
             <span aria-hidden="true">|</span>
             <a href="/terms">利用規約</a>
-        </section>
+        </nav>
 
         <footer class="site-footer">
             <p>© 2025 yh</p>
@@ -556,8 +541,7 @@
 
     </main>
 
-    <script type="module" src="js/jsonget.js"></script>
-    <script type="module" src="js/slide-menu.js"></script>
+    <script type="module" src="/js/jsonget.js"></script>
 </body>
 
 </html>

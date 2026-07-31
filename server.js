@@ -173,7 +173,7 @@ function isApiRequest(req) {
 app.use((req, res, next) => {
     if (isApiRequest(req)) {
         res.status(404);
-        return res.json({ error: `404 Not Found (´・ω・｀). Please see ${config.server.url}/docs for API specifications etc.` });
+        return res.json({ error: `404 Not Found (´・ω・｀). Please see ${config.server.url}/articles/api for API specifications etc.` });
     }
     res.status(404).sendFile(path.join(__dirname, 'frontend', '404.html'));
 });

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- ドキュメント：データの収集方法 -->
+<html lang="ja">
+
+<head>
+    <meta name="google-site-verification" content="eKoRTvvjvKuWok8ieS6FOGkAzAsj5XzT2vIZzCI6ZSI">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データの収集方法 - 足立データベース</title>
+    <meta name="description" content="Xのタイムラインから足立レイの投稿URLを検出し、足立データベースへ保存・公開するまでの流れを解説します。">
+    <link rel="canonical" href="https://adachidb.net/articles/data-collection">
+
+    <meta property="og:title" content="データの収集方法 - 足立データベース">
+    <meta property="og:description" content="Xのタイムラインから投稿日時リンクを見つけ、足立データベースへ収集・保存する仕組みを解説します。">
+    <meta property="og:site_name" content="足立データベース">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://adachidb.net/articles/data-collection">
+    <meta property="og:image" content="https://adachidb.net/img/ogp2.png">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="データの収集方法 - 足立データベース">
+    <meta name="twitter:description" content="Xのタイムラインから投稿日時リンクを見つけ、足立データベースへ収集・保存する仕組みを解説します。">
+    <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
+
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/legal.css">
+    <link rel="stylesheet" href="/css/articles.css">
+    <link rel="icon" href="/img/favicon.ico">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <h4>足立データベース</h4>
+            <a href="/"><img src="/img/banner.png" alt="足立データベース" class="header-banner"></a>
+            <nav class="header-nav" aria-label="メインナビゲーション">
+                <ul class="header-nav-list">
+                    <a href="/"><li class="header-nav-item">ランダム足立語録</li></a>
+                    <a href="/10cont"><li class="header-nav-item">ランダム足立語録10連版</li></a>
+                    <a href="/search"><li class="header-nav-item">足立語録サーチ</li></a>
+                    <a href="https://bot.adachidb.net/" target="_blank" rel="noopener noreferrer"><li class="header-nav-item">足立レイ読み上げBot</li></a>
+                    <a href="/articles/about"><li class="header-nav-item">このサイトについて</li></a>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="slide-menu" id="slide-menu" aria-label="モバイルナビゲーション">
+        <ul>
+            <a href="/"><li class="slide-menu-item">ランダム足立語録</li></a>
+            <a href="/10cont"><li class="slide-menu-item">ランダム足立語録10連版</li></a>
+            <a href="/search"><li class="slide-menu-item">足立語録サーチ</li></a>
+            <a href="https://bot.adachidb.net/" target="_blank" rel="noopener noreferrer"><li class="slide-menu-item">足立レイ読み上げBot</li></a>
+            <a href="/articles/about"><li class="slide-menu-item">このサイトについて</li></a>
+        </ul>
+    </nav>
+
+    <main class="main-content2 legal-content">
+        <article>
+
+            <nav class="article-outline" aria-label="ページ内目次">
+                <h2>目次</h2>
+                <ol>
+                    <li><a href="#collection">投稿URLの収集</a></li>
+                    <li><a href="#contribution">投稿URLを提供する</a></li>
+                </ol>
+            </nav>
+
+            <section id="collection" class="article-draft-section">
+                <h2>投稿URLの収集</h2>
+                <p>
+                    投稿URLの収集には、専用の拡張機能
+                    <a href="https://github.com/yh2237/AdachiDB-Saver" target="_blank" rel="noopener noreferrer">AdachiDB-Saver</a>
+                    を使用しています。X上で表示された <code>@adachirei0</code> の投稿URLを検出し、URLを正規化して足立データベースの追加APIへ送信してます。
+                    （Xの規約的には多分まずい）
+                </p>
+
+                <p>
+                    現在のXでは、タイムラインに表示される各投稿が基本的に <code>&lt;article&gt;</code> 要素として配置されています。
+                    その中にある投稿日時の <code>&lt;time&gt;</code> 要素は、個別の投稿を開くリンクの内側にあります。
+                    表示名や投稿本文からURLを推測せず、この日時リンクの <code>href</code> 属性を投稿URLの候補として取得します。
+                </p>
+
+                <pre class="article-code" aria-label="Xの投稿要素の簡略化した構造"><code>&lt;article&gt;
+  ...
+  &lt;a href="/adachirei0/status/投稿ID"&gt;
+    &lt;time datetime="..."&gt;投稿日時&lt;/time&gt;
+  &lt;/a&gt;
+  ...
+&lt;/article&gt;</code></pre>
+
+                <ol class="article-steps">
+                    <li>ページ内の <code>article</code> 要素を投稿単位として調べる。</li>
+                    <li><code>article.querySelector('time')</code> で投稿日時の要素を探す。</li>
+                    <li><code>time.closest('a')</code> で日時を囲むリンクまで遡る。</li>
+                    <li>リンクの <code>href</code> を読み取り、投稿URLとして正しいか検証。</li>
+                </ol>
+
+                <p>
+                    Xはページ全体を読み直さずに内容を書き換えるSPAとして動作するため、
+                    <code>MutationObserver</code> でタイムラインの変化を監視してます。
+                </p>
+
+            </section>
+            <section id="contribution" class="article-draft-section">
+                <h2>投稿URLを提供する</h2>
+                <p>
+                    投稿追加用の <code>POST /api/posts/add</code> は公開されており、APIキーなしで誰でも利用できます。
+                    足立レイの未収録投稿を見つけた場合は、その投稿URLを送信してデータ収集に協力できます。
+                    利用方法とレスポンスは<a href="/articles/api#post-add">APIドキュメントの投稿追加エンドポイント</a>を確認してください。
+                </p>
+                <p>
+                    追加できるのは <code>x.com</code> または <code>twitter.com</code> の <code>@adachirei0</code> の投稿URLだけです。
+                    すでに登録されているURLは重複として拒否され、短時間に大量のリクエストを送った場合はレート制限が適用されます。
+                </p>
+            </section>
+        </article>
+
+        <p class="article-back"><a href="/articles">ドキュメント一覧へ戻る</a></p>
+
+        <nav class="site-footer-nav" aria-label="サイト情報">
+            <a href="/articles/about">このサイトについて</a>
+            <span aria-hidden="true">|</span>
+            <a href="/articles">ドキュメント</a>
+            <span aria-hidden="true">|</span>
+            <a href="/privacy">プライバシー</a>
+            <span aria-hidden="true">|</span>
+            <a href="/terms">利用規約</a>
+        </nav>
+        <footer class="site-footer"><p>© 2025 yh</p></footer>
+    </main>
+
+</body>
+
+</html>

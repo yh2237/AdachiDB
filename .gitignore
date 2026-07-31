@@ -5,3 +5,5 @@ package-lock.json
 backup/
 .DS_Store
 docs/plan.md
+.hallmark/
+frontend/articles/statistics.html

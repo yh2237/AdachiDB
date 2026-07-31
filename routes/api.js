@@ -5,7 +5,7 @@ const { postsDb: pool } = require('../utils/database');
 const { getRandomPost, getRandomPosts, fetchEmbed } = require('../utils/functions');
 const { getStats } = require('../utils/statsTracker');
 
-const TWEET_URL_RE = /^https:\/\/(x\.com|twitter\.com)\/[^/]+\/status\/\d+$/;
+const TWEET_URL_RE = /^https:\/\/(x\.com|twitter\.com)\/adachirei0\/status\/\d+$/i;
 
 function normalizeUrl(url) {
     const modified = url.replace('twitter.com', 'x.com');
@@ -373,7 +373,7 @@ router.post('/posts/add', async (req, res) => {
     }
 
     if (!TWEET_URL_RE.test(normalizedUrl)) {
-        return errorResponse(res, 400, 'URL must be a valid tweet URL (x.com or twitter.com)');
+        return errorResponse(res, 400, 'URL must be a valid @adachirei0 post URL (x.com or twitter.com)');
     }
 
     try {

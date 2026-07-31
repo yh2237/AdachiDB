@@ -34,8 +34,20 @@ if (config.server.frontend) {
         '/index.html': '/',
         '/10cont.html': '/10cont',
         '/search.html': '/search',
-        '/about.html': '/about',
-        '/docs.html': '/docs',
+        '/about': '/articles/about',
+        '/about.html': '/articles/about',
+        '/articles.html': '/articles',
+        '/article-bot.html': '/articles/bot',
+        '/article-data-collection.html': '/articles/data-collection',
+        '/article-statistics.html': '/articles/statistics',
+        '/articles/index.html': '/articles',
+        '/articles/bot.html': '/articles/bot',
+        '/articles/data-collection.html': '/articles/data-collection',
+        '/articles/statistics.html': '/articles/statistics',
+        '/articles/about.html': '/articles/about',
+        '/articles/api.html': '/articles/api',
+        '/docs': '/articles/api',
+        '/docs.html': '/articles/api',
         '/privacy.html': '/privacy',
         '/terms.html': '/terms',
         '/db.html': '/db'
@@ -45,6 +57,30 @@ if (config.server.frontend) {
         router.get(source, (req, res) => {
             res.redirect(301, destination);
         });
+    });
+
+    router.get('/articles', (req, res) => {
+        res.sendFile(path.join(frontendDir, 'articles', 'index.html'));
+    });
+
+    router.get('/articles/bot', (req, res) => {
+        res.sendFile(path.join(frontendDir, 'articles', 'bot.html'));
+    });
+
+    router.get('/articles/data-collection', (req, res) => {
+        res.sendFile(path.join(frontendDir, 'articles', 'data-collection.html'));
+    });
+
+    router.get('/articles/statistics', (req, res) => {
+        res.sendFile(path.join(frontendDir, 'articles', 'statistics.html'));
+    });
+
+    router.get('/articles/about', (req, res) => {
+        res.sendFile(path.join(frontendDir, 'articles', 'about.html'));
+    });
+
+    router.get('/articles/api', (req, res) => {
+        res.sendFile(path.join(frontendDir, 'articles', 'api.html'));
     });
 
     router.use(express.static(frontendDir, { index: false }));
@@ -59,14 +95,6 @@ if (config.server.frontend) {
 
     router.get('/search', (req, res) => {
         res.sendFile(path.join(__dirname, '..', 'frontend', 'search.html'));
-    });
-
-    router.get('/about', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'frontend', 'about.html'));
-    });
-
-    router.get('/docs', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'frontend', 'docs.html'));
     });
 
     router.get('/privacy', (req, res) => {

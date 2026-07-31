@@ -10,10 +10,19 @@
     <loc>https://adachidb.net/search</loc>
   </url>
   <url>
-    <loc>https://adachidb.net/about</loc>
+    <loc>https://adachidb.net/articles/about</loc>
   </url>
   <url>
-    <loc>https://adachidb.net/docs</loc>
+    <loc>https://adachidb.net/articles</loc>
+  </url>
+  <url>
+    <loc>https://adachidb.net/articles/data-collection</loc>
+  </url>
+  <url>
+    <loc>https://adachidb.net/articles/statistics</loc>
+  </url>
+  <url>
+    <loc>https://adachidb.net/articles/api</loc>
   </url>
   <url>
     <loc>https://adachidb.net/privacy</loc>
