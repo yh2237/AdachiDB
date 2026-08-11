@@ -34,22 +34,8 @@ if (config.server.frontend) {
         '/index.html': '/',
         '/10cont.html': '/10cont',
         '/search.html': '/search',
-        '/about': '/articles/about',
-        '/about.html': '/articles/about',
-        '/articles.html': '/articles',
-        '/article-bot.html': '/articles/bot',
-        '/article-data-collection.html': '/articles/data-collection',
-        '/article-statistics.html': '/articles/statistics',
-        '/articles/index.html': '/articles',
-        '/articles/bot.html': '/articles/bot',
-        '/articles/data-collection.html': '/articles/data-collection',
-        '/articles/statistics.html': '/articles/statistics',
-        '/articles/about.html': '/articles/about',
-        '/articles/api.html': '/articles/api',
-        '/docs': '/articles/api',
-        '/docs.html': '/articles/api',
-        '/privacy.html': '/privacy',
-        '/terms.html': '/terms',
+        '/about.html': '/about',
+        '/docs.html': '/docs',
         '/db.html': '/db'
     };
 
@@ -59,28 +45,12 @@ if (config.server.frontend) {
         });
     });
 
-    router.get('/articles', (req, res) => {
-        res.sendFile(path.join(frontendDir, 'articles', 'index.html'));
+    router.get('/about', (req, res) => {
+        res.sendFile(path.join(frontendDir, '..', 'frontend', 'about.html'));
     });
 
-    router.get('/articles/bot', (req, res) => {
-        res.sendFile(path.join(frontendDir, 'articles', 'bot.html'));
-    });
-
-    router.get('/articles/data-collection', (req, res) => {
-        res.sendFile(path.join(frontendDir, 'articles', 'data-collection.html'));
-    });
-
-    router.get('/articles/statistics', (req, res) => {
-        res.sendFile(path.join(frontendDir, 'articles', 'statistics.html'));
-    });
-
-    router.get('/articles/about', (req, res) => {
-        res.sendFile(path.join(frontendDir, 'articles', 'about.html'));
-    });
-
-    router.get('/articles/api', (req, res) => {
-        res.sendFile(path.join(frontendDir, 'articles', 'api.html'));
+    router.get('/docs', (req, res) => {
+        res.sendFile(path.join(frontendDir, '..', 'frontend', 'docs.html'));
     });
 
     router.use(express.static(frontendDir, { index: false }));

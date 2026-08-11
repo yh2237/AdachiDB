@@ -28,19 +28,11 @@ if (config.server.dev_frontend) {
     });
 
     router.get('/about', (req, res) => {
-        res.redirect(301, '/articles/about');
+        res.redirect(301, '/about');
     });
 
     router.get('/docs', (req, res) => {
-        res.redirect(301, '/articles/api');
-    });
-
-    router.get('/articles/about', (req, res) => {
-        res.sendFile(path.join(frontendDir, 'articles', 'about.html'));
-    });
-
-    router.get('/articles/api', (req, res) => {
-        res.sendFile(path.join(frontendDir, 'articles', 'api.html'));
+        res.redirect(301, '/docs');
     });
 
     router.get('/db', (req, res) => {
