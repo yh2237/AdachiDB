@@ -21,11 +21,11 @@
     <meta name="twitter:description" content="足立レイの過去ツイートをキーワードと日付範囲で検索できます。">
     <meta name="twitter:image" content="https://adachidb.net/img/ogp2.png">
 
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/search.css">
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/search.css">
+    <link rel="icon" href="/img/favicon.ico">
 </head>
 
 <body>
@@ -81,17 +81,17 @@
 
         <div class="search-form">
             <div class="search-line">
-                検索：
+                <label for="search-input">検索：</label>
                 <input type="text" id="search-input" placeholder="キーワードを入力..." class="search-input">
             </div>
             <div class="search-line">
-                日付範囲：
+                <label for="from-input">日付範囲：</label>
                 <input type="date" id="from-input" class="search-date">
                 〜
                 <input type="date" id="to-input" class="search-date">
             </div>
             <div class="search-line">
-                表示件数：
+                <label for="limit-input">表示件数：</label>
                 <input type="number" id="limit-input" class="search-input search-input-narrow" value="100" min="1" max="50000">
             </div>
         </div>
@@ -101,8 +101,7 @@
         <div id="search-results" class="search-results-list"></div>
 
         <nav class="site-footer-nav" aria-label="サイト情報">
-            <a href="/about">このサイトについて</a>
-            <span aria-hidden="true">|</span>
+            <a href="/about">このサイトについて</a><span aria-hidden="true">|</span><a href="/docs">APIドキュメント</a>
         </nav>
 
         <footer class="site-footer">
@@ -111,7 +110,7 @@
 
     </div>
 
-    <script type="module" src="js/search.js"></script>
+    <script type="module" src="/js/search.js"></script>
 </body>
 
 </html>

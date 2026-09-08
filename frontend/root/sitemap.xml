@@ -13,12 +13,6 @@
     <loc>https://adachidb.net/about</loc>
   </url>
   <url>
-    <loc>https://adachidb.net/api</loc>
-  </url>
-  <url>
-    <loc>https://adachidb.net/privacy</loc>
-  </url>
-  <url>
-    <loc>https://adachidb.net/terms</loc>
+    <loc>https://adachidb.net/docs</loc>
   </url>
 </urlset>

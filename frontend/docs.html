@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>足立データベース - APIドキュメント</title>
     <meta name="description" content="足立レイの投稿データをランダム取得、検索、エクスポートできる足立データベースAPIの仕様と実行例です。">
-    <link rel="canonical" href="https://adachidb.net/api">
+    <link rel="canonical" href="https://adachidb.net/docs">
 
     <meta property="og:title" content="足立データベース - APIドキュメント">
     <meta property="og:description" content="足立データベースAPIの仕様、パラメータ、実行例を掲載しています。">
     <meta property="og:site_name" content="足立データベース">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://adachidb.net/api">
+    <meta property="og:url" content="https://adachidb.net/docs">
     <meta property="og:image" content="https://adachidb.net/img/ogp2.png">
 
     <meta name="twitter:card" content="summary">
@@ -219,39 +219,7 @@
             </div>
         </section>
 
-        <section class="docs-section">
-            <div class="endpoint-header">
-                <span class="endpoint-method get">GET</span>
-                <span class="endpoint-path">/api/posts/recent</span>
-            </div>
-            <p class="section-description">
-                新しい順にツイートを取得します。
-            </p>
-
-            <div class="subsection-label">パラメータ</div>
-            <table class="params-table">
-                <thead>
-                    <tr>
-                        <th>パラメータ</th>
-                        <th>必須</th>
-                        <th>説明</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="param-name">limit</span></td>
-                        <td><span class="param-required optional">任意</span></td>
-                        <td>取得件数（デフォルト: 1、最大: 50000）</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="subsection-label">リクエスト例</div>
-            <div class="code-block">
-                <div class="code-header"><span>bash</span></div>
-                <pre><code>curl "https://adachidb.net/api/posts/recent?limit=3"</code></pre>
-            </div>
-        </section>
+        
 
         <section class="docs-section">
             <div class="endpoint-header">
@@ -526,8 +494,7 @@
         </section>
 
         <nav class="site-footer-nav" aria-label="サイト情報">
-            <a href="/about">このサイトについて</a>
-            <span aria-hidden="true">|</span>
+            <a href="/about">このサイトについて</a><span aria-hidden="true">|</span><a href="/docs">APIドキュメント</a>
         </nav>
 
         <footer class="site-footer">

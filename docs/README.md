@@ -35,8 +35,6 @@
     - 保存されているツイートの最古・最新の日付を返します。
 - `GET /api/posts/status-counts`
     - oEmbed未取得・本文未取得・日付未取得のツイート数を一度に返します。
-- `GET /api/posts/recent?limit={limit}`
-    - 新しい順にツイートを返します（デフォルト: 1件）。
 - `GET /api/status`
     - APIおよびサイトへのアクセス数を返します。
 
@@ -52,9 +50,6 @@ rateLimit:
   limits:
     api:
       status: 120
-      pending-count: 60
-      pending-text-count: 60
-      uncreated-count: 60
       posts:
         random: 3000
         random10: 2000
