@@ -81,6 +81,5 @@ function extractTextFromEmbed(html) {
 }
 
 module.exports = {
-    extractTextFromEmbed,
-    decodeHtmlEntities
+    extractTextFromEmbed
 };

@@ -1,19 +1,16 @@
 require('dotenv').config();
 const express = require('express');
-const yaml = require('js-yaml');
 const chalk = require('chalk');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs');
+const config = require('./utils/config');
+const { isTruthyQuery } = require('./utils/url');
 const apiRoutes = require('./routes/api');
 const frontRoutes = require('./routes/front');
-const devRoutes = require('./routes/dev');
 const { backup_db } = require('./scripts/backup_db');
 const { trackAccess } = require('./utils/statsTracker');
-
-const configPath = path.join(__dirname, 'config', 'config.yml');
-const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
 const app = express();
 const port = config.server.port || 3000;
@@ -23,12 +20,7 @@ const port = config.server.port || 3000;
 
 app.use(express.json());
 
-app.use('/api', (req, res, next) => {
-    res.set('X-Robots-Tag', 'noindex, nofollow');
-    next();
-});
-
-app.use('/dev', (req, res, next) => {
+app.use(['/api', '/dev'], (req, res, next) => {
     res.set('X-Robots-Tag', 'noindex, nofollow');
     next();
 });
@@ -39,9 +31,6 @@ const windowMs = windowSeconds * 1000;
 const defaultLimits = {
     api: {
         status: 120,
-        'pending-count': 60,
-        'pending-text-count': 60,
-        'uncreated-count': 60,
         posts: {
             random: 3000,
             random10: 200,
@@ -88,37 +77,22 @@ if (limiterSearch) app.use('/api/posts/search', limiterSearch);
 if (limiterAll) app.use('/api/posts/all', limiterAll);
 if (limiterAdd) app.use('/api/posts/add', limiterAdd);
 app.use('/api/posts/export', (req, res, next) => {
-    const allValue = typeof req.query.all === 'string' ? req.query.all.trim().toLowerCase() : '';
-    const limiter = ['1', 'true', 'yes', 'on'].includes(allValue) ? limiterExportAll : limiterExport;
+    const limiter = isTruthyQuery(req.query.all) ? limiterExportAll : limiterExport;
     if (!limiter) {
         return next();
     }
     return limiter(req, res, next);
 });
 
-const apiEndpointMap = {
-    status: '/api/status'
-};
-
-Object.entries(apiEndpointMap).forEach(([key, route]) => {
-    if (key === 'posts') {
-        return;
-    }
-
-    const limiter = buildLimiter(apiLimits[key]);
-    if (!limiter) {
-        return;
-    }
-
-    app.use(route, limiter);
-});
+const limiterStatus = buildLimiter(apiLimits.status);
+if (limiterStatus) app.use('/api/status', limiterStatus);
 
 const trackedApiPaths = new Set([
     '/api/status',
     '/api/posts/random', '/api/posts/random10', '/api/posts/search',
     '/api/posts/id', '/api/posts/all', '/api/posts/export', '/api/posts/add',
     '/api/posts/count', '/api/posts/date-range',
-    '/api/posts/status-counts', '/api/posts/recent'
+    '/api/posts/status-counts'
 ]);
 
 app.use((req, res, next) => {
@@ -156,8 +130,6 @@ if (config.server.openAPI) {
 
 app.use('/', frontRoutes);
 
-app.use('/dev', devRoutes);
-
 // ============================================================
 // ============================================================
 
@@ -173,7 +145,7 @@ function isApiRequest(req) {
 app.use((req, res, next) => {
     if (isApiRequest(req)) {
         res.status(404);
-        return res.json({ error: `404 Not Found (´・ω・｀). Please see ${config.server.url}/articles/api for API specifications etc.` });
+        return res.json({ error: `404 Not Found (´・ω・｀). Please see ${config.server.url}/docs for API specifications etc.` });
     }
     res.status(404).sendFile(path.join(__dirname, 'frontend', '404.html'));
 });

@@ -13,6 +13,7 @@
     "db:delete_url": "node scripts/delete_url.js",
     "db:import_url": "node scripts/import_url.js",
     "db:db_to_json": "node scripts/db_to_json.js",
+    "db:schema": "node scripts/get_db_schema.js",
     "db:migrate": "node scripts/migrate_sqlite_to_pg.js"
   },
   "dependencies": {

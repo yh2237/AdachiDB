@@ -13,13 +13,8 @@ async function trackAccess(endpoint) {
 }
 
 async function getStats() {
-    try {
-        const { rows } = await pool.query('SELECT * FROM access_counts ORDER BY count DESC');
-        return rows;
-    } catch (err) {
-        console.error(`[ERROR] [statsTracker] Failed to get stats:`, err.message);
-        return [];
-    }
+    const { rows } = await pool.query('SELECT * FROM access_counts ORDER BY count DESC');
+    return rows;
 }
 
 module.exports = { trackAccess, getStats };

@@ -3,11 +3,7 @@ const { Pool } = require('pg');
 
 const pool = new Pool();
 
-function normalizeUrl(url) {
-    const modified = url.replace('twitter.com', 'x.com');
-    const u = new URL(modified);
-    return `${u.origin}${u.pathname}`;
-}
+const { normalizeUrl } = require('../utils/url');
 
 async function deleteUrl(url) {
     let normalizedUrl;

@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const yaml = require('js-yaml');
 const path = require('path');
 const fs = require('fs');
-
-const configPath = path.join(__dirname, '..', 'config', 'config.yml');
-const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
-
+const config = require('../utils/config');
 
 const frontendDir = path.join(__dirname, '..', 'frontend');
 const rootDir = path.join(frontendDir, 'root');
@@ -25,10 +21,6 @@ if (config.server.frontend) {
         next();
     });
 
-    router.use('/root', (req, res) => {
-        res.sendStatus(404);
-    });
-
     const canonicalRedirects = {
         '/index': '/',
         '/index.html': '/',
@@ -45,47 +37,38 @@ if (config.server.frontend) {
         });
     });
 
+    router.get('/robots.txt', (req, res) => {
+        res.sendFile(path.join(rootDir, 'robots.txt'));
+    });
+
+    router.get('/sitemap.xml', (req, res) => {
+        res.sendFile(path.join(rootDir, 'sitemap.xml'));
+    });
+
     router.get('/about', (req, res) => {
-        res.sendFile(path.join(frontendDir, '..', 'frontend', 'about.html'));
+        res.sendFile(path.join(frontendDir, 'about.html'));
     });
 
     router.get('/docs', (req, res) => {
-        res.sendFile(path.join(frontendDir, '..', 'frontend', 'docs.html'));
+        res.sendFile(path.join(frontendDir, 'docs.html'));
     });
 
     router.use(express.static(frontendDir, { index: false }));
 
     router.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+        res.sendFile(path.join(frontendDir, 'index.html'));
     });
 
     router.get('/10cont', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'frontend', '10cont.html'));
+        res.sendFile(path.join(frontendDir, '10cont.html'));
     });
 
     router.get('/search', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'frontend', 'search.html'));
-    });
-
-    router.get('/privacy', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'frontend', 'privacy.html'));
-    });
-
-    router.get('/terms', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'frontend', 'terms.html'));
+        res.sendFile(path.join(frontendDir, 'search.html'));
     });
 
     router.get('/db', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'frontend', 'db.html'));
-    });
-
-    router.get('*', (req, res, next) => {
-        if (!fs.existsSync(rootDir)) return next();
-        const filePath = path.join(rootDir, req.path);
-        if (filePath.startsWith(rootDir) && fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-            return res.sendFile(filePath);
-        }
-        next();
+        res.sendFile(path.join(frontendDir, 'db.html'));
     });
 
     console.log("[INFO] フロントエンド配信: 有効");

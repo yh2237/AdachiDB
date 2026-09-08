@@ -4,17 +4,6 @@ const { extractTextFromEmbed } = require('./textExtractor');
 
 const processingMap = new Map();
 
-async function getPostBounds() {
-    const { rows } = await pool.query(
-        'SELECT COUNT(*)::int AS count, MIN(id) AS min, MAX(id) AS max FROM posts'
-    );
-    const stats = rows[0] || {};
-    const count = Number(stats.count) || 0;
-    const minId = stats.min ? Number(stats.min) : null;
-    const maxId = stats.max ? Number(stats.max) : null;
-    return { count, minId, maxId };
-}
-
 async function getRandomPost() {
     const { rows } = await pool.query(
         'SELECT id, url, embed, text, status, "createdAt" FROM posts ORDER BY RANDOM() LIMIT 1'
@@ -62,4 +51,4 @@ async function fetchEmbed(post) {
     return promise;
 }
 
-module.exports = { getPostBounds, getRandomPost, getRandomPosts, fetchEmbed };
+module.exports = { getRandomPost, getRandomPosts, fetchEmbed };

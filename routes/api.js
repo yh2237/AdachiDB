@@ -4,14 +4,9 @@ const router = express.Router();
 const { postsDb: pool } = require('../utils/database');
 const { getRandomPost, getRandomPosts, fetchEmbed } = require('../utils/functions');
 const { getStats } = require('../utils/statsTracker');
+const { normalizeUrl, isTruthyQuery } = require('../utils/url');
 
 const TWEET_URL_RE = /^https:\/\/(x\.com|twitter\.com)\/adachirei0\/status\/\d+$/i;
-
-function normalizeUrl(url) {
-    const modified = url.replace('twitter.com', 'x.com');
-    const u = new URL(modified);
-    return `${u.origin}${u.pathname}`;
-}
 
 const errorResponse = (res, status, message, logMessage = null) => {
     if (logMessage) {
@@ -133,14 +128,6 @@ function toCsv(rows, selectedFields) {
     const header = selectedFields.join(',');
     const body = rows.map((row) => selectedFields.map((field) => csvEscape(row[field])).join(',')).join('\n');
     return body ? `${header}\n${body}` : `${header}\n`;
-}
-
-function isTruthyQuery(value) {
-    if (typeof value !== 'string') {
-        return false;
-    }
-
-    return ['1', 'true', 'yes', 'on'].includes(value.trim().toLowerCase());
 }
 
 router.get('/posts/random', async (req, res) => {
@@ -435,25 +422,6 @@ router.get('/posts/status-counts', async (req, res) => {
         });
     } catch (err) {
         return errorResponse(res, 500, 'DB query failed', `posts/status-counts: ${err.message}`);
-    }
-});
-
-router.get('/posts/recent', async (req, res) => {
-    let limit;
-    try {
-        limit = parseLimitParam(req.query.limit, 1);
-    } catch (err) {
-        return errorResponse(res, 400, err.message);
-    }
-
-    try {
-        const { rows } = await pool.query(
-            'SELECT id, url, embed, text, status, "createdAt" FROM posts ORDER BY id DESC LIMIT $1',
-            [limit]
-        );
-        res.json(rows);
-    } catch (err) {
-        return errorResponse(res, 500, 'Internal Server Error', `posts/recent: ${err.message}`);
     }
 });
 

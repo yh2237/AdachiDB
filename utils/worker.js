@@ -26,7 +26,7 @@ function startWorker(workerScript) {
     });
 
     worker.on('error', (err) => {
-        console.error(`[MasterWorker] ${workerScript} の起動に失敗しました:`, errF);
+        console.error(`[MasterWorker] ${workerScript} の起動に失敗しました:`, err);
     });
 }
 

@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const yaml = require('js-yaml');
 const { execSync } = require('child_process');
+require('dotenv').config();
+const config = require('../utils/config');
 
 function backup_pg(backupDir, maxBackups) {
     try {
@@ -42,9 +43,6 @@ function backup_pg(backupDir, maxBackups) {
 }
 
 function backup_db() {
-require('dotenv').config();
-const configPath = path.join(__dirname, '..', 'config', 'config.yml');
-const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 const maxBackups = config.backup.keep || 5;
 
 const pgBackupDir = path.join(__dirname, '..', 'backup', 'posts_db');

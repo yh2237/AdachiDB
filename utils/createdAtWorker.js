@@ -3,7 +3,7 @@ const { snowflakeToDate } = require('./snowflakeToDate');
 
 async function processBatch() {
     const { rows } = await pool.query(
-        `SELECT url FROM posts WHERE "createdAt" IS NULL AND status != 'skip_createdAt' LIMIT 50`
+        `SELECT url FROM posts WHERE "createdAt" IS NULL AND url ~ 'status/[0-9]+' LIMIT 50`
     );
 
     if (rows.length === 0) return false;
@@ -15,11 +15,6 @@ async function processBatch() {
             const url = row.url;
             const match = url.match(/status\/(\d+)/);
             if (!match) {
-                console.warn('[WARN] tweetId を取得できない URL (スキップ設定):', url);
-                await client.query(
-                    `UPDATE posts SET status = 'skip_createdAt' WHERE url = $1`,
-                    [url]
-                );
                 continue;
             }
             const tweetId = match[1];

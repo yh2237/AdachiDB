@@ -3,6 +3,7 @@ const { Pool } = require('pg');
 const path = require('path');
 const fs = require('fs');
 
+const { normalizeUrl } = require('../utils/url');
 const pool = new Pool();
 
 const TWEET_URL_RE = /^https:\/\/(x\.com|twitter\.com)\/[^/]+\/status\/\d+$/;
@@ -34,9 +35,7 @@ async function importUrls() {
         await client.query('BEGIN');
         for (const url of urls) {
             try {
-                let modifiedUrl = url.replace('twitter.com', 'x.com');
-                const urlObject = new URL(modifiedUrl);
-                modifiedUrl = `${urlObject.origin}${urlObject.pathname}`;
+                let modifiedUrl = normalizeUrl(url);
 
                 if (!TWEET_URL_RE.test(modifiedUrl)) {
                     console.warn(`[WARN] ツイートURLではないためスキップ: ${url}`);
