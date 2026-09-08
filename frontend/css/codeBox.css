@@ -1,25 +1,22 @@
 .code-block {
-    background-color: var(--color-code-bg);
-    color: var(--color-code-text);
-    overflow: hidden;
+    background-color: #f0f0f0;
+    color: #000;
     font-family: var(--font-family-mono);
-    margin: var(--spacing-md) 0;
+    margin: 12px 0;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 .code-header {
-    background-color: var(--color-code-header);
-    color: var(--color-code-text);
-    font-size: 95%;
-    padding: 15px;
+    padding: 4px 8px;
+    font-size: var(--font-size-xs);
+    background-color: #e0e0e0;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .code-block pre {
     margin: 0;
-    padding: 15px;
-    font-size: 110%;
+    padding: 8px;
     overflow-x: auto;
-}
-
-.code-block code {
-    font-family: inherit;
 }

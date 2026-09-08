@@ -109,7 +109,7 @@ const setLoadingState = (isLoading) => {
         window.clearTimeout(statusClearTimer);
         refreshStatus.classList.remove('error');
         refreshStatus.textContent = hasActiveTweet
-            ? '次のツイートを読み込んでいます…'
+            ? 'ツイートを読み込んでいます…'
             : 'ツイートを読み込んでいます…';
     }
 };
@@ -142,7 +142,9 @@ const fetchRandomPostAndEmbed = async () => {
 
         await renderTweetOffscreen(data);
         showStagedTweet();
-        showStatus('新しいツイートを表示しました！');
+        window.clearTimeout(statusClearTimer);
+        refreshStatus.classList.remove('error');
+        refreshStatus.textContent = '';
     } catch (err) {
         console.error('投稿の取得または埋め込み中にエラーが発生しました！:', err);
         stagingSlot.replaceChildren();

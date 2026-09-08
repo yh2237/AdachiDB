@@ -1,10 +1,3 @@
-.main-content-wide {
-    width: 90%;
-    max-width: var(--content-wide-max-width);
-    margin: var(--spacing-lg) auto;
-    text-align: center;
-}
-
 .tweets-container {
     display: flex;
     flex-wrap: wrap;

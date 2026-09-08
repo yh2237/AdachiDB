@@ -1,17 +1,7 @@
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    overflow-x: clip;
-}
-
 body {
     margin: 0;
     font-family: var(--font-family-base);
     font-size: var(--font-size-base);
-    line-height: var(--line-height-base);
     color: var(--color-text-primary);
     background-color: var(--color-background);
     min-height: 100vh;
@@ -27,22 +17,30 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    text-decoration: underline;
+}
+
 .main-content {
-    background-color: var(--color-surface);
-    padding: var(--spacing-2xl);
     max-width: var(--content-max-width);
     width: 100%;
     margin: 0 auto;
     text-align: center;
 }
 
-.main-content2 {
-    background-color: var(--color-surface);
-    padding: var(--spacing-2xl);
-    max-width: 900px;
+.main-content2,
+.docs-content {
+    max-width: var(--content-max-width);
     width: 100%;
     margin: 0 auto;
     text-align: left;
+}
+
+.main-content-wide {
+    width: 90%;
+    max-width: var(--content-wide-max-width);
+    margin: var(--spacing-lg) auto;
+    text-align: center;
 }
 
 .contents {
@@ -60,13 +58,15 @@ a {
 .tweet-refresh-status {
     min-height: 1.5em;
     margin: 0;
-    color: var(--color-text-secondary);
     font-size: var(--font-size-sm);
 }
 
 .tweet-refresh-status.error {
     color: var(--color-error);
-    font-weight: var(--font-weight-bold);
+}
+
+.refresh-button {
+    padding: 8px 16px;
 }
 
 .tweet-embed-shell {
@@ -78,9 +78,6 @@ a {
 .tweet-embed-container {
     margin-bottom: var(--spacing-xl);
     padding: var(--spacing-md);
-    font-size: 1.05em;
-    color: var(--color-text-secondary);
-    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -108,56 +105,21 @@ a {
 }
 
 .message {
-    font-size: var(--font-size-lg);
-    color: var(--color-text-secondary);
-    text-align: center;
     width: 100%;
     margin: 0 auto;
 }
 
 .message.error {
     color: var(--color-error);
-    font-weight: var(--font-weight-bold);
-}
-
-.refresh-button {
-    color: var(--color-text-inverse);
-    font-weight: var(--font-weight-medium);
-    padding: var(--spacing-md) 24px;
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-size: var(--font-size-base);
-}
-
-.refresh-button {
-    background-color: var(--color-secondary);
-}
-
-.refresh-button:hover:not(:disabled) {
-    filter: brightness(0.92);
-}
-
-.refresh-button:focus-visible {
-    outline: 3px solid var(--color-primary);
-    outline-offset: 3px;
-}
-
-.refresh-button:disabled {
-    cursor: wait;
-    opacity: 0.65;
 }
 
 .UpdateHistory {
     text-align: left;
     font-size: 0.9em;
-    color: var(--color-text-secondary);
     margin-top: var(--spacing-lg);
-    line-height: var(--line-height-base);
 }
 
 .UpdateHistoryLINE {
-    color: var(--color-text-secondary);
     font-size: 80%;
 }
 
@@ -169,17 +131,11 @@ a {
     gap: var(--spacing-sm);
     margin-top: var(--spacing-2xl);
     padding-top: var(--spacing-lg);
-    color: var(--color-text-secondary);
     font-size: var(--font-size-sm);
 }
 
 .site-footer-nav a {
     white-space: nowrap;
-}
-
-.site-footer-nav a[aria-current="page"] {
-    color: var(--color-text-primary);
-    text-decoration: underline;
 }
 
 footer.site-footer {
@@ -194,20 +150,7 @@ footer.site-footer {
         padding-top: calc(var(--header-height) + var(--mobile-nav-height) + var(--spacing-md));
     }
 
-    .main-content {
-        padding: var(--spacing-xl);
-    }
-
-    .refresh-button {
-        padding: var(--spacing-sm) var(--spacing-lg);
-        font-size: 0.9em;
-    }
-
     .tweet-embed-shell {
         min-height: 200px;
-    }
-
-    .site-footer-nav > span {
-        display: none;
     }
 }
