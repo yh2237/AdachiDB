@@ -16,8 +16,8 @@ body {
     background-color: var(--color-background);
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
     padding: var(--spacing-lg);
     padding-top: calc(var(--header-height) + var(--spacing-lg));
 }
@@ -32,6 +32,7 @@ a {
     padding: var(--spacing-2xl);
     max-width: var(--content-max-width);
     width: 100%;
+    margin: 0 auto;
     text-align: center;
 }
 
@@ -40,14 +41,8 @@ a {
     padding: var(--spacing-2xl);
     max-width: 900px;
     width: 100%;
+    margin: 0 auto;
     text-align: left;
-}
-
-.title {
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-xl);
 }
 
 .contents {
@@ -125,8 +120,7 @@ a {
     font-weight: var(--font-weight-bold);
 }
 
-.refresh-button,
-.post-button {
+.refresh-button {
     color: var(--color-text-inverse);
     font-weight: var(--font-weight-medium);
     padding: var(--spacing-md) 24px;
@@ -154,10 +148,6 @@ a {
     opacity: 0.65;
 }
 
-.post-button {
-    background-color: var(--color-info);
-}
-
 .UpdateHistory {
     text-align: left;
     font-size: 0.9em;
@@ -169,29 +159,6 @@ a {
 .UpdateHistoryLINE {
     color: var(--color-text-secondary);
     font-size: 80%;
-}
-
-.search-results-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
-
-.search-results-table th,
-.search-results-table td {
-    border: 1px solid var(--color-border-light);
-    padding: var(--spacing-sm);
-    text-align: left;
-    word-wrap: break-word;
-}
-
-.search-results-table th {
-    background-color: var(--color-background);
-    font-weight: var(--font-weight-bold);
-}
-
-.search-results-table td a {
-    word-break: break-all;
 }
 
 .site-footer-nav,
@@ -231,12 +198,7 @@ footer.site-footer {
         padding: var(--spacing-xl);
     }
 
-    .title {
-        font-size: var(--font-size-xl);
-    }
-
-    .refresh-button,
-    .post-button {
+    .refresh-button {
         padding: var(--spacing-sm) var(--spacing-lg);
         font-size: 0.9em;
     }

@@ -1,5 +1,6 @@
 async function loadRandomCount() {
     const el = document.getElementById("random-count");
+    if (!el) return;
     el.textContent = "";
 
     try {
@@ -17,5 +18,3 @@ async function loadRandomCount() {
 }
 
 loadRandomCount();
-
-document.getElementById("refresh-button").addEventListener("click", loadRandomCount);

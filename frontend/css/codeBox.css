@@ -13,14 +13,6 @@
     padding: 15px;
 }
 
-.copy-btn {
-    background: none;
-    border: none;
-    color: var(--color-code-muted);
-    cursor: pointer;
-    padding: var(--spacing-xs) var(--spacing-sm);
-}
-
 .code-block pre {
     margin: 0;
     padding: 15px;

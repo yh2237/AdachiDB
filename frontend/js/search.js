@@ -6,7 +6,7 @@ const fromInput = document.getElementById('from-input');
 const toInput = document.getElementById('to-input');
 
 const renderSearchResults = (results) => {
-    searchResultsContainer.innerHTML = '';
+    searchResultsContainer.replaceChildren();
 
     if (results.length === 0) {
         searchSummary.textContent = '投稿が見つかりませんでした (´・ω・｀)';
@@ -15,6 +15,7 @@ const renderSearchResults = (results) => {
 
     searchSummary.textContent = `${results.length} 件の投稿が見つかりました`;
 
+    const fragment = document.createDocumentFragment();
     results.forEach(post => {
         const dateStr = post.createdAt
             ? post.createdAt.replace('T', ' ').slice(0, 16)
@@ -23,28 +24,37 @@ const renderSearchResults = (results) => {
         const item = document.createElement('div');
         item.className = 'search-result-item';
 
-        const textContent = (post.text ?? '')
-            .replace(/<a.*?>/g, '')
-            .replace(/<\/a>/g, '');
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'search-result-date';
+        dateSpan.textContent = dateStr;
 
-        item.innerHTML = `
-            <span class="search-result-date">${dateStr}</span>
-            <a href="${post.url}" target="_blank" rel="noopener noreferrer" class="search-result-link">${textContent}</a>
-        `;
+        const link = document.createElement('a');
+        link.href = post.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.className = 'search-result-link';
+        link.textContent = (post.text ?? '').replace(/<[^>]*>/g, '');
 
-        searchResultsContainer.appendChild(item);
+        item.appendChild(dateSpan);
+        item.appendChild(link);
+        fragment.appendChild(item);
     });
+    searchResultsContainer.appendChild(fragment);
 };
 
 const searchPosts = async (query) => {
     if (query.length === 0) {
-        searchResultsContainer.innerHTML = '';
+        searchResultsContainer.replaceChildren();
         searchSummary.textContent = '';
         return;
     }
 
     searchSummary.textContent = '';
-    searchResultsContainer.innerHTML = '<p class="message">検索中...</p>';
+    searchResultsContainer.replaceChildren();
+    const loading = document.createElement('p');
+    loading.className = 'message';
+    loading.textContent = '検索中...';
+    searchResultsContainer.appendChild(loading);
 
     try {
         const limit = limitInput.value;
@@ -66,7 +76,11 @@ const searchPosts = async (query) => {
         renderSearchResults(data);
     } catch (err) {
         console.error('検索中にエラーが発生しました:', err);
-        searchResultsContainer.innerHTML = `<p class="message error">エラー: ${err.message}</p>`;
+        searchResultsContainer.replaceChildren();
+        const errMsg = document.createElement('p');
+        errMsg.className = 'message error';
+        errMsg.textContent = `エラー: ${err.message}`;
+        searchResultsContainer.appendChild(errMsg);
     }
 };
 

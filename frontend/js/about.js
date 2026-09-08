@@ -14,6 +14,7 @@ async function loadDbStats() {
         const fmt = (str) => {
             if (!str) return '不明';
             const d = new Date(str.replace(' ', 'T'));
+            if (Number.isNaN(d.getTime())) return '不明';
             return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
         };
 

@@ -6,13 +6,6 @@
     text-align: left;
 }
 
-.docs-title {
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
-    margin: 0 0 var(--spacing-lg) 0;
-}
-
 .docs-section {
     margin-bottom: var(--spacing-xl);
 }
@@ -50,13 +43,6 @@
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
-}
-
-.section-title {
-    font-size: 1.25rem;
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
-    margin: 0 0 var(--spacing-sm) 0;
 }
 
 .section-description {
@@ -136,15 +122,6 @@
 .status-code.status-409 {
     background-color: #f3e8ff;
     color: #7c3aed;
-}
-
-.docs-nav {
-    margin-top: var(--spacing-lg);
-    text-align: center;
-}
-
-.docs-nav a {
-    margin: 0 var(--spacing-sm);
 }
 
 @media (max-width: 600px) {

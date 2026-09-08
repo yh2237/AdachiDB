@@ -23,6 +23,12 @@
     border-color: var(--color-primary);
 }
 
+.search-input:focus-visible,
+.search-date:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+}
+
 .search-input-narrow {
     width: 100px;
 }
@@ -36,19 +42,6 @@
 }
 
 .search-date:focus {
-    border-color: var(--color-primary);
-}
-
-.search-select {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-sm);
-    border: 1px solid var(--color-border-light);
-    border-radius: var(--radius-sm);
-    outline: none;
-    background: var(--color-surface);
-}
-
-.search-select:focus {
     border-color: var(--color-primary);
 }
 
