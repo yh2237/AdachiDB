@@ -4,6 +4,8 @@ server:
   frontend: true
   openAPI: true
   banner: true
+  trustProxy:
+    - '192.168.100.110/32'
 
 rateLimit:
   windowSeconds: 60
@@ -23,6 +25,5 @@ backup:
   enable: true
   interval: 60
   keep: 3
-
 
 

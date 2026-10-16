@@ -15,6 +15,8 @@ const { trackAccess } = require('./utils/statsTracker');
 const app = express();
 const port = config.server.port || 3000;
 
+app.set('trust proxy', config.server.trustProxy || false);
+
 // ============================================================
 // ============================================================
 
